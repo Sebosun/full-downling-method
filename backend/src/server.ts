@@ -6,13 +6,11 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use("/", router);
-
 app.use((req, _, next) => {
   logger.info("New request received:", req.method, req.url);
   next();
 });
+app.use("/", router);
 
 
 export { app }
