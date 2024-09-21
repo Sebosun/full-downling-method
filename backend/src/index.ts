@@ -1,6 +1,4 @@
 import { app } from "@/server";
-import { configDotenv } from "dotenv";
-configDotenv()
 
 const PORT = process.env.PORT
 

@@ -1,6 +1,9 @@
 import express from 'express';
 import { router } from '@/router/router';
 import { logger } from '@/logger';
+import { configDotenv } from "dotenv";
+
+configDotenv()
 
 const app = express();
 
