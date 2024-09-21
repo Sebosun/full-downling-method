@@ -7,7 +7,8 @@ import {
   PostgresDialect,
   FileMigrationProvider,
 } from 'kysely'
-import { Database } from '..//types'
+// Keep imports there relative
+import { Database } from '../types'
 
 async function migrateToLatest() {
   const db = new Kysely<Database>({
@@ -29,15 +30,15 @@ async function migrateToLatest() {
       fs,
       path,
       // This needs to be an absolute path.
-      migrationFolder: path.join(__dirname, './migrations'),
+      migrationFolder: path.join(__dirname, '../migrations'),
     }),
   })
 
-  const { error, results } = await migrator.migrateToLatest()
+  const { error, results } = await migrator.migrateDown()
 
   results?.forEach((it) => {
     if (it.status === 'Success') {
-      console.log(`migration "${it.migrationName}" was executed successfully`)
+      console.log(`DOWN migration "${it.migrationName}" was executed successfully`)
     } else if (it.status === 'Error') {
       console.error(`failed to execute migration "${it.migrationName}"`)
     }
