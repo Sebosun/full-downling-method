@@ -1,6 +1,9 @@
 import { app } from "@/server";
+import { configDotenv } from "dotenv";
+configDotenv()
 
-const port = 3000;
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
+const PORT = process.env.PORT
+
+app.listen(PORT, () => {
+  return console.log(`Express is listening at http://localhost:${PORT}`);
 });

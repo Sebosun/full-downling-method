@@ -1,4 +1,5 @@
-import { create, login } from "@/controllers/user";
+import { login } from "@/controllers/auth";
+import { create, getAllUsers } from "@/controllers/user";
 import { Router } from "express";
 
 const router = Router();
@@ -9,5 +10,6 @@ router.get('/', (_, res) => {
 
 router.post('/login', login)
 router.post('/user', create)
+router.get('/user', getAllUsers)
 
 export { router }

@@ -31,3 +31,9 @@ export async function deleteUser(id: number) {
     .returningAll()
     .executeTakeFirst()
 }
+
+export async function findAllUsers(): Promise<Omit<User, 'password'>[]> {
+  return await db.selectFrom('user')
+    .select(['id', 'username', 'created_at', 'updated_at'])
+    .execute()
+}
