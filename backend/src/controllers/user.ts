@@ -1,4 +1,4 @@
-import { encryptPassword } from "@/helpers/encryptPassword";
+import { comparePasswds, encryptPassword } from "@/helpers/encryptPassword";
 import { createUser, findUser } from "@/repositories/PersonRepository";
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
@@ -69,6 +69,7 @@ export async function login(req: Request, res: Response) {
   // ZOD? 
   //
   const username = body.username as string
+  const password = body.password as string
   try {
     const usr = await findUser(username.toLowerCase())
     if (!usr) {
@@ -76,10 +77,17 @@ export async function login(req: Request, res: Response) {
       res.json({ message: "User not found" })
       return
     }
+
+    const hasPassword = await comparePasswds(password, usr.password)
+    if (!hasPassword) {
+      res.status(StatusCodes.UNAUTHORIZED)
+      res.json({ message: "Wrong password" })
+      return
+    }
+
     res.status(200)
     res.json(usr)
   } catch (e) {
-    console.error(e)
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
     res.json({ message: "Failure to create passwd" })
   }
