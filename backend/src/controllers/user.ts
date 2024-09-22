@@ -1,5 +1,6 @@
 import { encryptPassword } from "@/helpers/encryptPassword";
-import { createUser, findUser, findAllUsers } from "@/repositories/PersonRepository";
+import { createUser, findUser, findAllUsers, findUserById } from "@/repositories/PersonRepository";
+import { RequestAuth } from "@/types/request";
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
 
@@ -44,7 +45,7 @@ export async function create(req: Request, res: Response): Promise<void> {
   } catch (e) {
     console.error(e)
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    res.json({ message: "Failure to create passwd" })
+    res.json({ message: "Failure to verify user" })
   }
 }
 
@@ -56,8 +57,28 @@ export async function getAllUsers(_: Request, res: Response): Promise<void> {
   } catch (e) {
     console.error(e)
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    res.json({ message: "Failure to create passwd" })
+    res.json({ message: "Failed to get all users" })
+  }
+}
+
+export async function getSingleUser(req: Request, res: Response): Promise<void> {
+  const body = req.body;
+  const user_id = body?.user_id as number
+
+  if (!user_id) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: "Missing user id" })
+    return
   }
 
+  try {
+    const user = await findUserById(user_id)
+    res.status(StatusCodes.OK)
+    res.json(user)
+  } catch (e) {
+    console.error(e)
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    res.json({ message: "Failed to get all users" })
+  }
 }
+
 
