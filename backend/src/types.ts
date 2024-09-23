@@ -8,6 +8,7 @@ import {
 
 export interface Database {
   user: UserTable
+  exercises: ExerciseTable
 }
 
 export interface UserTable {
@@ -17,6 +18,16 @@ export interface UserTable {
   created_at: ColumnType<Date, string | undefined, never>
   updated_at: ColumnType<Date, string | undefined, never>
 }
+
+
+export interface ExerciseTable {
+  id: Generated<number>
+  question: string
+  answer: string
+  created_at: ColumnType<Date, string | undefined, never>
+  updated_at: ColumnType<Date, string | undefined, never>
+}
+
 
 // You should not use the table schema interfaces directly. Instead, you should
 // use the `Selectable`, `Insertable` and `Updateable` wrappers. These wrappers

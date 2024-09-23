@@ -1,6 +1,5 @@
 import { encryptPassword } from "@/helpers/encryptPassword";
 import { createUser, findUser, findAllUsers, findUserById } from "@/repositories/PersonRepository";
-import { RequestWithUser } from "@/types/request";
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
 
@@ -80,5 +79,3 @@ export async function getCurrentUser(_: Request, res: Response): Promise<void> {
     res.json({ message: "Failed to get all users" })
   }
 }
-
-
