@@ -1,5 +1,5 @@
 import { encryptPassword } from "@/helpers/encryptPassword";
-import { createUser, findUser, findAllUsers, findUserById } from "@/repositories/PersonRepository";
+import { createUser, findUser, findAllUsers, findUserById } from "@/repositories/UserRepository";
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
 
@@ -75,7 +75,7 @@ export async function getCurrentUser(_: Request, res: Response): Promise<void> {
     res.json(user)
   } catch (e) {
     console.error(e)
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    res.json({ message: "Failed to get all users" })
+    res.status(StatusCodes.BAD_REQUEST)
+    res.json({ message: "User with given id doesnt exist" })
   }
 }
