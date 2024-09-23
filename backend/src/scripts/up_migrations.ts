@@ -11,15 +11,24 @@ import {
 // Keep imports there relative
 import { Database } from '../types'
 
+const DB_PASSWORD = process.env.DB_PASSWORD
+const DB_PORT = process.env.DB_PORT
+const DB_DATABASE = process.env.DB_DATABASE
+const DB_USER = process.env.DB_USER
+
+if (!(DB_PASSWORD || DB_PORT || DB_DATABASE || DB_USER)) {
+  throw new Error('Database .envs are not set')
+}
+
 async function migrateToLatest() {
   const db = new Kysely<Database>({
     dialect: new PostgresDialect({
       pool: new Pool({
-        database: 'test',
+        database: DB_DATABASE,
+        password: DB_PASSWORD,
+        user: DB_USER,
+        port: Number(DB_PORT),
         host: 'localhost',
-        password: 'postgres',
-        user: 'sebastian',
-        port: 5432,
         max: 10,
       }),
     }),
