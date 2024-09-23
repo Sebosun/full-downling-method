@@ -1,8 +1,9 @@
 import { encryptPassword } from "@/helpers/encryptPassword";
 import { createUser, findUser, findAllUsers, findUserById } from "@/repositories/PersonRepository";
-import { RequestAuth } from "@/types/request";
+import { RequestWithUser } from "@/types/request";
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
+
 
 export async function create(req: Request, res: Response): Promise<void> {
   const body = req.body;
@@ -61,17 +62,16 @@ export async function getAllUsers(_: Request, res: Response): Promise<void> {
   }
 }
 
-export async function getSingleUser(req: Request, res: Response): Promise<void> {
-  const body = req.body;
-  const user_id = body?.user_id as number
+export async function getCurrentUser(_: Request, res: Response): Promise<void> {
+  const userId = res.locals.jwtUser?.userId
 
-  if (!user_id) {
+  if (!userId) {
     res.status(StatusCodes.BAD_REQUEST).json({ message: "Missing user id" })
     return
   }
 
   try {
-    const user = await findUserById(user_id)
+    const user = await findUserById(userId)
     res.status(StatusCodes.OK)
     res.json(user)
   } catch (e) {

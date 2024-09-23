@@ -1,3 +1,4 @@
+import { JWTUser } from '@/types/request';
 import type { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
@@ -25,7 +26,8 @@ export async function isAuthenticatedMiddleware(req: Request, res: Response, nex
   }
 
   try {
-    jwt.verify(token, JWT_SECRET);
+    const jwtData = jwt.verify(token, JWT_SECRET) as JWTUser
+    res.locals.jwtUser = jwtData
     next()
   } catch (e) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');

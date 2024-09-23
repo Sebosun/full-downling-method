@@ -4,7 +4,7 @@ import { User, UserUpdate, UserNew } from '@/types'
 export async function findUserById(id: number) {
   return await db.selectFrom('user')
     .where('id', '=', id)
-    .selectAll()
+    .select(['id', 'username', 'created_at', 'updated_at'])
     .executeTakeFirst()
 }
 
