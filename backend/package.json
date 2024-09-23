@@ -1,0 +1,39 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "ncc build src/index.ts -o dist --target es2020",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx src/index.ts",
+    "dev watch": "tsx watch src/index.ts",
+    "migrate-up": "tsx src/scripts/up_migrations.ts",
+    "migrate-down": "tsx src/scripts/down_migrations.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.7",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.6.0"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/pg": "^8.11.10",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "kysely": "^0.27.4",
+    "pg": "^8.13.0",
+    "winston": "^3.14.2"
+  }
+}
