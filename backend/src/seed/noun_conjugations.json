@@ -1,0 +1,391 @@
+{
+  "nouns": {
+    "first": [
+      {
+        "word": "rose",
+        "gender": "feminine",
+        "conjugations": {
+          "singular": {
+            "nominative": "rosa",
+            "genetive": "rosae",
+            "dative": "rosae",
+            "accusative": "rosam",
+            "ablative": "rosā"
+          },
+          "plural": {
+            "nominative": "rosae",
+            "genetive": "rosārum",
+            "dative": "rosīs",
+            "accusative": "rosam",
+            "ablative": "rosīs"
+          }
+        }
+      }
+    ],
+    "second": [
+      {
+        "word": "gift",
+        "gender": "neuter",
+        "conjugations": {
+          "singular": {
+            "nominative": "dōnum",
+            "genetive": "dōnī",
+            "dative": "dōnō",
+            "accusative": "dōnum",
+            "ablative": "dōnō"
+          },
+          "plural": {
+            "nominative": "dōna",
+            "genetive": "dōnōrum",
+            "dative": "dōnīs",
+            "accusative": "dōna",
+            "ablative": "dōnīs"
+          }
+        }
+      },
+      {
+        "word": "field",
+        "gender": "masculine",
+        "conjugations": {
+          "singular": {
+            "nominative": "ager",
+            "genetive": "agrī",
+            "dative": "agrō",
+            "accusative": "agrum",
+            "ablative": "agrō"
+          },
+          "plural": {
+            "nominative": "agrī",
+            "genetive": "agrōrum",
+            "dative": "agrīs",
+            "accusative": "agrōs",
+            "ablative": "agrīs"
+          }
+        }
+      },
+      {
+        "word": "friend",
+        "gender": "masculine",
+        "conjugations": {
+          "singular": {
+            "nominative": "amīcus",
+            "genetive": "amīcī",
+            "dative": "amīcō",
+            "accusative": "amīcum",
+            "ablative": "amīcō",
+            "vocative": "amīce"
+          },
+          "plural": {
+            "nominative": "amīcī",
+            "genetive": "amīcōrum",
+            "dative": "amīcīs",
+            "accusative": "amīcōs",
+            "ablative": "amīcīs"
+          }
+        }
+      },
+      {
+        "word": "boy",
+        "gender": "masculine",
+        "conjugations": {
+          "singular": {
+            "nominative": "puer",
+            "genetive": "puerī",
+            "dative": "puerō",
+            "accusative": "puerum",
+            "ablative": "puerō"
+          },
+          "plural": {
+            "nominative": "puerī",
+            "genetive": "puerōrum",
+            "dative": "puerīs",
+            "accusative": "puerōs",
+            "ablative": "puerīs"
+          }
+        }
+      },
+      {
+        "word": "son",
+        "gender": "masculine",
+        "conjugations": {
+          "singular": {
+            "nominative": "fīlius",
+            "genetive": "fīliī",
+            "dative": "fīliō",
+            "accusative": "fīlium",
+            "ablative": "fīliō",
+            "vocative": "fīlī"
+          },
+          "plural": {
+            "nominative": "fīliī",
+            "genetive": "fīliōrum",
+            "dative": "fīliīs",
+            "accusative": "fīliōs",
+            "ablative": "fīliīs"
+          }
+        }
+      }
+    ],
+    "third": [
+      {
+        "word": "king",
+        "gender": "masculine",
+        "conjugations": {
+          "singular": {
+            "nominative": "rēx",
+            "genetive": "rēgis",
+            "dative": "rēgī",
+            "accusative": "rēgem",
+            "ablative": "rēge"
+          },
+          "plural": {
+            "nominative": "rēgēs",
+            "genetive": "rēgum",
+            "dative": "rēgibus",
+            "accusative": "rēgēs",
+            "ablative": "rēgibus"
+          }
+        }
+      },
+      {
+        "word": "body",
+        "gender": "neuter",
+        "conjugations": {
+          "singular": {
+            "nominative": "corpus",
+            "genetive": "corporis",
+            "dative": "corporī",
+            "accusative": "corpus",
+            "ablative": "corpore"
+          },
+          "plural": {
+            "nominative": "corpora",
+            "genetive": "corporum",
+            "dative": "corporibus",
+            "accusative": "corpora",
+            "ablative": "corporibus"
+          }
+        }
+      },
+      {
+        "word": "sheep",
+        "gender": "feminine",
+        "conjugations": {
+          "singular": {
+            "nominative": "ovis",
+            "genetive": "ovis",
+            "dative": "ovī",
+            "accusative": "ovem",
+            "ablative": "ove"
+          },
+          "plural": {
+            "nominative": "ovēs",
+            "genetive": "ovium",
+            "dative": "ovibus",
+            "accusative": "ovīs/ovēs",
+            "ablative": "ovibus"
+          }
+        }
+      },
+      {
+        "word": "city",
+        "gender": "feminine",
+        "conjugations": {
+          "singular": {
+            "nominative": "urbs",
+            "genetive": "urbis",
+            "dative": "urbī",
+            "accusative": "urbem",
+            "ablative": "urbe"
+          },
+          "plural": {
+            "nominative": "urbēs",
+            "genetive": "urbium",
+            "dative": "urbibus",
+            "accusative": "urbīs/urbēs",
+            "ablative": "urbibus"
+          }
+        }
+      },
+      {
+        "word": "sea",
+        "gender": "neutrum",
+        "conjugations": {
+          "singular": {
+            "nominative": "mare",
+            "genetive": "maris",
+            "dative": "marī",
+            "accusative": "mare",
+            "ablative": "marī"
+          },
+          "plural": {
+            "nominative": "maria",
+            "genetive": "marium",
+            "dative": "maribus",
+            "accusative": "maria",
+            "ablative": "maribus"
+          }
+        }
+      },
+      {
+        "word": "force",
+        "gender": "feminine",
+        "conjugations": {
+          "singular": {
+            "nominative": "vīs",
+            "genetive": "vīs",
+            "dative": "vī ",
+            "accusative": "vim",
+            "ablative": "vī"
+          },
+          "plural": {
+            "nominative": "vīrēs",
+            "genetive": "vīrium",
+            "dative": "vīribus",
+            "accusative": "vīrīs/vīrēs",
+            "ablative": "vīribus"
+          }
+        }
+      }
+    ],
+    "fourth": [
+      {
+        "word": "fruit",
+        "gender": "masculine",
+        "conjugations": {
+          "singular": {
+            "nominative": "frūctus",
+            "genetive": "frūctūs",
+            "dative": "frūctuī",
+            "accusative": "frūctum",
+            "ablative": "frūctū"
+          },
+          "plural": {
+            "nominative": "frūctūs",
+            "genetive": "frūctuum",
+            "dative": "frūctibus",
+            "accusative": "frūctūs",
+            "ablative": "frūctibus"
+          }
+        }
+      },
+      {
+        "word": "knee",
+        "gender": "neutrum",
+        "conjugations": {
+          "singular": {
+            "nominative": "genū",
+            "genetive": "genūs",
+            "dative": "genuī/genū",
+            "accusative": "genū",
+            "ablative": "genū"
+          },
+          "plural": {
+            "nominative": "genua",
+            "genetive": "genuum",
+            "dative": "genibus",
+            "accusative": "genua",
+            "ablative": "genibus"
+          }
+        }
+      }
+    ],
+    "fifth": [
+      {
+        "word": "day",
+        "gender": "masculine/feminine",
+        "conjugations": {
+          "singular": {
+            "nominative": "diēs",
+            "genetive": "diēī",
+            "dative": "diēī",
+            "accusative": "diem",
+            "ablative": "diē"
+          },
+          "plural": {
+            "nominative": "diēs",
+            "genetive": "diērum",
+            "dative": "diēbus",
+            "accusative": "diēs",
+            "ablative": "diēbus"
+          }
+        }
+      },
+      {
+        "word": "thing",
+        "gender": "feminine",
+        "conjugations": {
+          "singular": {
+            "nominative": "rēs",
+            "genetive": "reī",
+            "dative": "reī",
+            "accusative": "rem",
+            "ablative": "rē"
+          },
+          "plural": {
+            "nominative": "rēs",
+            "genetive": "rērum",
+            "dative": "rēbus",
+            "accusative": "rēs",
+            "ablative": "rēbus"
+          }
+        }
+      }
+    ]
+  },
+  "pronouns": {
+    "demonstratives": [
+      {
+        "word": "this",
+        "masculine": {
+          "singular": {
+            "nominative": "hic",
+            "genetive": "hujus",
+            "dative": "huic",
+            "accusative": "hunc",
+            "ablative": "hōc"
+          },
+          "plural": {
+            "nominative": "hī",
+            "genetive": "hōrum",
+            "dative": "hīs",
+            "accusative": "hōs",
+            "ablative": "hīs"
+          }
+        },
+        "feminine": {
+          "singular": {
+            "nominative": "haec",
+            "genetive": "hujus",
+            "dative": "huic",
+            "accusative": "hanc",
+            "ablative": "hāc"
+          },
+          "plural": {
+            "nominative": "hae",
+            "genetive": "hārum",
+            "dative": "hīs",
+            "accusative": "hās",
+            "ablative": "hīs"
+          }
+        },
+        "neuter": {
+          "singular": {
+            "nominative": "hoc",
+            "genetive": "hujus",
+            "dative": "huic",
+            "accusative": "hoc",
+            "ablative": "hōc"
+          },
+          "plural": {
+            "nominative": "haec",
+            "genetive": "hōrum",
+            "dative": "hīs",
+            "accusative": "haec",
+            "ablative": "hīs"
+          }
+        }
+      }
+    ]
+  }
+}
