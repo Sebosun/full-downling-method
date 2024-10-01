@@ -1,5 +1,5 @@
 import { comparePasswds } from "@/helpers/encryptPassword";
-import { findUser } from "@/repositories/PersonRepository";
+import { findUser } from "@/repositories/UserRepository";
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
 import jwt from "jsonwebtoken";

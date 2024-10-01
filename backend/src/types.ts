@@ -7,8 +7,8 @@ import {
 } from 'kysely'
 
 export interface Database {
+  exercises: ExerciseTable,
   user: UserTable
-  exercises: ExerciseTable
 }
 
 export interface UserTable {
@@ -19,14 +19,6 @@ export interface UserTable {
   updated_at: ColumnType<Date, string | undefined, never>
 }
 
-
-export interface ExerciseTable {
-  id: Generated<number>
-  question: string
-  answer: string
-  created_at: ColumnType<Date, string | undefined, never>
-  updated_at: ColumnType<Date, string | undefined, never>
-}
 
 
 // You should not use the table schema interfaces directly. Instead, you should
@@ -39,3 +31,16 @@ export type User = Selectable<UserTable>
 export type UserNew = Insertable<UserTable>
 export type UserUpdate = Updateable<UserTable>
 
+
+export interface ExerciseTable {
+  id: Generated<number>
+  question: string
+  answer: string
+  created_at: ColumnType<Date, string | undefined, never>
+  updated_at: ColumnType<Date, string | undefined, never>
+}
+
+
+export type Exercise = Selectable<ExerciseTable>
+export type ExerciseNew = Insertable<ExerciseTable>
+export type ExerciseUpdate = Updateable<ExerciseTable>
