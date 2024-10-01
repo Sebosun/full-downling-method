@@ -13,8 +13,8 @@ router.get('/', (_, res) => {
 
 router.post('/login', login)
 router.post('/user', create)
-router.get('/exercise/:id', getExercise)
 router.get('/exercise/all', getExercises)
+router.get('/exercise/:id', getExercise)
 router.get('/user', isAuthenticatedMiddleware, getCurrentUser)
 router.get('/user/all', isAuthenticatedMiddleware, getAllUsers)
 
