@@ -19,6 +19,12 @@ async function getExercises(): Promise<void> {
 onMounted(() => {
   getExercises()
 })
+
+const keyup = (event: unknown) => {
+  console.log(event)
+}
+
+const specialLatinLetters = ["ā", "ō", "ī", "ē"]
 </script>
 
 <template>
@@ -27,7 +33,8 @@ onMounted(() => {
       <div>
         <h1 class="text-center mb-8">{{ currentExercise?.question }}</h1>
         <form class="grid gap-4" @submit.prevent="submit">
-          <BaseInput class="mx-auto max-w-[450px]" v-model:input="input" placeholder="enter text here" />
+          <BaseInput @keyup.space="keyup" class="mx-auto max-w-[450px]" v-model:input="input"
+            placeholder="enter text here" />
           <BaseButton class="mx-auto w-[450px] ">
             Do something
           </BaseButton>
