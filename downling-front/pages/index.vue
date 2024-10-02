@@ -81,7 +81,7 @@ const keyup = (event: KeyboardEvent) => {
       <div class="text-center">
         <h1 class="mb-4">{{ currentExercise?.question }}</h1>
         <p class="my-4" v-if="showAnswer">{{ currentExercise?.answer }}</p>
-        <form class="grid gap-4" @submit.prevent="submit">
+        <form class="grid gap-4 mb-4" @submit.prevent="submit">
           <div class="flex mx-auto gap-4">
             <BaseButton perma-shadow class="min-w-20" type="button" v-for="letter in specialLatinLetters" :key="letter">
               {{ letter }}
@@ -93,7 +93,14 @@ const keyup = (event: KeyboardEvent) => {
             Do something
           </BaseButton>
         </form>
-
+        <div>
+          <p class="text-lg">
+            Use , + a/i/o/u to automatically enter a character
+          </p>
+          <p class="text-lg">
+            Press space twice to show the answer
+          </p>
+        </div>
       </div>
     </BaseCard>
   </div>
