@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Exercise } from "@/types/ExerciseTypes";
+const inputRef = ref<HTMLInputElement>();
 const input = ref<string>("");
 const currentExercise = ref<Exercise | null>(null);
 const allExercises = ref<Exercise[] | null>(null);
@@ -54,8 +55,24 @@ const keyup = (event: KeyboardEvent) => {
     previousKeys.value.push(event.key);
 
     if (commandBefore === ",") {
+        console.log("inputref", inputRef.value);
         const indexOfLastChar = input.value.length - 1;
-        const newInputStrip = input.value.substring(0, indexOfLastChar);
+        const lastChar = input.value[indexOfLastChar];
+        const isLastCharSameA = event.key === "a" && lastChar === "a";
+        const isLastCharSameO = event.key === "o" && lastChar === "o";
+        const isLastCharSameI = event.key === "i" && lastChar === "i";
+        const isLastCharSameE = event.key === "e" && lastChar === "e";
+        const isLastCharSame =
+            isLastCharSameA ||
+            isLastCharSameO ||
+            isLastCharSameI ||
+            isLastCharSameE;
+
+        let newInputStrip = input.value;
+        if (isLastCharSame) {
+            newInputStrip = input.value.substring(0, indexOfLastChar);
+        }
+
         if (event.key === "a") {
             input.value = newInputStrip + specialLatinLetters[0];
         }
@@ -83,7 +100,11 @@ const keyup = (event: KeyboardEvent) => {
                 <p class="my-4" v-if="showAnswer">
                     {{ currentExercise?.answer }}
                 </p>
-                <form class="grid gap-4 mb-4" @submit.prevent="submit">
+                <form
+                    @keyup="keyup"
+                    class="grid gap-4 mb-4"
+                    @submit.prevent="submit"
+                >
                     <div class="flex mx-auto gap-4">
                         <BaseButton
                             perma-shadow
@@ -91,13 +112,14 @@ const keyup = (event: KeyboardEvent) => {
                             type="button"
                             v-for="letter in specialLatinLetters"
                             :key="letter"
+                            @click="input += letter"
                         >
                             {{ letter }}
                         </BaseButton>
                     </div>
                     <BaseInput
+                        ref="inputRef"
                         @keydown="preventSpace"
-                        @keyup="keyup"
                         class="mx-auto max-w-[450px]"
                         :input="input"
                         @update:input="onInput"
