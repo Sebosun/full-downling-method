@@ -2,8 +2,11 @@
 export default {
   content: [],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        brand: "#f85552",
+      },
+    },
   },
   plugins: [],
-}
-
+};
