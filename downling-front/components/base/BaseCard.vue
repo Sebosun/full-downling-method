@@ -23,26 +23,24 @@ withDefaults(
 
 <style scoped>
 .gumroadish-card {
-    &:hover {
-        transition: all;
-        transition-duration: 0.2s;
-        /* transform: translate(-0.25rem, -0.25rem); */
-        box-shadow: 0.25rem 0.25rem 0rem var(--color-brand);
-    }
+    transition: all;
+    transition-duration: 0.2s;
+    /* transform: translate(-0.25rem, -0.25rem); */
+    box-shadow: 0.45rem 0.45rem 0rem var(--color-brand);
 
-    .light-mode &--black:hover {
+    .light-mode &--black {
         box-shadow: 0.25rem 0.25rem 0rem black;
     }
 
-    .dark-mode &--black:hover {
+    .dark-mode &--black {
         box-shadow: 0.25rem 0.25rem 0rem white;
     }
 
-    &--brand:hover {
-        box-shadow: 0.25rem 0.25rem 0rem var(--color-brand);
+    &--brand {
+        box-shadow: 0.45rem 0.45rem 0rem var(--color-brand);
     }
 
-    &--red:hover {
+    &--red {
         box-shadow: 0.25rem 0.25rem 0rem #ce141e;
     }
 }
