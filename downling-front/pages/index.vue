@@ -55,7 +55,6 @@ const keyup = (event: KeyboardEvent) => {
     previousKeys.value.push(event.key);
 
     if (commandBefore === ",") {
-        console.log("inputref", inputRef.value);
         const indexOfLastChar = input.value.length - 1;
         const lastChar = input.value[indexOfLastChar];
         const isLastCharSameA = event.key === "a" && lastChar === "a";
@@ -93,18 +92,14 @@ const keyup = (event: KeyboardEvent) => {
 </script>
 
 <template>
-    <div>
+    <div @keyup="keyup">
         <BaseCard class="p-20">
             <div class="text-center">
                 <h1 class="mb-4">{{ currentExercise?.question }}</h1>
                 <p class="my-4" v-if="showAnswer">
                     {{ currentExercise?.answer }}
                 </p>
-                <form
-                    @keyup="keyup"
-                    class="grid gap-4 mb-4"
-                    @submit.prevent="submit"
-                >
+                <form class="grid gap-4 mb-4" @submit.prevent="submit">
                     <div class="flex mx-auto gap-4">
                         <BaseButton
                             perma-shadow
@@ -130,10 +125,18 @@ const keyup = (event: KeyboardEvent) => {
                     </BaseButton>
                 </form>
                 <div>
+                    <div class="text-lg mb-4">
+                        Use <BaseKey letter="," /> +
+                        <BaseKey letter="a" />
+                        <BaseKey letter="i" />
+                        <BaseKey letter="o" />
+                        <BaseKey letter="u" />
+                        to automatically enter a character
+                    </div>
                     <p class="text-lg">
-                        Use , + a/i/o/u to automatically enter a character
+                        Press <BaseKey letter="space" /> twice to show the
+                        answer
                     </p>
-                    <p class="text-lg">Press space twice to show the answer</p>
                 </div>
             </div>
         </BaseCard>
