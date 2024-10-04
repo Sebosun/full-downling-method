@@ -92,8 +92,8 @@ const keyup = (event: KeyboardEvent) => {
 </script>
 
 <template>
-    <div @keyup="keyup">
-        <BaseCard class="p-20">
+    <div class="game flex gap-10 justify-center" @keyup="keyup">
+        <BaseCard class="p-20 col-[2_/_span_2]">
             <div class="text-center">
                 <h1 class="mb-4">{{ currentExercise?.question }}</h1>
                 <p class="my-4" v-if="showAnswer">
@@ -140,5 +140,27 @@ const keyup = (event: KeyboardEvent) => {
                 </div>
             </div>
         </BaseCard>
+        <BaseCard class="mx-auto gap-1 max-h-44">
+            <div class="grid grid-cols-2">
+                <div>Correct</div>
+                <BaseKey type="gumroadish" class="ml-auto" letter="20" />
+            </div>
+
+            <div class="grid grid-cols-2">
+                Wrong
+                <BaseKey type="gumroadish" class="ml-auto" letter="20" />
+            </div>
+            <div class="grid grid-cols-2">
+                Perfect
+                <BaseKey type="gumroadish" class="ml-auto" letter="20" />
+            </div>
+        </BaseCard>
     </div>
 </template>
+
+<style scoped>
+.game {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+</style>
