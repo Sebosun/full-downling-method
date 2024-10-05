@@ -9,3 +9,8 @@ export interface Exercise {
 export interface AnswerResponse {
   correct: boolean
 }
+
+export interface ExerciseQuestion {
+  id: number;
+  question: string;
+}

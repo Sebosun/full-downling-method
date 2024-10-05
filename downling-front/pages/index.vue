@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import type { AnswerResponse, Exercise } from "@/types/ExerciseTypes";
+import type { AnswerResponse, Exercise, ExerciseQuestion } from "@/types/ExerciseTypes";
 const inputRef = ref<HTMLInputElement>();
 const input = ref<string>("");
-const currentExercise = ref<Exercise | null>(null);
+const currentExercise = ref<ExerciseQuestion | null>(null);
 const allExercises = ref<Exercise[] | null>(null);
+
 const showAnswer = ref<boolean>(false);
+const questioAnswer = ref('');
+const warningAnimation = ref<boolean>(false)
 
 const specialLatinLetters = ["ā", "ō", "ī", "ē"] as const;
 const previousKeys = ref<string[]>([]);
@@ -14,8 +17,24 @@ const wrong = ref(0)
 const perfect = ref(0)
 
 const API_LINK = "http://localhost:3000";
+const resetState = () => {
+  questioAnswer.value = ''
+  showAnswer.value = false
+  input.value = ''
+}
+
+const playWarningAnim = () => {
+  warningAnimation.value = true
+  setTimeout(() => {
+    warningAnimation.value = false
+  }, 900)
+}
+
 async function submit(): Promise<void> {
   if (!currentExercise.value) return
+  if (!input.value) {
+    playWarningAnim()
+  }
 
   const response = await $fetch<AnswerResponse>(API_LINK + "/exercise/answer", {
     method: "POST",
@@ -32,21 +51,38 @@ async function submit(): Promise<void> {
     }
     showAnswer.value = false
     correct.value++
+    resetState()
+    await getRandomExercise()
   } else {
+    playWarningAnim()
     wrong.value++
   }
 
 }
 
+async function getRandomExercise(): Promise<void> {
+  try {
+    currentExercise.value = await $fetch<ExerciseQuestion>(API_LINK + "/exercise/random", {
+      method: "GET",
+    });
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 async function getExercises(): Promise<void> {
-  allExercises.value = await $fetch<Exercise[]>(API_LINK + "/exercise/all", {
-    method: "GET",
-  });
-  currentExercise.value = allExercises.value[21];
+  try {
+    allExercises.value = await $fetch<Exercise[]>(API_LINK + "/exercise/all", {
+      method: "GET",
+    });
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 onMounted(() => {
   getExercises();
+  getRandomExercise()
 });
 
 const onInput = (newInput: string) => {
@@ -61,7 +97,21 @@ const preventSpace = (event: KeyboardEvent) => {
   }
 };
 
-const keyup = (event: KeyboardEvent) => {
+const fetchCorrectAnswer = async () => {
+  if (!currentExercise.value) return
+
+  try {
+    const response = await $fetch<Exercise>(API_LINK + `/exercise/${currentExercise.value?.id}`, {
+      method: "GET",
+    });
+    showAnswer.value = true
+    questioAnswer.value = response.answer
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const keyup = async (event: KeyboardEvent) => {
   // removing first element so we dont
   // store 45901923401923091203 number of itemms for no reason
   if (previousKeys.value.length > 50) {
@@ -71,6 +121,7 @@ const keyup = (event: KeyboardEvent) => {
   const commandBefore = previousKeys.value[len - 1];
 
   if (commandBefore === " " && commandBefore === event.key) {
+    await fetchCorrectAnswer()
     showAnswer.value = true;
     previousKeys.value.pop();
     return;
@@ -117,11 +168,11 @@ const keyup = (event: KeyboardEvent) => {
 
 <template>
   <div class="game flex gap-10 justify-center" @keyup="keyup">
-    <BaseCard class="p-20 col-[2_/_span_2]">
+    <BaseCard class="p-20 col-[2_/_span_2]" :class="{ shake: warningAnimation }">
       <div class="text-center">
         <h1 class="mb-4">{{ currentExercise?.question }}</h1>
         <p class="my-4" v-if="showAnswer">
-          {{ currentExercise?.answer }}
+          {{ questioAnswer }}
         </p>
         <form class="grid gap-4 mb-4" @submit.prevent="submit">
           <div class="flex mx-auto gap-4">
@@ -176,5 +227,34 @@ const keyup = (event: KeyboardEvent) => {
 .game {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 </style>
