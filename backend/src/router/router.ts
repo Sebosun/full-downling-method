@@ -1,6 +1,6 @@
 import { login } from "@/controllers/auth";
 import { create, getAllUsers, getCurrentUser } from "@/controllers/user";
-import { getExercise, getExercises } from "@/controllers/exercise";
+import { confirmAnswer, getExercise, getExercises } from "@/controllers/exercise";
 import { isAuthenticatedMiddleware } from "@/middleware/isAuthenticated";
 import { Router } from "express";
 
@@ -13,6 +13,7 @@ router.get('/', (_, res) => {
 
 router.post('/login', login)
 router.post('/user', create)
+router.post('/exercise/answer', confirmAnswer)
 router.get('/exercise/all', getExercises)
 router.get('/exercise/:id', getExercise)
 router.get('/user', isAuthenticatedMiddleware, getCurrentUser)
