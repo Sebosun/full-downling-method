@@ -1,6 +1,7 @@
 import {
-  getExerciseById,
-  getAllExercises,
+  DB_getExerciseById,
+  DB_getAllExercises,
+  DB_getRandomExercise
 } from "@/repositories/ExerciseRepository";
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
@@ -16,7 +17,7 @@ export async function getExercise(req: Request, res: Response): Promise<void> {
   }
 
   try {
-    const exercise = await getExerciseById(Number(id));
+    const exercise = await DB_getExerciseById(Number(id));
     res.status(StatusCodes.OK);
     res.json(exercise);
   } catch (e) {
@@ -25,9 +26,22 @@ export async function getExercise(req: Request, res: Response): Promise<void> {
   }
 }
 
+export async function getRandomExercise(_: Request, res: Response): Promise<void> {
+  try {
+    const exercise = await DB_getRandomExercise();
+    res.status(StatusCodes.OK);
+    res.json(exercise);
+  } catch (e) {
+    res.status(StatusCodes.BAD_REQUEST);
+    console.log(e)
+    res.json({ message: "Couldn't generate random exercise" });
+  }
+}
+
+
 export async function getExercises(_: Request, res: Response): Promise<void> {
   try {
-    const exercises = await getAllExercises();
+    const exercises = await DB_getAllExercises();
     res.status(StatusCodes.OK);
     res.json(exercises);
   } catch {
@@ -42,7 +56,7 @@ export async function confirmAnswer(req: Request, res: Response): Promise<void> 
     const { id, answer } = ExerciseAnswerSchema.parse(req.body)
 
     try {
-      const exercise = await getExerciseById(Number(id));
+      const exercise = await DB_getExerciseById(Number(id));
       res.status(StatusCodes.OK);
 
       res.status(StatusCodes.OK);
