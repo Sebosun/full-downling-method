@@ -10,7 +10,6 @@ import {
 // Keep imports there relative
 import { Database } from '../types'
 
-// TOOD: forward env in  package.sjon sciprt
 const DB_PASSWORD = process.env.DB_PASSWORD
 const DB_PORT = process.env.DB_PORT
 const DB_DATABASE = process.env.DB_DATABASE

@@ -1,44 +1,41 @@
-import dupa from './noun_conjugations.json'
+import noun_conjugations from './noun_conjugations.json'
 
 export function parseNouns() {
   const keys = ['first', 'second', 'third', 'fourth', 'fifth'] as const
   const acc = [] as { question: string, answer: string }[]
 
   keys.forEach(key => {
-    const nouns = dupa.nouns[key]
+    const nouns = noun_conjugations.nouns[key]
+    const cases = ['singular', 'plural'] as const
     nouns.forEach(noun => {
-      const word = noun.word
-      acc.push({
-        question: `Conjugation for ${word} in nominative`,
-        answer: noun.conjugations.plural.nominative
+      cases.forEach(item => {
+        const word = noun.word
+        acc.push({
+          question: `${item} nominative for ${word}`,
+          answer: noun.conjugations[item].nominative
+        })
+
+        acc.push({
+          question: `${item} genetive for ${word}`,
+          answer: noun.conjugations[item].genetive
+        })
+
+        acc.push({
+          question: `${item} dative for ${word}`,
+          answer: noun.conjugations[item].dative
+        })
+
+        acc.push({
+          question: `${item} accusative for ${word}`,
+          answer: noun.conjugations[item].accusative
+        })
+
+        acc.push({
+          question: `${item} ablative for ${word}`,
+          answer: noun.conjugations[item].ablative
+        })
       })
-
-      acc.push({
-        question: `Conjugation for ${word} in dative`,
-        answer: noun.conjugations.plural.dative
-      }
-      )
-
-      acc.push({
-        question: `Conjugation for ${word} in ablative`,
-        answer: noun.conjugations.plural.ablative
-      }
-      )
-
-      acc.push({
-        question: `Conjugation for ${word} in accusative`,
-        answer: noun.conjugations.plural.accusative
-      }
-      )
-
-      acc.push({
-        question: `Conjugation for ${word} in genetive`,
-        answer: noun.conjugations.plural.genetive
-      }
-      )
     })
   })
   return acc
-
-
 }

@@ -8,8 +8,9 @@
     "typecheck": "tsc --noEmit",
     "dev": "tsx src/index.ts",
     "dev watch": "tsx watch src/index.ts",
-    "migrate-up": "tsx src/scripts/up_migrations.ts",
-    "migrate-down": "tsx src/scripts/down_migrations.ts"
+    "migrate-up": "tsx --env-file .env src/scripts/up_migrations.ts",
+    "migrate-down": "tsx --env-file .env src/scripts/down_migrations.ts",
+    "seed": "tsx --env-file .env src/seed/seed.ts"
   },
   "keywords": [],
   "author": "",
