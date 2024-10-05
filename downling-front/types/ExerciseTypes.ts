@@ -5,3 +5,7 @@ export interface Exercise {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface AnswerResponse {
+  correct: boolean
+}
