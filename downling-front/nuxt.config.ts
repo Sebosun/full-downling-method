@@ -8,6 +8,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
-    '@nuxt/fonts'
-  ]
+    '@nuxt/fonts',
+  ],
 })
