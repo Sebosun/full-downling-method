@@ -5,6 +5,7 @@ import {
   Selectable,
   Updateable,
 } from 'kysely'
+import { DeclensionKeys, NumberKeys } from './types/ExerciseTypes'
 
 export interface Database {
   exercises: ExerciseTable,
@@ -36,6 +37,10 @@ export interface ExerciseTable {
   id: Generated<number>
   question: string
   answer: string
+  base_word: string
+  gender: string
+  declension: DeclensionKeys
+  number: NumberKeys
   created_at: ColumnType<Date, string | undefined, never>
   updated_at: ColumnType<Date, string | undefined, never>
 }

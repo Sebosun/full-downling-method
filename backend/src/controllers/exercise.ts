@@ -7,6 +7,7 @@ import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import z from "zod";
 import { ExerciseAnswerSchema } from '@/schemas/ExerciseSchema'
+import { AllExercisesResponse } from "@/types/ExerciseTypes";
 
 export async function getExercise(req: Request, res: Response): Promise<void> {
   const id = req.params?.id;
@@ -38,13 +39,35 @@ export async function getRandomExercise(_: Request, res: Response): Promise<void
   }
 }
 
-
 export async function getExercises(_: Request, res: Response): Promise<void> {
   try {
     const exercises = await DB_getAllExercises();
+
+    const acc = {
+      first: {},
+      second: {},
+      third: {},
+      fourth: {},
+      fifth: {},
+    } as AllExercisesResponse
+
+    exercises.forEach(item => {
+      const declension = item.declension
+      const itemExists = !!acc[declension][item.base_word]
+      if (!itemExists) {
+        acc[declension][item.base_word] = {
+          singular: [],
+          plural: []
+        }
+        acc[declension][item.base_word][item.number].push(item)
+      } else {
+        acc[declension][item.base_word][item.number].push(item)
+      }
+    })
     res.status(StatusCodes.OK);
-    res.json(exercises);
-  } catch {
+    res.json(acc);
+  } catch (e) {
+    console.error(e)
     res.status(StatusCodes.BAD_REQUEST);
     res.json({ message: "Exercise with given id does not exist" });
   }

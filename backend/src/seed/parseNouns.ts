@@ -1,38 +1,58 @@
 import noun_conjugations from './noun_conjugations.json'
+import type { ExerciseFill } from '@/types/ExerciseTypes'
+import { cases, declension } from '@/types/ExerciseTypes'
 
 export function parseNouns() {
-  const keys = ['first', 'second', 'third', 'fourth', 'fifth'] as const
-  const acc = [] as { question: string, answer: string }[]
+  const acc = [] as ExerciseFill[]
 
-  keys.forEach(key => {
-    const nouns = noun_conjugations.nouns[key]
-    const cases = ['singular', 'plural'] as const
-    nouns.forEach(noun => {
-      cases.forEach(item => {
+  declension.forEach((declension) => {
+    const nouns = noun_conjugations.nouns[declension]
+    nouns.forEach((noun, _) => {
+      cases.forEach(number => {
         const word = noun.word
         acc.push({
-          question: `${item} nominative for ${word}`,
-          answer: noun.conjugations[item].nominative
+          question: `${number} nominative for ${word}`,
+          base_word: noun.word,
+          gender: noun.gender,
+          number: number,
+          declension: declension,
+          answer: noun.conjugations[number].nominative
         })
 
         acc.push({
-          question: `${item} genetive for ${word}`,
-          answer: noun.conjugations[item].genetive
+          question: `${number} genetive for ${word}`,
+          base_word: noun.word,
+          gender: noun.gender,
+          declension: declension,
+          number: number,
+          answer: noun.conjugations[number].genetive
         })
 
         acc.push({
-          question: `${item} dative for ${word}`,
-          answer: noun.conjugations[item].dative
+          question: `${number} dative for ${word}`,
+          base_word: noun.word,
+          gender: noun.gender,
+          declension: declension,
+          number: number,
+          answer: noun.conjugations[number].dative
         })
 
         acc.push({
-          question: `${item} accusative for ${word}`,
-          answer: noun.conjugations[item].accusative
+          question: `${number} accusative for ${word}`,
+          base_word: noun.word,
+          gender: noun.gender,
+          declension: declension,
+          number: number,
+          answer: noun.conjugations[number].accusative
         })
 
         acc.push({
-          question: `${item} ablative for ${word}`,
-          answer: noun.conjugations[item].ablative
+          question: `${number} ablative for ${word}`,
+          base_word: noun.word,
+          gender: noun.gender,
+          declension: declension,
+          number: number,
+          answer: noun.conjugations[number].ablative
         })
       })
     })

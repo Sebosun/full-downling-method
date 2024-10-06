@@ -1,7 +1,9 @@
 export interface Exercise {
   id: number;
   question: string;
-  answer: string;
+  base_word: string
+  type: string
+  gender: string
   created_at: Date;
   updated_at: Date;
 }

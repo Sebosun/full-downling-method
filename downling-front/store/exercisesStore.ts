@@ -10,7 +10,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   const currentExercise = ref<ExerciseQuestion | null>(null);
   const showAnswer = ref<boolean>(false);
   const questioAnswer = ref('');
-
+  const allExercises = ref<Exercise[] | null>(null);
 
   const getRandomExercise = async (): Promise<void> => {
     try {
@@ -36,15 +36,26 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     }
   }
 
+  async function getExercises(): Promise<void> {
+    try {
+      allExercises.value = await $fetch<Exercise[]>(API_LINK + "/exercise/all", {
+        method: "GET",
+      });
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return {
     currentExercise,
     getRandomExercise,
+    getExercises,
     correct,
     wrong,
     perfect,
     questioAnswer,
     showAnswer,
-    fetchCorrectAnswer
-
+    fetchCorrectAnswer,
+    allExercises
   }
 })

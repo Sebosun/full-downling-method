@@ -5,7 +5,6 @@ import { useExerciseStore } from "~/store/exercisesStore";
 const inputRef = ref<HTMLInputElement>();
 const input = ref<string>("");
 
-const allExercises = ref<Exercise[] | null>(null);
 const store = useExerciseStore()
 const { currentExercise, correct, wrong, perfect, questioAnswer } = storeToRefs(store)
 const showAnswer = ref<boolean>(false);
@@ -57,20 +56,11 @@ async function submit(): Promise<void> {
   }
 }
 
-async function getExercises(): Promise<void> {
-  try {
-    allExercises.value = await $fetch<Exercise[]>(API_LINK + "/exercise/all", {
-      method: "GET",
-    });
-  } catch (e) {
-    console.error(e)
-  }
-}
 
-onMounted(() => {
+onMounted(async () => {
   if (store.currentExercise) return
-  getExercises();
   store.getRandomExercise()
+  store.getExercises();
 });
 
 const onInput = (newInput: string) => {

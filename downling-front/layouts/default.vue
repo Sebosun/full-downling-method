@@ -11,7 +11,7 @@ const changeColorMode = (isDark: boolean) => {
 </script>
 
 <template>
-  <div class="min-h-screen dark:bg-slate-950 dark:text-zinc-200">
+  <div class="min-h-screen dark:bg-slate-950 dark:text-zinc-200 pb-20">
     <!-- very scuffed worakaround but hey it works -->
     <div class="p-[1px]" />
     <header>
@@ -29,6 +29,6 @@ const changeColorMode = (isDark: boolean) => {
 
 <style scoped>
 .full-remaining-height {
-  height: calc(100vh - 20rem);
+  min-height: calc(100vh - 20rem);
 }
 </style>
