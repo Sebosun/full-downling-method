@@ -9,5 +9,9 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxt/fonts',
+    '@pinia/nuxt',
   ],
+  pinia: {
+    storesDirs: ['./store/**',],
+  },
 })

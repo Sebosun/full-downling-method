@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import type { AnswerResponse, Exercise, ExerciseQuestion } from "@/types/ExerciseTypes";
+import { useExerciseStore } from "~/store/exercisesStore";
+
 const inputRef = ref<HTMLInputElement>();
 const input = ref<string>("");
-const currentExercise = ref<ExerciseQuestion | null>(null);
+
 const allExercises = ref<Exercise[] | null>(null);
-
+const store = useExerciseStore()
+const { currentExercise, correct, wrong, perfect, questioAnswer } = storeToRefs(store)
 const showAnswer = ref<boolean>(false);
-const questioAnswer = ref('');
 const warningAnimation = ref<boolean>(false)
-
 const specialLatinLetters = ["ā", "ō", "ī", "ē", "ū"] as const;
 const previousKeys = ref<string[]>([]);
 
-const correct = ref(0)
-const wrong = ref(0)
-const perfect = ref(0)
 
 const API_LINK = "http://localhost:3000";
 const resetState = () => {
@@ -52,21 +50,10 @@ async function submit(): Promise<void> {
     showAnswer.value = false
     correct.value++
     resetState()
-    await getRandomExercise()
+    await store.getRandomExercise()
   } else {
     playWarningAnim()
     wrong.value++
-  }
-
-}
-
-async function getRandomExercise(): Promise<void> {
-  try {
-    currentExercise.value = await $fetch<ExerciseQuestion>(API_LINK + "/exercise/random", {
-      method: "GET",
-    });
-  } catch (e) {
-    console.error(e)
   }
 }
 
@@ -81,8 +68,9 @@ async function getExercises(): Promise<void> {
 }
 
 onMounted(() => {
+  if (store.currentExercise) return
   getExercises();
-  getRandomExercise()
+  store.getRandomExercise()
 });
 
 const onInput = (newInput: string) => {
@@ -97,19 +85,6 @@ const preventSpace = (event: KeyboardEvent) => {
   }
 };
 
-const fetchCorrectAnswer = async () => {
-  if (!currentExercise.value) return
-
-  try {
-    const response = await $fetch<Exercise>(API_LINK + `/exercise/${currentExercise.value?.id}`, {
-      method: "GET",
-    });
-    showAnswer.value = true
-    questioAnswer.value = response.answer
-  } catch (e) {
-    console.error(e)
-  }
-}
 
 const keyup = async (event: KeyboardEvent) => {
   // removing first element so we dont
@@ -121,7 +96,7 @@ const keyup = async (event: KeyboardEvent) => {
   const commandBefore = previousKeys.value[len - 1];
 
   if (commandBefore === " " && commandBefore === event.key) {
-    await fetchCorrectAnswer()
+    await store.fetchCorrectAnswer()
     showAnswer.value = true;
     previousKeys.value.pop();
     return;

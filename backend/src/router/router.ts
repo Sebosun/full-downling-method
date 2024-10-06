@@ -10,7 +10,6 @@ router.get('/', (_, res) => {
   res.json({ message: "Hello world" })
 })
 
-
 router.post('/login', login)
 router.post('/user', create)
 router.post('/exercise/answer', confirmAnswer)
