@@ -44,26 +44,30 @@ export async function getExercises(_: Request, res: Response): Promise<void> {
     const exercises = await DB_getAllExercises();
 
     const acc = {
-      first: {},
-      second: {},
-      third: {},
-      fourth: {},
-      fifth: {},
+      first: [],
+      second: [],
+      third: [],
+      fourth: [],
+      fifth: [],
     } as AllExercisesResponse
 
-    exercises.forEach(item => {
-      const declension = item.declension
-      const itemExists = !!acc[declension][item.base_word]
-      if (!itemExists) {
-        acc[declension][item.base_word] = {
+    exercises.forEach(exercise => {
+      const declension = exercise.declension
+      let exIdx = acc[declension].findIndex(el => el.name === exercise.base_word)
+      if (exIdx === -1) {
+        acc[declension].push({
+          name: exercise.base_word,
+          gender: exercise.gender,
+          part_of_speech: 'noun',
           singular: [],
           plural: []
-        }
-        acc[declension][item.base_word][item.number].push(item)
-      } else {
-        acc[declension][item.base_word][item.number].push(item)
+        })
+        // in newly created its always going to be 0 : )
+        exIdx = 0
       }
+      acc[declension][exIdx][exercise.number].push(exercise)
     })
+
     res.status(StatusCodes.OK);
     res.json(acc);
   } catch (e) {

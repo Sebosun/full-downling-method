@@ -1,3 +1,5 @@
+export type PartOfSpeechType = 'noun' | 'verb' | 'adjective'
+
 export interface ExerciseFill {
   question: string,
   answer: string
@@ -17,20 +19,13 @@ export type ExercisesByGrammaticalNumber = {
   [key in NumberKeys]: ExerciseFill[]
 }
 
-export type ConjugationWords = {
-  [key: string]: ExercisesByGrammaticalNumber
+export interface ExerciseRespondDetails extends ExercisesByGrammaticalNumber {
+  name: string
+  gender: string
+  part_of_speech: PartOfSpeechType
 }
 
 export type AllExercisesResponse = {
-  [key in DeclensionKeys]: ConjugationWords
+  [key in DeclensionKeys]: ExerciseRespondDetails[]
 }
-/* { */
-/*   first: { */
-/*     rosa: { */
-/*       singular: */
-/*       plural: */
-/*     } */
-/*     dupa:  */
-/*   } */
-/* } */
-/**/
+
