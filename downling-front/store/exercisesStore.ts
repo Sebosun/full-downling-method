@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { Exercise, ExerciseQuestion } from '~/types/ExerciseTypes';
+import type { AllExercises, Exercise, ExerciseQuestion } from '~/types/ExerciseTypes';
 
 const API_LINK = "http://localhost:3000";
 export const useExerciseStore = defineStore('exercisesStore', () => {
@@ -10,7 +10,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   const currentExercise = ref<ExerciseQuestion | null>(null);
   const showAnswer = ref<boolean>(false);
   const questioAnswer = ref('');
-  const allExercises = ref<Exercise[] | null>(null);
+  const allExercises = ref<AllExercises | null>(null);
 
   const getRandomExercise = async (): Promise<void> => {
     try {
@@ -38,7 +38,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
 
   async function getExercises(): Promise<void> {
     try {
-      allExercises.value = await $fetch<Exercise[]>(API_LINK + "/exercise/all", {
+      allExercises.value = await $fetch<AllExercises>(API_LINK + "/exercise/all", {
         method: "GET",
       });
     } catch (e) {

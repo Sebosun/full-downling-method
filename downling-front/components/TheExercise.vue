@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnswerResponse, Exercise, ExerciseQuestion } from "@/types/ExerciseTypes";
+import type { AnswerResponse } from "@/types/ExerciseTypes";
 import { useExerciseStore } from "~/store/exercisesStore";
 
 const inputRef = ref<HTMLInputElement>();
