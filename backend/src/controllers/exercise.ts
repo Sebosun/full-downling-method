@@ -62,8 +62,8 @@ export async function getExercises(_: Request, res: Response): Promise<void> {
           singular: [],
           plural: []
         })
-        // in newly created its always going to be 0 : )
-        exIdx = 0
+        // in newly created its always going to be the last item : )
+        exIdx = acc[declension].length - 1
       }
       acc[declension][exIdx][exercise.number].push(exercise)
     })
