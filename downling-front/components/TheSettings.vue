@@ -6,10 +6,11 @@ const selectedExs = ref<number[]>([])
 const store = useExerciseStore()
 const { allExercises } = storeToRefs(store)
 
-const doSomething = () => {
-  console.log(new Date().toLocaleString())
+const saveToLocalStorage = () => {
+  localStorage.setItem('chosenExercises', JSON.stringify(selectedExs.value))
 }
-const debounceSomething = debounce(doSomething)
+
+const debounceSomething = debounce(saveToLocalStorage)
 
 const findByIndex = (id: number): number => {
   return selectedExs.value.findIndex(selectedId => selectedId === id)
@@ -29,6 +30,7 @@ const onCheckClick = (id: number) => {
 
   debounceSomething()
 }
+
 
 </script>
 <template>
