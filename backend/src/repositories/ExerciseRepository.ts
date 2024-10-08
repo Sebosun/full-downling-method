@@ -14,7 +14,6 @@ export async function DB_getAllExercises() {
     .execute()
 }
 
-
 export async function DB_getRandomExercise() {
   return await db.selectFrom('exercises')
     .orderBy(sql`random()`)
