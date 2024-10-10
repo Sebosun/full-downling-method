@@ -2,6 +2,8 @@ import { encryptPassword } from "@/helpers/encryptPassword";
 import { createUser, findUser, findAllUsers, findUserById } from "@/repositories/UserRepository";
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
+import { UserSettingsSchema } from '@/schemas/UserSettingsSchema'
+import z from "zod";
 
 
 export async function create(req: Request, res: Response): Promise<void> {
@@ -79,4 +81,25 @@ export async function getCurrentUser(_: Request, res: Response): Promise<void> {
     res.status(StatusCodes.BAD_REQUEST)
     res.json({ message: "User with given id doesnt exist" })
   }
+}
+
+export async function updateUserSettings(req: Request, res: Response): Promise<void> {
+  const userId = res.locals.jwtUser?.userId
+  if (!userId) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong" })
+  }
+  try {
+    const { exercises } = UserSettingsSchema.parse(req.body)
+    /* TOOD: save to db */
+
+  } catch (e) {
+    if (e instanceof z.ZodError) {
+      console.log(e.issues);
+      res.status(StatusCodes.BAD_REQUEST)
+      res.json({ message: "Payload has missing properties" })
+      return
+    }
+    res.json({ message: "Something went wrong" })
+  }
+
 }
