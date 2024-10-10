@@ -38,6 +38,7 @@ export async function create(req: Request, res: Response): Promise<void> {
     const usr = await createUser({
       username: body.username,
       password: hashedPasswd,
+      settings: ''
     })
 
     res.status(StatusCodes.OK)

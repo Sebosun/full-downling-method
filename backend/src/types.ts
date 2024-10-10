@@ -4,8 +4,9 @@ import {
   Insertable,
   Selectable,
   Updateable,
+  JSONColumnType
 } from 'kysely'
-import { DeclensionKeys, NumberKeys, GenderType } from './types/ExerciseTypes'
+import { DeclensionKeys, NumberKeys, GenderType, } from './types/ExerciseTypes'
 
 export interface Database {
   exercises: ExerciseTable,
@@ -18,6 +19,9 @@ export interface UserTable {
   password: string
   created_at: ColumnType<Date, string | undefined, never>
   updated_at: ColumnType<Date, string | undefined, never>
+  settings: JSONColumnType<{
+    exercises: number[]
+  }> | null
 }
 
 

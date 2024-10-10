@@ -1,3 +1,4 @@
+export type GenderType = 'masculine' | 'feminine' | 'neuter'
 export type PartOfSpeechType = 'noun' | 'verb' | 'adjective'
 
 export interface ExerciseFill {

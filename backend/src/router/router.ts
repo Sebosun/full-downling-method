@@ -1,5 +1,5 @@
 import { login } from "@/controllers/auth";
-import { create, getAllUsers, getCurrentUser } from "@/controllers/user";
+import { create, getAllUsers, getCurrentUser, updateCurrentUser } from "@/controllers/user";
 import { confirmAnswer, getExercise, getExercises, getRandomExercise } from "@/controllers/exercise";
 import { isAuthenticatedMiddleware } from "@/middleware/isAuthenticated";
 import { Router } from "express";
@@ -12,6 +12,7 @@ router.get('/', (_, res) => {
 
 router.post('/login', login)
 router.post('/user', create)
+router.patch('/user', isAuthenticatedMiddleware, updateCurrentUser)
 router.post('/exercise/answer', confirmAnswer)
 router.get('/exercise/random', getRandomExercise)
 router.get('/exercise/all', getExercises)
