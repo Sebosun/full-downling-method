@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useExerciseStore } from "~/store/exercisesStore";
 import { debounce } from '~/helpers/debounce'
+import type { ExerciseByGroup } from "~/types/ExerciseTypes";
 
 const selectedExs = ref<number[]>([])
 const store = useExerciseStore()
@@ -31,6 +32,54 @@ const onCheckClick = (id: number) => {
   debounceSomething()
 }
 
+const hasAllChecked = (exercise: ExerciseByGroup) => {
+  let allChecked = true
+
+  exercise.plural.forEach(ex => {
+    const result = hasItem(ex.id)
+    if (!result) {
+      allChecked = false
+    }
+  })
+
+  if (!allChecked) return false
+
+  exercise.singular.forEach(ex => {
+    const result = hasItem(ex.id)
+    if (!result) {
+      allChecked = false
+    }
+  })
+
+  return allChecked
+}
+
+const checkAllGroup = (exercise: ExerciseByGroup) => {
+  if (hasAllChecked(exercise)) {
+    exercise.plural.forEach(item => {
+      onCheckClick(item.id)
+    })
+
+    exercise.singular.forEach(item => {
+      onCheckClick(item.id)
+    })
+    return
+  }
+
+  exercise.plural.forEach(item => {
+    const itemIdx = findByIndex(item.id)
+    if (itemIdx === -1) {
+      selectedExs.value.push(item.id)
+    }
+  })
+
+  exercise.singular.forEach(item => {
+    const itemIdx = findByIndex(item.id)
+    if (itemIdx === -1) {
+      selectedExs.value.push(item.id)
+    }
+  })
+}
 
 </script>
 <template>
@@ -40,7 +89,12 @@ const onCheckClick = (id: number) => {
         <h1 class="mb-4 capitalize">{{ key }}</h1>
         <div v-for="exercise in value">
           <BaseCollapse :title="exercise.name" class="mb-4 min-w-[600px]">
-            <div class="grid grid-cols-2">
+            <div class="grid grid-cols-2 items-center">
+              <div class="col-span-2 flex gap-4 items-center">
+                <BaseCheckbox :checked="hasAllChecked(exercise)" @update:checked="checkAllGroup(exercise)" />
+                <div> Check all </div>
+              </div>
+
               <div class="flex gap-4 items-center" v-for="ex in exercise.singular">
                 <BaseCheckbox :checked="hasItem(ex.id)" @update:checked="onCheckClick(ex.id)" />
                 <div>
