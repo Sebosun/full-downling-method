@@ -1,4 +1,4 @@
-import { JWTUser } from '@/types/request';
+import { JWTUser } from '@/../types/locals';
 import type { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 

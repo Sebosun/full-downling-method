@@ -2,9 +2,10 @@ import { encryptPassword } from "@/helpers/encryptPassword";
 import { createUser, findUser, findAllUsers, findUserById } from "@/repositories/UserRepository";
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
-import { UserSettingsSchema } from '@/schemas/UserSettingsSchema'
+import { SelectedExercisesSchema } from '@/schemas/UserSettingsSchema'
 import z from "zod";
-
+import { SelectedExercises } from "@/types";
+import { upsertSelectedExercises } from "@/repositories/SelectedExercisesRepository";
 
 export async function create(req: Request, res: Response): Promise<void> {
   const body = req.body;
@@ -40,7 +41,6 @@ export async function create(req: Request, res: Response): Promise<void> {
     const usr = await createUser({
       username: body.username,
       password: hashedPasswd,
-      settings: ''
     })
 
     res.status(StatusCodes.OK)
@@ -87,11 +87,24 @@ export async function updateUserSettings(req: Request, res: Response): Promise<v
   const userId = res.locals.jwtUser?.userId
   if (!userId) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong" })
+    return
   }
-  try {
-    const { exercises } = UserSettingsSchema.parse(req.body)
-    /* TOOD: save to db */
 
+  try {
+    const upsertPayload = [] as SelectedExercises[]
+    const { exercises } = SelectedExercisesSchema.parse(req.body)
+
+    exercises.forEach(exercise => {
+      upsertPayload.push({
+        selected: exercise.selected,
+        user_id: userId,
+        exercise_id: exercise.exercise_id
+      })
+    })
+
+    const upsertedExercises = await upsertSelectedExercises(upsertPayload)
+    res.status(StatusCodes.OK)
+    res.json(upsertedExercises)
   } catch (e) {
     if (e instanceof z.ZodError) {
       console.log(e.issues);
@@ -99,6 +112,7 @@ export async function updateUserSettings(req: Request, res: Response): Promise<v
       res.json({ message: "Payload has missing properties" })
       return
     }
+    console.log(e);
     res.json({ message: "Something went wrong" })
   }
 

@@ -1,14 +1,22 @@
 import { Kysely } from 'kysely'
+import { Database } from '@/types'
 
-export async function up(db: Kysely<any>): Promise<void> {
+export async function up(db: Kysely<Database>): Promise<void> {
   await db.schema
-    .alterTable('user')
-    .addColumn('settings', 'json')
+    .createTable('selected_exercises')
+    .addColumn('selected', 'boolean', col => col.notNull().defaultTo(false))
+    .addColumn('user_id', 'integer', (col) =>
+      col.references('user.id').onDelete('cascade').notNull()
+    )
+    .addColumn('exercise_id', 'integer', (col) =>
+      col.references('exercises.id').onDelete('cascade').notNull()
+    )
+    .addPrimaryKeyConstraint('primary_key', ['exercise_id', 'user_id'])
     .execute()
 }
 
-export async function down(db: Kysely<any>): Promise<void> {
+export async function down(db: Kysely<Database>): Promise<void> {
   await
-    db.schema.alterTable('exercises').dropColumn('settings').execute()
+    db.schema.dropTable('selected_exercises').execute()
 }
 

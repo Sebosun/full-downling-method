@@ -12,6 +12,12 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 export async function down(db: Kysely<any>): Promise<void> {
   await
-    db.schema.alterTable('exercises').dropColumn('type').execute()
+    db.schema.
+      alterTable('exercises')
+      .dropColumn('base_word')
+      .dropColumn('gender')
+      .dropColumn('declension')
+      .dropColumn('number')
+      .execute()
 }
 

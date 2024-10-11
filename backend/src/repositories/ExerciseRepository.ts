@@ -20,3 +20,5 @@ export async function DB_getRandomExercise() {
     .select(['id', 'question'])
     .executeTakeFirst()
 }
+
+

@@ -4,13 +4,13 @@ import {
   Insertable,
   Selectable,
   Updateable,
-  JSONColumnType
 } from 'kysely'
-import { DeclensionKeys, NumberKeys, GenderType, } from './types/ExerciseTypes'
+import { DeclensionKeys, NumberKeys } from './types/ExerciseTypes'
 
 export interface Database {
   exercises: ExerciseTable,
   user: UserTable
+  selected_exercises: SelectedExercisesTable
 }
 
 export interface UserTable {
@@ -19,12 +19,7 @@ export interface UserTable {
   password: string
   created_at: ColumnType<Date, string | undefined, never>
   updated_at: ColumnType<Date, string | undefined, never>
-  settings: JSONColumnType<{
-    exercises: number[]
-  }> | null
 }
-
-
 
 // You should not use the table schema interfaces directly. Instead, you should
 // use the `Selectable`, `Insertable` and `Updateable` wrappers. These wrappers
@@ -42,14 +37,24 @@ export interface ExerciseTable {
   question: string
   answer: string
   base_word: string
-  gender: GenderType
+  gender: string
   declension: DeclensionKeys
   number: NumberKeys
   created_at: ColumnType<Date, string | undefined, never>
   updated_at: ColumnType<Date, string | undefined, never>
 }
 
-
 export type Exercise = Selectable<ExerciseTable>
 export type ExerciseNew = Insertable<ExerciseTable>
 export type ExerciseUpdate = Updateable<ExerciseTable>
+
+export interface SelectedExercisesTable {
+  selected: boolean
+  user_id: number
+  exercise_id: number
+}
+
+export type SelectedExercises = Selectable<SelectedExercisesTable>
+export type SelectedExercisesNew = Insertable<SelectedExercisesTable>
+export type SelectedExercisesUpdate = Updateable<SelectedExercisesTable>
+
