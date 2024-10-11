@@ -1,6 +1,7 @@
 import { login } from "@/controllers/auth";
-import { create, getAllUsers, getCurrentUser, updateUserSettings } from "@/controllers/user";
-import { confirmAnswer, getExercise, getExercises, getRandomExercise } from "@/controllers/exercise";
+import { create, getAllUsers, getCurrentUser } from "@/controllers/user";
+import { getUserSettings, updateUserSettings } from "@/controllers/settings";
+import { confirmAnswer, getExercise, getExercises, getRandomExercise, getRandomExerciseLoggedIn } from "@/controllers/exercise";
 import { isAuthenticatedMiddleware } from "@/middleware/isAuthenticated";
 import { Router } from "express";
 
@@ -12,7 +13,9 @@ router.get('/', (_, res) => {
 
 router.post('/login', login)
 router.post('/user', create)
+router.get('/user/settings', isAuthenticatedMiddleware, getUserSettings)
 router.patch('/user/settings', isAuthenticatedMiddleware, updateUserSettings)
+router.get('/exercise/random/user', isAuthenticatedMiddleware, getRandomExerciseLoggedIn)
 router.post('/exercise/answer', confirmAnswer)
 router.get('/exercise/random', getRandomExercise)
 router.get('/exercise/all', getExercises)
