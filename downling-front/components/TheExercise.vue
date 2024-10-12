@@ -12,7 +12,6 @@ const warningAnimation = ref<boolean>(false)
 const specialLatinLetters = ["ā", "ō", "ī", "ē", "ū"] as const;
 const previousKeys = ref<string[]>([]);
 
-
 const API_LINK = "http://localhost:3000";
 const resetState = () => {
   questioAnswer.value = ''

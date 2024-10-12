@@ -1,23 +1,8 @@
-<script setup lang="ts">
-import TheExercise from '~/components/TheExercise.vue';
-import TheSettings from '~/components/TheSettings.vue';
-
-const tabs = [
-  {
-    key: 'default',
-    label: 'Main',
-    component: TheExercise
-  },
-  {
-    key: 'settings',
-    label: 'Settings',
-    component: TheSettings
-  },
-]
-</script>
-
 <template>
   <div class="mx-auto">
-    <BaseTabs class="mx-auto" :tabs="tabs" />
+    <BaseCard class="p-10">
+      <h1 class="text-center mb-8"> Login </h1>
+      <TheLoginForm />
+    </BaseCard>
   </div>
 </template>
