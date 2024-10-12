@@ -8,7 +8,7 @@ interface User {
   updated_at: string
 }
 
-export const useUserStore = defineStore('exercisesStore', () => {
+export const useUserStore = defineStore('userStore', () => {
   const token = ref<string>('')
 
   const isLoggedIn = computed(() => !!token.value)

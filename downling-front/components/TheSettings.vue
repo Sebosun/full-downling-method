@@ -7,11 +7,32 @@ const selectedExs = ref<number[]>([])
 const store = useExerciseStore()
 const { allExercises } = storeToRefs(store)
 
+const saveExericses = async () => {
+  const allExIds = [] as number[]
+
+  for (const item in allExercises.value) {
+    console.log(item)
+    // @ts-ignore
+    allExercises.value[item as keyof typeof allExercises.value].forEach(ex => {
+      console.log(ex)
+      ex.singular.forEach(item => allExIds.push(item.id))
+      ex.plural.forEach(item => allExIds.push(item.id))
+    })
+  }
+  const body = allExIds.map(id => {
+    return {
+      selected: selectedExs.value.includes(id),
+      exercise_id: id
+    }
+  })
+  store.saveSelectedExercises({ exercises: body })
+}
 const saveToLocalStorage = () => {
   localStorage.setItem('chosenExercises', JSON.stringify(selectedExs.value))
+  saveExericses()
 }
 
-const debounceSomething = debounce(saveToLocalStorage)
+const debounceSave = debounce(saveToLocalStorage)
 
 const findByIndex = (id: number): number => {
   return selectedExs.value.findIndex(selectedId => selectedId === id)
@@ -29,7 +50,7 @@ const onCheckClick = (id: number) => {
   }
   selectedExs.value.push(id)
 
-  debounceSomething()
+  debounceSave()
 }
 
 const hasAllChecked = (exercise: ExerciseByGroup) => {
@@ -63,6 +84,7 @@ const checkAllGroup = (exercise: ExerciseByGroup) => {
     exercise.singular.forEach(item => {
       onCheckClick(item.id)
     })
+    debounceSave()
     return
   }
 
@@ -79,6 +101,7 @@ const checkAllGroup = (exercise: ExerciseByGroup) => {
       selectedExs.value.push(item.id)
     }
   })
+  debounceSave()
 }
 
 </script>

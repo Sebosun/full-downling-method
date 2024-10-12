@@ -3,6 +3,13 @@ import { defineStore } from 'pinia'
 import type { AllExercises, Exercise, ExerciseQuestion } from '~/types/ExerciseTypes';
 
 const API_LINK = "http://localhost:3000";
+interface SaveExercises {
+  exercises: {
+    selected: boolean
+    exercise_id: number
+  }[]
+}
+
 export const useExerciseStore = defineStore('exercisesStore', () => {
   const correct = ref(0)
   const wrong = ref(0)
@@ -12,10 +19,16 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   const questioAnswer = ref('');
   const allExercises = ref<AllExercises | null>(null);
 
+  const user = useUserStore()
+  const { token } = storeToRefs(user)
+
   const getRandomExercise = async (): Promise<void> => {
     try {
-      currentExercise.value = await $fetch<ExerciseQuestion>(API_LINK + "/exercise/random", {
+      currentExercise.value = await $fetch<ExerciseQuestion>(API_LINK + "/exercise/random/user", {
         method: "GET",
+        headers: {
+          Authorization: `Bearer ${token.value}`
+        }
       });
     } catch (e) {
       console.error(e)
@@ -46,6 +59,21 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     }
   }
 
+
+  async function saveSelectedExercises(body: SaveExercises): Promise<void> {
+    try {
+      await $fetch<AllExercises>(API_LINK + "/user/settings", {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token.value}`
+        },
+        body: body
+      });
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return {
     currentExercise,
     getRandomExercise,
@@ -56,6 +84,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     questioAnswer,
     showAnswer,
     fetchCorrectAnswer,
-    allExercises
+    allExercises,
+    saveSelectedExercises
   }
 })

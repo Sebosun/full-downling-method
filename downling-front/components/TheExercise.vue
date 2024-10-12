@@ -9,6 +9,7 @@ const store = useExerciseStore()
 const { currentExercise, correct, wrong, perfect, questioAnswer } = storeToRefs(store)
 const showAnswer = ref<boolean>(false);
 const warningAnimation = ref<boolean>(false)
+const correctAnimation = ref<boolean>(false)
 const specialLatinLetters = ["ā", "ō", "ī", "ē", "ū"] as const;
 const previousKeys = ref<string[]>([]);
 
@@ -23,6 +24,13 @@ const playWarningAnim = () => {
   warningAnimation.value = true
   setTimeout(() => {
     warningAnimation.value = false
+  }, 900)
+}
+
+const playCorrectAnimation = () => {
+  correctAnimation.value = true
+  setTimeout(() => {
+    correctAnimation.value = false
   }, 900)
 }
 
@@ -48,6 +56,7 @@ async function submit(): Promise<void> {
     showAnswer.value = false
     correct.value++
     resetState()
+    playCorrectAnimation()
     await store.getRandomExercise()
   } else {
     playWarningAnim()
@@ -93,6 +102,9 @@ const keyup = async (event: KeyboardEvent) => {
 
   previousKeys.value.push(event.key);
 
+  // if we type really fast this can fail to enter
+  // character at the end
+  // change to a function that finds the last occurance of character and replaces that 
   if (commandBefore === ",") {
     const indexOfLastChar = input.value.length - 1;
     const lastChar = input.value[indexOfLastChar];
@@ -140,7 +152,7 @@ const keyup = async (event: KeyboardEvent) => {
 
 <template>
   <div class="game flex gap-10 justify-center" @keyup="keyup">
-    <BaseCard class="p-20 col-[2_/_span_2]" :class="{ shake: warningAnimation }">
+    <BaseCard class="p-20 col-[2_/_span_2]" :class="{ shake: warningAnimation, glow: correctAnimation }">
       <div class="text-center">
         <h1 class="mb-4">{{ currentExercise?.question }}</h1>
         <p class="my-4" v-if="showAnswer">
@@ -227,6 +239,33 @@ const keyup = async (event: KeyboardEvent) => {
   40%,
   60% {
     transform: translate3d(4px, 0, 0);
+  }
+}
+
+.correct-glow {
+  animation: glow 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes glow {
+  0% {
+    background-color: green;
+  }
+
+  25% {
+    background-color: yellow;
+  }
+
+  50% {
+    background-color: blue;
+  }
+
+  75% {
+    background-color: green;
+  }
+
+  100% {
+    background-color: red;
   }
 }
 </style>
