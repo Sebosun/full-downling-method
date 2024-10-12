@@ -17,6 +17,6 @@ export async function upsertSelectedExercises(values: SelectedExercises[]) {
 export async function getSelectedExercises(user_id: number) {
   return await db.selectFrom('selected_exercises')
     .where('user_id', '=', user_id)
-    .select('exercise_id')
+    .select(['exercise_id', 'selected'])
     .execute()
 }

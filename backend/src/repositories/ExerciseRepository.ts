@@ -22,7 +22,11 @@ export async function DB_getRandomExercise() {
 }
 
 export async function getExercisesWithUserIds(user_id: number) {
-  const randomId = await db.selectFrom('selected_exercises').where('user_id', '=', user_id).orderBy(sql`random()`).select('exercise_id').executeTakeFirst()
+  const randomId = await db.selectFrom('selected_exercises')
+    .where('user_id', '=', user_id)
+    .where('selected', '=', true)
+    .orderBy(sql`random()`)
+    .select('exercise_id').executeTakeFirst()
 
   if (!randomId?.exercise_id) {
     throw new Error('Missing exercise id')
@@ -34,6 +38,3 @@ export async function getExercisesWithUserIds(user_id: number) {
     .select(['id', 'question'])
     .executeTakeFirst()
 }
-
-
-

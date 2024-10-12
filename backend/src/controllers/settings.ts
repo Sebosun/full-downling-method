@@ -30,18 +30,16 @@ export async function updateUserSettings(req: Request, res: Response): Promise<v
     res.json(upsertedExercises)
   } catch (e) {
     if (e instanceof z.ZodError) {
-      console.log(e.issues);
       res.status(StatusCodes.BAD_REQUEST)
       res.json({ message: "Payload has missing properties" })
       return
     }
-    console.log(e);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
     res.json({ message: "Something went wrong" })
   }
 }
 
-export async function getUserSettings(req: Request, res: Response): Promise<void> {
+export async function getUserSettings(_: Request, res: Response): Promise<void> {
   const userId = res.locals.jwtUser?.userId
   if (!userId) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong" })
