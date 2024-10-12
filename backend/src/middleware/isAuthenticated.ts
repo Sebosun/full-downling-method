@@ -30,7 +30,7 @@ export async function isAuthenticatedMiddleware(req: Request, res: Response, nex
     res.locals.jwtUser = jwtData
     next()
   } catch (e) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
+    res.status(StatusCodes.UNAUTHORIZED).send('Token is invalid or expired');
     return
   }
 }
