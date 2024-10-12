@@ -152,7 +152,7 @@ const keyup = async (event: KeyboardEvent) => {
 
 <template>
   <div class="game flex gap-10 justify-center" @keyup="keyup">
-    <BaseCard class="p-20 col-[2_/_span_2]" :class="{ shake: warningAnimation, glow: correctAnimation }">
+    <BaseCard class="p-20 col-[2_/_span_2]" :class="{ shake: warningAnimation }">
       <div class="text-center">
         <h1 class="mb-4">{{ currentExercise?.question }}</h1>
         <p class="my-4" v-if="showAnswer">
@@ -167,8 +167,8 @@ const keyup = async (event: KeyboardEvent) => {
           </div>
           <BaseInput ref="inputRef" @keydown="preventSpace" class="mx-auto max-w-[450px]" :input="input"
             @update:input="onInput" placeholder="enter text here" />
-          <BaseButton class="mx-auto w-[450px]">
-            Do something
+          <BaseButton :class="{ 'correct-glow': correctAnimation }" class="mx-auto w-[450px]">
+            Check
           </BaseButton>
         </form>
         <div>
@@ -244,28 +244,24 @@ const keyup = async (event: KeyboardEvent) => {
 
 .correct-glow {
   animation: glow 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  transform: translate3d(0, 0, 0);
+  transform: background;
 }
 
 @keyframes glow {
   0% {
-    background-color: green;
-  }
-
-  25% {
-    background-color: yellow;
+    background-color: rgba(81, 233, 0, 0.2);
   }
 
   50% {
-    background-color: blue;
+    background-color: rgba(81, 233, 0, 0.6);
   }
 
-  75% {
-    background-color: green;
+  90% {
+    background-color: rgba(81, 233, 0, 0.2);
   }
 
-  100% {
-    background-color: red;
+  90% {
+    background-color: initial;
   }
 }
 </style>

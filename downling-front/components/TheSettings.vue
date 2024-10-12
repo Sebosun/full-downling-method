@@ -3,18 +3,16 @@ import { useExerciseStore } from "~/store/exercisesStore";
 import { debounce } from '~/helpers/debounce'
 import type { ExerciseByGroup } from "~/types/ExerciseTypes";
 
-const selectedExs = ref<number[]>([])
 const store = useExerciseStore()
-const { allExercises } = storeToRefs(store)
+const { allExercises, selectedExs } = storeToRefs(store)
 
 const saveExericses = async () => {
   const allExIds = [] as number[]
 
   for (const item in allExercises.value) {
-    console.log(item)
-    // @ts-ignore
+    // typescript not understanding that `item` will be a keyof typeof allExercises.value -.-
+    // and i cant be bothered with casting
     allExercises.value[item as keyof typeof allExercises.value].forEach(ex => {
-      console.log(ex)
       ex.singular.forEach(item => allExIds.push(item.id))
       ex.plural.forEach(item => allExIds.push(item.id))
     })
@@ -104,6 +102,10 @@ const checkAllGroup = (exercise: ExerciseByGroup) => {
   debounceSave()
 }
 
+
+onMounted(() => {
+  store.fetchSettings()
+})
 </script>
 <template>
   <div class="game flex gap-10 justify-center">

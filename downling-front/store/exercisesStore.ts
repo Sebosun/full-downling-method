@@ -3,12 +3,14 @@ import { defineStore } from 'pinia'
 import type { AllExercises, Exercise, ExerciseQuestion } from '~/types/ExerciseTypes';
 
 const API_LINK = "http://localhost:3000";
-interface SaveExercises {
-  exercises: {
-    selected: boolean
-    exercise_id: number
-  }[]
+interface ExerciseSetting {
+  selected: boolean
+  exercise_id: number
 }
+interface SaveExercises {
+  exercises: ExerciseSetting[]
+}
+
 
 export const useExerciseStore = defineStore('exercisesStore', () => {
   const correct = ref(0)
@@ -18,6 +20,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   const showAnswer = ref<boolean>(false);
   const questioAnswer = ref('');
   const allExercises = ref<AllExercises | null>(null);
+  const selectedExs = ref<number[]>([])
 
   const user = useUserStore()
   const { token } = storeToRefs(user)
@@ -49,7 +52,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     }
   }
 
-  async function getExercises(): Promise<void> {
+  const getExercises = async (): Promise<void> => {
     try {
       allExercises.value = await $fetch<AllExercises>(API_LINK + "/exercise/all", {
         method: "GET",
@@ -59,8 +62,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     }
   }
 
-
-  async function saveSelectedExercises(body: SaveExercises): Promise<void> {
+  const saveSelectedExercises = async (body: SaveExercises): Promise<void> => {
     try {
       await $fetch<AllExercises>(API_LINK + "/user/settings", {
         method: "PATCH",
@@ -69,6 +71,21 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
         },
         body: body
       });
+      getRandomExercise()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  const fetchSettings = async () => {
+    try {
+      const response = await $fetch<ExerciseSetting[]>(API_LINK + "/user/settings", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token.value}`
+        },
+      });
+      selectedExs.value = response.filter(item => item.selected).map(item => item.exercise_id)
     } catch (e) {
       console.error(e)
     }
@@ -77,6 +94,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   return {
     currentExercise,
     getRandomExercise,
+    selectedExs,
     getExercises,
     correct,
     wrong,
@@ -85,6 +103,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     showAnswer,
     fetchCorrectAnswer,
     allExercises,
-    saveSelectedExercises
+    saveSelectedExercises,
+    fetchSettings,
   }
 })
