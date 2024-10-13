@@ -1,13 +1,21 @@
+<script setup lang="ts">
+const store = useUserStore()
+
+onBeforeMount(() => {
+  store.getLocalStorageToken()
+})
+</script>
+
 <template>
-    <div class="min-h-screen dark:bg-slate-950 dark:text-zinc-200">
-        <NuxtLayout>
-            <NuxtPage />
-        </NuxtLayout>
-    </div>
+  <div class="min-h-screen dark:bg-slate-950 dark:text-zinc-200">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
 </template>
 
 <style>
 :root {
-    --color-brand: #f85552;
+  --color-brand: #f85552;
 }
 </style>

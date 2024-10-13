@@ -14,4 +14,9 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ['./store/**',],
   },
+  runtimeConfig: {
+    public: {
+      apiBase: import.meta.env.NUXT_PUBLIC_API_BASE
+    }
+  }
 })

@@ -1,13 +1,18 @@
 import { useUserStore } from "~/store/userStore"
 
 export default defineNuxtRouteMiddleware((to) => {
-  const { isLoggedIn } = useUserStore()
+  const store = useUserStore()
+  const { isLoggedIn } = storeToRefs(useUserStore())
 
-  if (!isLoggedIn && to.path !== "/") {
+  if (!isLoggedIn.value) {
+    store.getLocalStorageToken()
+  }
+
+  if (!isLoggedIn.value && to.path !== "/") {
     return navigateTo('/')
   }
 
-  if (to.path === "/" && isLoggedIn) {
+  if (to.path === "/" && isLoggedIn.value) {
     return '/exercises'
   }
 })

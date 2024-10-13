@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { AllExercises, Exercise, ExerciseQuestion } from '~/types/ExerciseTypes';
 
-const API_LINK = "http://localhost:3000";
 interface ExerciseSetting {
   selected: boolean
   exercise_id: number
@@ -11,8 +10,10 @@ interface SaveExercises {
   exercises: ExerciseSetting[]
 }
 
-
 export const useExerciseStore = defineStore('exercisesStore', () => {
+  const runtimeConfig = useRuntimeConfig()
+  const API_LINK = runtimeConfig.public.apiBase;
+
   const correct = ref(0)
   const wrong = ref(0)
   const perfect = ref(0)

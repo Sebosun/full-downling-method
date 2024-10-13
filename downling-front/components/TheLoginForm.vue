@@ -1,26 +1,20 @@
 <script setup lang="ts">
-
-type LoginForm = {
-  username: string
-  password: string
-}
+import type { LoginForm } from '@/types/UserTypes'
+import { login } from '~/helpers/client/fetch';
 
 const form = ref<LoginForm>({
   username: '',
   password: ''
 })
 
-const API_LINK = "http://localhost:3000";
+const runtimeConfig = useRuntimeConfig()
 const store = useUserStore()
-const { token } = storeToRefs(store)
 
 const submit = async () => {
   try {
-    const response = await $fetch<{ token: string }>(API_LINK + "/login", {
-      method: "POST",
-      body: form.value
-    });
-    token.value = response.token
+    const result = await login(form.value)
+    if (!result) return
+    store.saveToken(result.token)
     navigateTo('/exercises')
   } catch (e) {
     console.error(e)
