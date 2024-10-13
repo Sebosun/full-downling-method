@@ -6,7 +6,7 @@ const inputRef = ref<HTMLInputElement>();
 const input = ref<string>("");
 
 const store = useExerciseStore()
-const { currentExercise, correct, wrong, perfect, questioAnswer } = storeToRefs(store)
+const { currentExercise, correct, wrong, perfect, questionAnswer } = storeToRefs(store)
 const showAnswer = ref<boolean>(false);
 const warningAnimation = ref<boolean>(false)
 const correctAnimation = ref<boolean>(false)
@@ -15,7 +15,7 @@ const previousKeys = ref<string[]>([]);
 
 const API_LINK = "http://localhost:3000";
 const resetState = () => {
-  questioAnswer.value = ''
+  questionAnswer.value = ''
   showAnswer.value = false
   input.value = ''
 }
@@ -156,7 +156,7 @@ const keyup = async (event: KeyboardEvent) => {
       <div class="text-center">
         <h1 class="mb-4">{{ currentExercise?.question }}</h1>
         <p class="my-4" v-if="showAnswer">
-          {{ questioAnswer }}
+          {{ questionAnswer }}
         </p>
         <form class="grid gap-4 mb-4" @submit.prevent="submit">
           <div class="flex mx-auto gap-4">
@@ -166,7 +166,7 @@ const keyup = async (event: KeyboardEvent) => {
             </BaseButton>
           </div>
           <BaseInput ref="inputRef" @keydown="preventSpace" class="mx-auto max-w-[450px]" :input="input"
-            @update:input="onInput" placeholder="enter text here" />
+            @update:input="onInput" placeholder="enter text here" autofocus />
           <BaseButton :class="{ 'correct-glow': correctAnimation }" class="mx-auto w-[450px]">
             Check
           </BaseButton>

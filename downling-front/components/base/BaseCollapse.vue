@@ -12,7 +12,7 @@ const toggle = () => {
 
 <template>
   <div class="max-w-96">
-    <div role="button" class="flex justify-between bg-gray-900 py-3 px-6 rounded-sm" @click="toggle">
+    <div role="button" class="flex justify-between bg-gray-100 dark:bg-gray-900 py-3 px-6 rounded-sm" @click="toggle">
       <h4> {{ title }} </h4>
       <div v-show="!isVisible"> + </div>
       <div v-show="isVisible"> - </div>

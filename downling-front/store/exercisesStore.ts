@@ -19,7 +19,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   const perfect = ref(0)
   const currentExercise = ref<ExerciseQuestion | null>(null);
   const showAnswer = ref<boolean>(false);
-  const questioAnswer = ref('');
+  const questionAnswer = ref('');
   const allExercises = ref<AllExercises | null>(null);
   const selectedExs = ref<number[]>([])
 
@@ -47,7 +47,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
         method: "GET",
       });
       showAnswer.value = true
-      questioAnswer.value = response.answer
+      questionAnswer.value = response.answer
     } catch (e) {
       console.error(e)
     }
@@ -100,7 +100,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     correct,
     wrong,
     perfect,
-    questioAnswer,
+    questionAnswer,
     showAnswer,
     fetchCorrectAnswer,
     allExercises,

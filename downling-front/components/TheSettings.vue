@@ -114,22 +114,33 @@ onMounted(() => {
         <h1 class="mb-4 capitalize">{{ key }}</h1>
         <div v-for="exercise in value">
           <BaseCollapse :title="exercise.name" class="mb-4 min-w-[600px]">
-            <div class="grid grid-cols-2 items-center">
+            <div class="">
               <div class="col-span-2 flex gap-4 items-center">
-                <BaseCheckbox :checked="hasAllChecked(exercise)" @update:checked="checkAllGroup(exercise)" />
-                <div> Check all </div>
+                <BaseCheckbox :checked="hasAllChecked(exercise)" @update:checked="checkAllGroup(exercise)">
+                  <div> Check all </div>
+                </BaseCheckbox>
               </div>
 
-              <div class="flex gap-4 items-center" v-for="ex in exercise.singular">
-                <BaseCheckbox :checked="hasItem(ex.id)" @update:checked="onCheckClick(ex.id)" />
+              <div class="grid grid-cols-2">
                 <div>
-                  {{ ex.answer }}
+                  Sing.
+                  <div class="" v-for="ex in exercise.singular">
+                    <BaseCheckbox :checked="hasItem(ex.id)" @update:checked="onCheckClick(ex.id)">
+                      <div>
+                        {{ ex.answer }}
+                      </div>
+                    </BaseCheckbox>
+                  </div>
                 </div>
-              </div>
-              <div class="flex gap-4 items-center" v-for="ex in exercise.plural">
-                <BaseCheckbox :checked="hasItem(ex.id)" @update:checked="onCheckClick(ex.id)" />
                 <div>
-                  {{ ex.answer }}
+                  Pl.
+                  <div class="" v-for="ex in exercise.plural">
+                    <BaseCheckbox :checked="hasItem(ex.id)" @update:checked="onCheckClick(ex.id)">
+                      <div>
+                        {{ ex.answer }}
+                      </div>
+                    </BaseCheckbox>
+                  </div>
                 </div>
               </div>
             </div>

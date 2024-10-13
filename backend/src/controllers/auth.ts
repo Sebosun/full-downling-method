@@ -46,6 +46,7 @@ export async function login(req: Request, res: Response) {
       res.json({ message: "Authorization failed" })
       return
     }
+
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
       expiresIn: '1h',
     });
