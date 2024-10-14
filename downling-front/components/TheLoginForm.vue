@@ -7,7 +7,6 @@ const form = ref<LoginForm>({
   password: ''
 })
 
-const runtimeConfig = useRuntimeConfig()
 const store = useUserStore()
 
 const submit = async () => {
@@ -23,12 +22,15 @@ const submit = async () => {
 </script>
 
 <template>
-  <div class="grid gap-4 justify-center">
+  <div class="grid gap-4 justify-center p-4">
     <BaseInput placeholder="username" v-model:input="form.username" />
 
     <BaseInput type="password" placeholder="password" v-model:input="form.password" />
     <BaseButton @click="submit">
       Submit
     </BaseButton>
+    <NuxtLink class="text-sm text-center" to="/register">
+      Dont have an account? <span class="underline">Register here</span>
+    </NuxtLink>
   </div>
 </template>

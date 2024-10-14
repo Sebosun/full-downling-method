@@ -1,5 +1,6 @@
 import { useUserStore } from "~/store/userStore"
 
+const nonAuthRoutes = ['/', '/register']
 export default defineNuxtRouteMiddleware((to) => {
   const store = useUserStore()
   const { isLoggedIn } = storeToRefs(useUserStore())
@@ -8,7 +9,7 @@ export default defineNuxtRouteMiddleware((to) => {
     store.getLocalStorageToken()
   }
 
-  if (!isLoggedIn.value && to.path !== "/") {
+  if (!isLoggedIn.value && !nonAuthRoutes.includes(to.path)) {
     return navigateTo('/')
   }
 

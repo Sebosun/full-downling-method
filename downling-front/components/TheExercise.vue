@@ -152,7 +152,7 @@ const keyup = async (event: KeyboardEvent) => {
 
 <template>
   <div class="game flex gap-10 justify-center" @keyup="keyup">
-    <BaseCard class="p-20 col-[2_/_span_2]" :class="{ shake: warningAnimation }">
+    <BaseCard class="p-20 col-[2_/_span_2]" :class="{ shake: warningAnimation }" @keyup="keyup">
       <div class="text-center">
         <h1 class="mb-4">{{ currentExercise?.question }}</h1>
         <p class="my-4" v-if="showAnswer">

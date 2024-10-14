@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const userStore = useUserStore()
 const color = useColorMode();
 const isDark = ref<boolean>(color.preference === "dark");
 const changeColorMode = (isDark: boolean) => {
@@ -8,6 +9,7 @@ const changeColorMode = (isDark: boolean) => {
   }
   color.preference = "light";
 };
+
 </script>
 
 <template>
@@ -16,13 +18,18 @@ const changeColorMode = (isDark: boolean) => {
     <div class="p-[1px]" />
     <header>
       <div class="my-4 p-4 mx-auto max-w-8xl flex items-center justify-between gap-3 h-[4rem]">
-        <ul class="flex gap-8 ml-auto">
+        <ul class="flex gap-8 ml-auto items-center">
+          <BaseButton @click="userStore.logout">
+            logout
+          </BaseButton>
           <BaseSwitch v-model:checked="isDark" @update:checked="changeColorMode" />
         </ul>
       </div>
     </header>
     <main class="full-remaining-height mx-auto max-w-8xl text-4xl flex">
-      <slot />
+      <div class="mx-auto">
+        <slot />
+      </div>
     </main>
   </div>
 </template>

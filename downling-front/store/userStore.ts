@@ -23,6 +23,12 @@ export const useUserStore = defineStore('userStore', () => {
     token.value = localStorageToken
   }
 
+  const logout = () => {
+    localStorage.removeItem('token')
+    token.value = ''
+    navigateTo('/')
+  }
+
   const saveToken = (tkn: string) => {
     localStorage.setItem('token', tkn)
     token.value = tkn
@@ -32,6 +38,7 @@ export const useUserStore = defineStore('userStore', () => {
     token,
     isLoggedIn,
     getLocalStorageToken,
-    saveToken
+    saveToken,
+    logout
   }
 })

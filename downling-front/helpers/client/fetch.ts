@@ -9,4 +9,10 @@ export const login = async (form: LoginForm) =>
     body: form
   });
 
+export const register = async (form: LoginForm) =>
+  $fetch<{ token: string }>(API_LINK + "/register", {
+    method: "POST",
+    body: form
+  });
+
 
