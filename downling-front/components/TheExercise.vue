@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { AnswerResponse } from "@/types/ExerciseTypes";
+import { $api } from "~/composables/api";
 import { useExerciseStore } from "~/store/exercisesStore";
 
 const inputRef = ref<HTMLInputElement>();
 const input = ref<string>("");
+const count = ref(0);
 
 const store = useExerciseStore()
 const { currentExercise, correct, wrong, perfect, questionAnswer } = storeToRefs(store)
@@ -40,7 +42,7 @@ async function submit(): Promise<void> {
     playWarningAnim()
   }
 
-  const response = await $fetch<AnswerResponse>(API_LINK + "/exercise/answer", {
+  const response = await $api<AnswerResponse>(API_LINK + "/exercise/answer", {
     method: "POST",
     body: {
       id: currentExercise.value.id,
@@ -51,7 +53,6 @@ async function submit(): Promise<void> {
   if (response.correct) {
     if (!showAnswer.value) {
       perfect.value++
-
     }
     showAnswer.value = false
     correct.value++
@@ -108,19 +109,6 @@ const keyup = async (event: KeyboardEvent) => {
   if (commandBefore === ",") {
     const indexOfLastChar = input.value.lastIndexOf(event.key);
     const lastChar = input.value[indexOfLastChar];
-    const isLastCharSameA = event.key === "a" && lastChar === "a";
-    const isLastCharSameO = event.key === "o" && lastChar === "o";
-    const isLastCharSameI = event.key === "i" && lastChar === "i";
-    const isLastCharSameE = event.key === "e" && lastChar === "e";
-    const isLastCharSameU = event.key === "u" && lastChar === "u";
-    const isLastCharSame =
-      isLastCharSameA ||
-      isLastCharSameO ||
-      isLastCharSameI ||
-      isLastCharSameE ||
-      isLastCharSameU
-      ;
-
 
     if (event.key === "a") {
       input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[0] + input.value.substring(indexOfLastChar + 1);
@@ -148,9 +136,9 @@ const keyup = async (event: KeyboardEvent) => {
 <template>
   <BaseCard class="p-20 relative min-w-full max-w-8xl" :class="{ shake: warningAnimation }" @keyup="keyup">
     <div class="text-center">
-      <h1 class="mb-4 max-w-xl mx-auto text-center">
+      <div class="mb-4 max-w-xl mx-auto text-center rounded-md" :class="{ 'correct-glow': correctAnimation }">
         {{ currentExercise?.question }}
-      </h1>
+      </div>
       <p class="my-4" v-if="showAnswer">
         {{ questionAnswer }}
       </p>
@@ -258,5 +246,16 @@ const keyup = async (event: KeyboardEvent) => {
   90% {
     background-color: initial;
   }
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+  position: absolute;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
