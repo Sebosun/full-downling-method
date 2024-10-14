@@ -106,7 +106,7 @@ const keyup = async (event: KeyboardEvent) => {
   // character at the end
   // change to a function that finds the last occurance of character and replaces that 
   if (commandBefore === ",") {
-    const indexOfLastChar = input.value.length - 1;
+    const indexOfLastChar = input.value.lastIndexOf(event.key);
     const lastChar = input.value[indexOfLastChar];
     const isLastCharSameA = event.key === "a" && lastChar === "a";
     const isLastCharSameO = event.key === "o" && lastChar === "o";
@@ -121,30 +121,25 @@ const keyup = async (event: KeyboardEvent) => {
       isLastCharSameU
       ;
 
-    let newInputStrip = input.value;
-    if (isLastCharSame) {
-      newInputStrip = input.value.substring(0, indexOfLastChar);
-    }
-
 
     if (event.key === "a") {
-      input.value = newInputStrip + specialLatinLetters[0];
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[0] + input.value.substring(indexOfLastChar + 1);
     }
 
     if (event.key === "o") {
-      input.value = newInputStrip + specialLatinLetters[1];
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[1] + input.value.substring(indexOfLastChar + 1);
     }
 
     if (event.key === "i") {
-      input.value = newInputStrip + specialLatinLetters[2];
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[2] + input.value.substring(indexOfLastChar + 1);
     }
 
     if (event.key === "e") {
-      input.value = newInputStrip + specialLatinLetters[3];
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[3] + input.value.substring(indexOfLastChar + 1);
     }
 
     if (event.key === "u") {
-      input.value = newInputStrip + specialLatinLetters[4];
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[4] + input.value.substring(indexOfLastChar + 1);
     }
   }
 };
