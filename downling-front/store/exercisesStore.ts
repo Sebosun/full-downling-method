@@ -1,11 +1,13 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { AllExercises, Exercise, ExerciseQuestion } from '~/types/ExerciseTypes';
+import { $api } from '~/composables/api';
 
 interface ExerciseSetting {
   selected: boolean
   exercise_id: number
 }
+
 interface SaveExercises {
   exercises: ExerciseSetting[]
 }
@@ -23,16 +25,10 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   const allExercises = ref<AllExercises | null>(null);
   const selectedExs = ref<number[]>([])
 
-  const user = useUserStore()
-  const { token } = storeToRefs(user)
-
   const getRandomExercise = async (): Promise<void> => {
     try {
-      currentExercise.value = await $fetch<ExerciseQuestion>(API_LINK + "/exercise/random/user", {
+      currentExercise.value = await $api<ExerciseQuestion>(API_LINK + "/exercise/random/user", {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token.value}`
-        }
       });
     } catch (e) {
       console.error(e)
@@ -43,7 +39,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     if (!currentExercise?.value) return
 
     try {
-      const response = await $fetch<Exercise>(API_LINK + `/exercise/${currentExercise.value?.id}`, {
+      const response = await $api<Exercise>(API_LINK + `/exercise/${currentExercise.value?.id}`, {
         method: "GET",
       });
       showAnswer.value = true
@@ -55,7 +51,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
 
   const getExercises = async (): Promise<void> => {
     try {
-      allExercises.value = await $fetch<AllExercises>(API_LINK + "/exercise/all", {
+      allExercises.value = await $api<AllExercises>(API_LINK + "/exercise/all", {
         method: "GET",
       });
     } catch (e) {
@@ -65,11 +61,8 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
 
   const saveSelectedExercises = async (body: SaveExercises): Promise<void> => {
     try {
-      await $fetch<AllExercises>(API_LINK + "/user/settings", {
+      await $api<AllExercises>(API_LINK + "/user/settings", {
         method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token.value}`
-        },
         body: body
       });
       getRandomExercise()
@@ -80,11 +73,8 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
 
   const fetchSettings = async () => {
     try {
-      const response = await $fetch<ExerciseSetting[]>(API_LINK + "/user/settings", {
+      const response = await $api<ExerciseSetting[]>(API_LINK + "/user/settings", {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token.value}`
-        },
       });
       selectedExs.value = response.filter(item => item.selected).map(item => item.exercise_id)
     } catch (e) {

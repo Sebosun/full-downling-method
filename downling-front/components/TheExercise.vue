@@ -151,45 +151,45 @@ const keyup = async (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="game flex gap-10 justify-center" @keyup="keyup">
-    <BaseCard class="p-20 col-[2_/_span_2]" :class="{ shake: warningAnimation }" @keyup="keyup">
-      <div class="text-center">
-        <h1 class="mb-4">{{ currentExercise?.question }}</h1>
-        <p class="my-4" v-if="showAnswer">
-          {{ questionAnswer }}
-        </p>
-        <form class="grid gap-4 mb-4" @submit.prevent="submit">
-          <div class="flex mx-auto gap-4">
-            <BaseButton perma-shadow class="min-w-20" type="button" v-for="letter in specialLatinLetters" :key="letter"
-              @click="input += letter">
-              {{ letter }}
-            </BaseButton>
-          </div>
-          <BaseInput ref="inputRef" @keydown="preventSpace" class="mx-auto max-w-[450px]" :input="input"
-            @update:input="onInput" placeholder="enter text here" autofocus />
-          <BaseButton :class="{ 'correct-glow': correctAnimation }" class="mx-auto w-[450px]">
-            Check
+  <BaseCard class="p-20 relative min-w-full max-w-8xl" :class="{ shake: warningAnimation }" @keyup="keyup">
+    <div class="text-center">
+      <h1 class="mb-4 max-w-xl mx-auto text-center">
+        {{ currentExercise?.question }}
+      </h1>
+      <p class="my-4" v-if="showAnswer">
+        {{ questionAnswer }}
+      </p>
+      <form class="grid gap-4 mb-4" @submit.prevent="submit">
+        <div class="flex mx-auto gap-4">
+          <BaseButton perma-shadow class="min-w-20" type="button" v-for="letter in specialLatinLetters" :key="letter"
+            @click="input += letter">
+            {{ letter }}
           </BaseButton>
-        </form>
-        <div>
-          <div class="text-lg mb-4">
-            Use
-            <BaseKey letter="," /> +
-            <BaseKey letter="a" />
-            <BaseKey letter="i" />
-            <BaseKey letter="o" />
-            <BaseKey letter="u" />
-            to automatically enter a character
-          </div>
-          <p class="text-lg">
-            Press
-            <BaseKey letter="space" /> twice to show the
-            answer
-          </p>
         </div>
+        <BaseInput ref="inputRef" @keydown="preventSpace" class="mx-auto max-w-[450px]" :input="input"
+          @update:input="onInput" placeholder="enter text here" autofocus />
+        <BaseButton :class="{ 'correct-glow': correctAnimation }" class="mx-auto w-[450px]">
+          Check
+        </BaseButton>
+      </form>
+      <div>
+        <div class="text-lg mb-4">
+          Use
+          <BaseKey letter="," /> +
+          <BaseKey letter="a" />
+          <BaseKey letter="i" />
+          <BaseKey letter="o" />
+          <BaseKey letter="u" />
+          to automatically enter a character
+        </div>
+        <p class="text-lg">
+          Press
+          <BaseKey letter="space" /> twice to show the
+          answer
+        </p>
       </div>
-    </BaseCard>
-    <BaseCard class="mx-auto gap-1 max-h-44">
+    </div>
+    <BaseCard class="mx-auto max-h-44 absolute -right-80 top-0">
       <div class="grid grid-cols-2">
         <div>Correct</div>
         <BaseKey type="gumroadish" class="ml-auto" :letter="String(correct)" />
@@ -204,13 +204,13 @@ const keyup = async (event: KeyboardEvent) => {
         <BaseKey type="gumroadish" class="ml-auto" :letter="String(perfect)" />
       </div>
     </BaseCard>
-  </div>
+  </BaseCard>
 </template>
 
 <style scoped>
 .game {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr;
 }
 
 .shake {
