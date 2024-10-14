@@ -12,7 +12,7 @@ router.get('/', (_, res) => {
 })
 
 router.post('/login', login)
-router.post('/user', create)
+router.post('/register', create)
 router.get('/user/settings', isAuthenticatedMiddleware, getUserSettings)
 router.patch('/user/settings', isAuthenticatedMiddleware, updateUserSettings)
 router.get('/exercise/random/user', isAuthenticatedMiddleware, getRandomExerciseLoggedIn)
