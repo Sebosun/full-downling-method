@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { AllExercises, Exercise, ExerciseQuestion } from '~/types/ExerciseTypes';
 import { $api } from '~/composables/api';
+import { FetchError } from 'ofetch'
 
 interface ExerciseSetting {
   selected: boolean
@@ -24,6 +25,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   const questionAnswer = ref('');
   const allExercises = ref<AllExercises | null>(null);
   const selectedExs = ref<number[]>([])
+  const router = useRouter()
 
   const getRandomExercise = async (): Promise<void> => {
     try {
@@ -31,7 +33,11 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
         method: "GET",
       });
     } catch (e) {
-      console.error(e)
+      if (e instanceof FetchError) {
+        if (e.data?.message === "User has no settings set") {
+          router.push('/exercises?tab=settings')
+        }
+      }
     }
   }
 
@@ -67,7 +73,8 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
       });
       getRandomExercise()
     } catch (e) {
-      console.error(e)
+      if (e instanceof FetchError)
+        console.error(e.data)
     }
   }
 
