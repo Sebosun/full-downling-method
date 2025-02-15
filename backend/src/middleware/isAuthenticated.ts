@@ -29,7 +29,7 @@ export async function isAuthenticatedMiddleware(req: Request, res: Response, nex
     const jwtData = jwt.verify(token, JWT_SECRET) as JWTUser
     res.locals.jwtUser = jwtData
     next()
-  } catch (e) {
+  } catch {
     res.status(StatusCodes.UNAUTHORIZED).send('Token is invalid or expired');
     return
   }

@@ -1,15 +1,16 @@
 <script setup lang="ts">
 defineProps<{
-    permaShadow?: boolean;
-}>();
+  permaShadow?: boolean
+}>()
 </script>
+
 <template>
-    <button
-        class="ui-button box-shadow-hover px-4 py-3 border border-solid border-black dark:border-white rounded-xs tracking-wide flex items-center justify-center text-center"
-        :class="{ 'ui-button-shadow': permaShadow }"
-    >
-        <slot />
-    </button>
+  <button
+    class="ui-button box-shadow-hover px-4 py-3 border border-solid border-black dark:border-white rounded-xs tracking-wide flex items-center justify-center text-center"
+    :class="{ 'ui-button-shadow': permaShadow }"
+  >
+    <slot />
+  </button>
 </template>
 
 <style scoped>

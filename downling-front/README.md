@@ -73,3 +73,9 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+TODOs:
+- [ ] Remove defaulting to registration view when not logged in
+- [ ] Add a way to view the user's profile
+- [ ] Improve buttons UI
+- [ ] Password input

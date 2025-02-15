@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/fonts',
     '@pinia/nuxt',
+    '@nuxt/eslint',
   ],
   pinia: {
     storesDirs: ['./store/**',],
@@ -18,5 +19,10 @@ export default defineNuxtConfig({
     public: {
       apiBase: import.meta.env.NUXT_PUBLIC_API_BASE
     }
-  }
+  },
+  eslint: {
+    config: {
+      stylistic: true, // <---
+    },
+  },
 })

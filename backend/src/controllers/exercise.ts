@@ -22,7 +22,7 @@ export async function getExercise(req: Request, res: Response): Promise<void> {
     const exercise = await DB_getExerciseById(Number(id));
     res.status(StatusCodes.OK);
     res.json(exercise);
-  } catch (e) {
+  } catch {
     res.status(StatusCodes.BAD_REQUEST);
     res.json({ message: "Exercise with given id does not exist" });
   }
@@ -113,7 +113,7 @@ export async function confirmAnswer(req: Request, res: Response): Promise<void> 
 
       res.status(StatusCodes.OK);
       res.json({ correct: exercise?.answer === answer });
-    } catch (e) {
+    } catch {
       res.status(StatusCodes.BAD_REQUEST);
       res.json({ message: "Exercise with given id does not exist" });
     }

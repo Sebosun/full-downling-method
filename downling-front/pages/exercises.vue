@@ -1,23 +1,26 @@
 <script setup lang="ts">
-import TheExercise from '~/components/TheExercise.vue';
-import TheSettings from '~/components/TheSettings.vue';
+import TheExercise from '~/components/TheExercise.vue'
+import TheSettings from '~/components/TheSettings.vue'
 
 const tabs = [
   {
     key: 'default',
     label: 'Main',
-    component: TheExercise
+    component: TheExercise,
   },
   {
     key: 'settings',
     label: 'Settings',
-    component: TheSettings
+    component: TheSettings,
   },
 ]
 </script>
 
 <template>
   <div class="mx-auto">
-    <BaseTabs class="mx-auto" :tabs="tabs" />
+    <BaseTabs
+      class="mx-auto"
+      :tabs="tabs"
+    />
   </div>
 </template>

@@ -1,15 +1,16 @@
 <script setup lang="ts">
-const userStore = useUserStore()
-const color = useColorMode();
-const isDark = ref<boolean>(color.preference === "dark");
+const color = useColorMode()
+const isDark = ref<boolean>(color.preference === 'dark')
 const changeColorMode = (isDark: boolean) => {
   if (isDark) {
-    color.preference = "dark";
-    return;
+    color.preference = 'dark'
+    return
   }
-  color.preference = "light";
-};
+  color.preference = 'light'
+}
 
+const store = useUserStore()
+const { isLoggedIn } = storeToRefs(store)
 </script>
 
 <template>
@@ -19,10 +20,16 @@ const changeColorMode = (isDark: boolean) => {
     <header>
       <div class="my-4 p-4 mx-auto max-w-8xl flex items-center justify-between gap-3 h-[4rem]">
         <ul class="flex gap-8 ml-auto items-center">
-          <BaseButton @click="userStore.logout">
+          <BaseButton
+            v-if="isLoggedIn"
+            @click="store.logout"
+          >
             logout
           </BaseButton>
-          <BaseSwitch v-model:checked="isDark" @update:checked="changeColorMode" />
+          <BaseSwitch
+            v-model:checked="isDark"
+            @update:checked="changeColorMode"
+          />
         </ul>
       </div>
     </header>

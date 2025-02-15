@@ -15,23 +15,22 @@ export interface AnswerResponse {
 }
 
 export interface ExerciseQuestion {
-  id: number;
-  question: string;
+  id: number
+  question: string
 }
 
-export interface AllExercises {
-  first: ExerciseByGroup[]
-  second: ExerciseByGroup[]
-  third: ExerciseByGroup[]
-  fourth: ExerciseByGroup[]
-  fifth: ExerciseByGroup[]
+export interface NounExercises {
+  first: NounExerciseByGroup[]
+  second: NounExerciseByGroup[]
+  third: NounExerciseByGroup[]
+  fourth: NounExerciseByGroup[]
+  fifth: NounExerciseByGroup[]
 }
 
-export interface ExerciseByGroup {
+export interface NounExerciseByGroup {
   name: string
   gender: string
   part_of_speech: string
   singular: Exercise[]
   plural: Exercise[]
 }
-
