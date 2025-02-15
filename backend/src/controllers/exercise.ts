@@ -102,7 +102,6 @@ export async function getExercises(_: Request, res: Response): Promise<void> {
   }
 }
 
-
 export async function confirmAnswer(req: Request, res: Response): Promise<void> {
   try {
     const { id, answer } = ExerciseAnswerSchema.parse(req.body)

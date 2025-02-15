@@ -39,6 +39,6 @@ export const useUserStore = defineStore('userStore', () => {
     isLoggedIn,
     getLocalStorageToken,
     saveToken,
-    logout
+    logout,
   }
 })

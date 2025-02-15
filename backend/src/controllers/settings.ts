@@ -4,7 +4,7 @@ import { SelectedExercises } from "@/types";
 import { upsertSelectedExercises } from "@/repositories/SelectedExercisesRepository";
 import type { Request, Response } from 'express';
 import z from "zod";
-import { getSelectedExercisesNumbers } from '@/helpers/getExercisesById'
+import { getSelectedExercises } from "@/repositories/SelectedExercisesRepository";
 
 export async function updateUserSettings(req: Request, res: Response): Promise<void> {
   const userId = res.locals.jwtUser?.userId
@@ -26,8 +26,11 @@ export async function updateUserSettings(req: Request, res: Response): Promise<v
     })
 
     const upsertedExercises = await upsertSelectedExercises(upsertPayload)
+    const response = {
+        selected: upsertedExercises.map(({ exercise_id }) => exercise_id)
+    }
     res.status(StatusCodes.OK)
-    res.json(upsertedExercises)
+    res.json(response)
   } catch (e) {
     if (e instanceof z.ZodError) {
       res.status(StatusCodes.BAD_REQUEST)
@@ -46,11 +49,15 @@ export async function getUserSettings(_: Request, res: Response): Promise<void> 
     return
   }
   try {
-    const exerciseIdNumbers = await getSelectedExercisesNumbers(userId)
+    const exerciseIdNumbers = await getSelectedExercises(userId)
+
+    const settings = {
+        selected: exerciseIdNumbers.map(({ exercise_id }) => exercise_id)
+    }
 
     res.status(StatusCodes.OK)
-    res.json(exerciseIdNumbers)
-  } catch (e) {
+    res.json(settings)
+  } catch {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
     res.json({ message: "Something went wrong" })
   }

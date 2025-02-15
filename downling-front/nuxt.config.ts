@@ -1,10 +1,4 @@
 export default defineNuxtConfig({
-  ssr: false,
-  compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
-  devServer: {
-    port: 5173
-  },
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
@@ -12,17 +6,23 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxt/eslint',
   ],
-  pinia: {
-    storesDirs: ['./store/**',],
-  },
+  ssr: false,
+  devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBase: import.meta.env.NUXT_PUBLIC_API_BASE
-    }
+      apiBase: import.meta.env.NUXT_PUBLIC_API_BASE,
+    },
   },
+  devServer: {
+    port: 5173,
+  },
+  compatibilityDate: '2024-04-03',
   eslint: {
     config: {
       stylistic: true, // <---
     },
+  },
+  pinia: {
+    storesDirs: ['./store/**'],
   },
 })

@@ -79,3 +79,4 @@ TODOs:
 - [ ] Add a way to view the user's profile
 - [ ] Improve buttons UI
 - [ ] Password input
+- [ ] Toasters

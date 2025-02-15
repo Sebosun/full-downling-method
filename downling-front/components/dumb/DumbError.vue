@@ -1,6 +1,6 @@
 <script setup lang="ts">
 withDefaults(defineProps<{ tag?: string }>(), {
-  tag: 'div'
+  tag: 'div',
 })
 </script>
 

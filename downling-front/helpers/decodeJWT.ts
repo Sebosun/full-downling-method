@@ -14,11 +14,12 @@ interface JWTTokenType {
  * or undefined if parsing failed
  */
 export function decodeJWT<T extends JWTTokenType>(
-  token: string
+  token: string,
 ): T | undefined {
   try {
     return JSON.parse(atob(token.split('.')[1]))
-  } catch {
+  }
+  catch {
     return undefined
   }
 }

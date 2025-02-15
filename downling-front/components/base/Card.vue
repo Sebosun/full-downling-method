@@ -1,19 +1,23 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    color?: "black" | "brand" | "red";
+    color?: 'black' | 'brand' | 'red'
   }>(),
   {
-    color: "brand",
+    color: 'brand',
   },
-);
+)
 </script>
+
 <template>
-  <div class="gumroadish-card border-black dark:border-white p-2 rounded-xs border" :class="{
-    'gumroadish-card--black': color === 'black',
-    'gumroadish-card--brand': color === 'brand',
-    'gumroadish-card--red': color === 'red',
-  }">
+  <div
+    class="gumroadish-card border-black dark:border-white p-2 rounded-xs border"
+    :class="{
+      'gumroadish-card--black': color === 'black',
+      'gumroadish-card--brand': color === 'brand',
+      'gumroadish-card--red': color === 'red',
+    }"
+  >
     <slot />
   </div>
 </template>

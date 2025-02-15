@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: "#f85552",
+        brand: '#f85552',
       },
     },
   },
   plugins: [],
-};
+}

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import type { AnswerResponse } from "@/types/ExerciseTypes";
-import { $api } from "~/composables/api";
-import { useExerciseStore } from "~/store/exercisesStore";
+import type { AnswerResponse } from '@/types/ExerciseTypes'
+import { $api } from '~/composables/api'
+import { useExerciseStore } from '~/store/exercisesStore'
 
-const inputRef = ref<HTMLInputElement>();
-const input = ref<string>("");
-const count = ref(0);
+const inputRef = ref<HTMLInputElement>()
+const input = ref<string>('')
+const count = ref(0)
 
 const store = useExerciseStore()
 const { currentExercise, correct, wrong, perfect, questionAnswer } = storeToRefs(store)
-const showAnswer = ref<boolean>(false);
+const showAnswer = ref<boolean>(false)
 const warningAnimation = ref<boolean>(false)
 const correctAnimation = ref<boolean>(false)
-const specialLatinLetters = ["ā", "ō", "ī", "ē", "ū"] as const;
-const previousKeys = ref<string[]>([]);
+const specialLatinLetters = ['ā', 'ō', 'ī', 'ē', 'ū'] as const
+const previousKeys = ref<string[]>([])
 
-const API_LINK = "http://localhost:3000";
+const API_LINK = 'http://localhost:3000'
 const resetState = () => {
   questionAnswer.value = ''
   showAnswer.value = false
@@ -42,13 +42,13 @@ async function submit(): Promise<void> {
     playWarningAnim()
   }
 
-  const response = await $api<AnswerResponse>(API_LINK + "/exercise/answer", {
-    method: "POST",
+  const response = await $api<AnswerResponse>(API_LINK + '/exercise/answer', {
+    method: 'POST',
     body: {
       id: currentExercise.value.id,
       answer: input.value,
-    }
-  });
+    },
+  })
 
   if (response.correct) {
     if (!showAnswer.value) {
@@ -59,99 +59,127 @@ async function submit(): Promise<void> {
     resetState()
     playCorrectAnimation()
     await store.getRandomExercise()
-  } else {
+  }
+  else {
     playWarningAnim()
     wrong.value++
   }
 }
 
-
 onMounted(async () => {
   if (store.currentExercise) return
   store.getRandomExercise()
-  store.getExercises();
-});
+  store.getExercises()
+})
 
 const onInput = (newInput: string) => {
-  input.value = newInput.trimEnd();
-};
+  input.value = newInput.trimEnd()
+}
 
 const preventSpace = (event: KeyboardEvent) => {
-  const forbiddenKeys = [" ", ","];
-  const isForbiddenKey = forbiddenKeys.includes(event.key);
+  const forbiddenKeys = [' ', ',']
+  const isForbiddenKey = forbiddenKeys.includes(event.key)
   if (isForbiddenKey) {
-    event.preventDefault();
+    event.preventDefault()
   }
-};
-
+}
 
 const keyup = async (event: KeyboardEvent) => {
   // removing first element so we dont
   // store 45901923401923091203 number of itemms for no reason
   if (previousKeys.value.length > 50) {
-    previousKeys.value.shift();
+    previousKeys.value.shift()
   }
-  const len = previousKeys.value.length;
-  const commandBefore = previousKeys.value[len - 1];
+  const len = previousKeys.value.length
+  const commandBefore = previousKeys.value[len - 1]
 
-  if (commandBefore === " " && commandBefore === event.key) {
+  if (commandBefore === ' ' && commandBefore === event.key) {
     await store.fetchCorrectAnswer()
-    showAnswer.value = true;
-    previousKeys.value.pop();
-    return;
+    showAnswer.value = true
+    previousKeys.value.pop()
+    return
   }
 
-  previousKeys.value.push(event.key);
+  previousKeys.value.push(event.key)
 
   // if we type really fast this can fail to enter
   // character at the end
-  // change to a function that finds the last occurance of character and replaces that 
-  if (commandBefore === ",") {
-    const indexOfLastChar = input.value.lastIndexOf(event.key);
-    const lastChar = input.value[indexOfLastChar];
+  // change to a function that finds the last occurance of character and replaces that
+  if (commandBefore === ',') {
+    const indexOfLastChar = input.value.lastIndexOf(event.key)
+    const lastChar = input.value[indexOfLastChar]
 
-    if (event.key === "a") {
-      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[0] + input.value.substring(indexOfLastChar + 1);
+    if (event.key === 'a') {
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[0] + input.value.substring(indexOfLastChar + 1)
     }
 
-    if (event.key === "o") {
-      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[1] + input.value.substring(indexOfLastChar + 1);
+    if (event.key === 'o') {
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[1] + input.value.substring(indexOfLastChar + 1)
     }
 
-    if (event.key === "i") {
-      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[2] + input.value.substring(indexOfLastChar + 1);
+    if (event.key === 'i') {
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[2] + input.value.substring(indexOfLastChar + 1)
     }
 
-    if (event.key === "e") {
-      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[3] + input.value.substring(indexOfLastChar + 1);
+    if (event.key === 'e') {
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[3] + input.value.substring(indexOfLastChar + 1)
     }
 
-    if (event.key === "u") {
-      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[4] + input.value.substring(indexOfLastChar + 1);
+    if (event.key === 'u') {
+      input.value = input.value.substring(0, indexOfLastChar) + specialLatinLetters[4] + input.value.substring(indexOfLastChar + 1)
     }
   }
-};
+}
 </script>
 
 <template>
-  <BaseCard class="p-20 relative min-w-full max-w-8xl" :class="{ shake: warningAnimation }" @keyup="keyup">
+  <BaseCard
+    class="p-20 relative min-w-full max-w-8xl"
+    :class="{ shake: warningAnimation }"
+    @keyup="keyup"
+  >
     <div class="text-center">
-      <div class="mb-4 max-w-xl mx-auto text-center rounded-md" :class="{ 'correct-glow': correctAnimation }">
+      <div
+        class="mb-4 max-w-xl mx-auto text-center rounded-md"
+        :class="{ 'correct-glow': correctAnimation }"
+      >
         {{ currentExercise?.question }}
       </div>
-      <p class="my-4" v-if="showAnswer">
+      <p
+        v-if="showAnswer"
+        class="my-4"
+      >
         {{ questionAnswer }}
       </p>
-      <form class="grid gap-4 mb-4" @submit.prevent="submit">
+      <form
+        class="grid gap-4 mb-4"
+        @submit.prevent="submit"
+      >
         <div class="flex mx-auto gap-4">
-          <BaseButton perma-shadow class="min-w-20" type="button" v-for="letter in specialLatinLetters" :key="letter"
-            @click="input += letter">
+          <BaseButton
+            v-for="letter in specialLatinLetters"
+            :key="letter"
+            perma-shadow
+            class="min-w-20"
+            type="button"
+            @click="input += letter"
+          >
             {{ letter }}
           </BaseButton>
         </div>
-        <BaseInput ref="inputRef" @keydown="preventSpace" class="mx-auto max-w-[450px]" :input="input"
-          @update:input="onInput" placeholder="enter text here" autofocus />
-        <BaseButton :class="{ 'correct-glow': correctAnimation }" class="mx-auto w-[450px]">
+        <BaseInput
+          ref="inputRef"
+          class="mx-auto max-w-[450px]"
+          :input="input"
+          placeholder="enter text here"
+          autofocus
+          @keydown="preventSpace"
+          @update:input="onInput"
+        />
+        <BaseButton
+          :class="{ 'correct-glow': correctAnimation }"
+          class="mx-auto w-[450px]"
+        >
           Check
         </BaseButton>
       </form>
@@ -175,16 +203,28 @@ const keyup = async (event: KeyboardEvent) => {
     <BaseCard class="mx-auto max-h-44 absolute -right-80 top-0">
       <div class="grid grid-cols-2">
         <div>Correct</div>
-        <BaseKey type="gumroadish" class="ml-auto" :letter="String(correct)" />
+        <BaseKey
+          type="gumroadish"
+          class="ml-auto"
+          :letter="String(correct)"
+        />
       </div>
 
       <div class="grid grid-cols-2">
         Wrong
-        <BaseKey type="gumroadish" class="ml-auto" :letter="String(wrong)" />
+        <BaseKey
+          type="gumroadish"
+          class="ml-auto"
+          :letter="String(wrong)"
+        />
       </div>
       <div class="grid grid-cols-2">
         Perfect
-        <BaseKey type="gumroadish" class="ml-auto" :letter="String(perfect)" />
+        <BaseKey
+          type="gumroadish"
+          class="ml-auto"
+          :letter="String(perfect)"
+        />
       </div>
     </BaseCard>
   </BaseCard>

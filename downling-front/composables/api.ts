@@ -5,10 +5,10 @@ export const $api = async <
   DefaultR extends NitroFetchRequest = NitroFetchRequest,
   T = DefaultT,
   R extends NitroFetchRequest = DefaultR,
-  O extends NitroFetchOptions<R> = NitroFetchOptions<R>
+  O extends NitroFetchOptions<R> = NitroFetchOptions<R>,
 >(
   url: R,
-  options?: O
+  options?: O,
 ) => {
   const userStore = useUserStore()
 
@@ -16,8 +16,7 @@ export const $api = async <
     ...options,
     headers: {
       Authorization: userStore.token ? `Bearer ${userStore.token}` : '',
-      ...options?.headers
-    }
+      ...options?.headers,
+    },
   })
 }
-

@@ -1,4 +1,4 @@
-import { useUserStore } from "~/store/userStore"
+import { useUserStore } from '~/store/userStore'
 
 const nonAuthRoutes = ['/', '/register']
 export default defineNuxtRouteMiddleware((to) => {
@@ -13,7 +13,7 @@ export default defineNuxtRouteMiddleware((to) => {
     return navigateTo('/')
   }
 
-  if (to.path === "/" && isLoggedIn.value) {
+  if (to.path === '/' && isLoggedIn.value) {
     return '/exercises'
   }
 })
