@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import { useExerciseStore } from '~/store/exercisesStore'
-
-const store = useExerciseStore()
-
-onMounted(() => {
-  store.fetchSettings()
-})
 </script>
 
 <template>

@@ -1,8 +1,12 @@
 <script setup lang="ts">
 const store = useUserStore()
+const { hasLoadedSettings } = storeToRefs(store)
 
 onBeforeMount(() => {
   store.getLocalStorageToken()
+  if (!hasLoadedSettings.value && store.isLoggedIn) {
+    store.fetchSettings()
+  }
 })
 </script>
 

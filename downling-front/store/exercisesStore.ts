@@ -4,11 +4,6 @@ import { FetchError } from 'ofetch'
 import type { NounExercises, Exercise, ExerciseQuestion } from '~/types/ExerciseTypes'
 import { $api } from '~/composables/api'
 
-interface Settings {
-  selected: number[]
-
-}
-
 interface ExerciseSetting {
   selected: boolean
   exercise_id: number
@@ -87,18 +82,6 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     }
   }
 
-  const fetchSettings = async () => {
-    try {
-      const response = await $api<Settings>(API_LINK + '/user/settings', {
-        method: 'GET',
-      })
-      selectedExs.value = response.selected
-    }
-    catch (e) {
-      console.error(e)
-    }
-  }
-
   return {
     currentExercise,
     getRandomExercise,
@@ -112,6 +95,5 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     fetchCorrectAnswer,
     allExercises,
     saveSelectedExercises,
-    fetchSettings,
   }
 })
