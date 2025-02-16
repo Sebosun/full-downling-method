@@ -39,7 +39,7 @@ export async function confirmAnswer(req: Request, res: Response): Promise<void> 
                 const real_answer = replaceLatinCharacters(exercise?.answer)
                 const user_answer = replaceLatinCharacters(answer)
                 res.status(StatusCodes.OK);
-                res.json({ correct: real_answer, user_answer});
+                res.json({ correct: real_answer === user_answer });
                 return
             }
             res.status(StatusCodes.OK);
