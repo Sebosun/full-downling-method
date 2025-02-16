@@ -11,6 +11,7 @@ export interface Database {
   exercises: ExerciseTable,
   user: UserTable
   selected_exercises: SelectedExercisesTable
+  user_settings: SettingsTable
 }
 
 export interface UserTable {
@@ -57,4 +58,14 @@ export interface SelectedExercisesTable {
 export type SelectedExercises = Selectable<SelectedExercisesTable>
 export type SelectedExercisesNew = Insertable<SelectedExercisesTable>
 export type SelectedExercisesUpdate = Updateable<SelectedExercisesTable>
+
+
+export interface SettingsTable {
+  user_id: number
+  easy_mode: boolean
+}
+
+export type Settings  = Selectable<SettingsTable>
+export type SettingsNew = Insertable<SettingsTable>
+export type SettingsUpdate = Updateable<SettingsTable>
 

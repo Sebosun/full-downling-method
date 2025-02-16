@@ -3,6 +3,8 @@ import { createUser, findUser, findAllUsers, findUserById } from "@/repositories
 import type { Request, Response } from 'express';
 import { StatusCodes } from "http-status-codes";
 
+// TODO: Parse with zod
+// TODO: Create default user settings
 export async function create(req: Request, res: Response): Promise<void> {
   const body = req.body;
 

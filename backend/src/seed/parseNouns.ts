@@ -7,7 +7,7 @@ export function parseNouns() {
 
   declension.forEach((declension) => {
     const nouns = noun_conjugations.nouns[declension]
-    nouns.forEach((noun, _) => {
+    nouns.forEach((noun) => {
       cases.forEach(number => {
         const word = noun.word
         acc.push({

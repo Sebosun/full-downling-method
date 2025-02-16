@@ -80,3 +80,4 @@ TODOs:
 - [ ] Improve buttons UI
 - [ ] Password input
 - [ ] Toasters
+- [ ] Mentioning that user has no selected exercises // making some exercises default?

@@ -1,6 +1,5 @@
 # Route /login
 # Route /user
-
 #  POST /exercise/answer
 ```JSON
 {

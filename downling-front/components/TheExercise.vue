@@ -5,7 +5,6 @@ import { useExerciseStore } from '~/store/exercisesStore'
 
 const inputRef = ref<HTMLInputElement>()
 const input = ref<string>('')
-const count = ref(0)
 
 const store = useExerciseStore()
 const { currentExercise, correct, wrong, perfect, questionAnswer } = storeToRefs(store)

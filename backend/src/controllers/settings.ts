@@ -6,6 +6,7 @@ import type { Request, Response } from 'express';
 import z from "zod";
 import { getSelectedExercises } from "@/repositories/SelectedExercisesRepository";
 
+// TOOD: rename to mention its updating exercises selection, not settings 
 export async function updateUserSettings(req: Request, res: Response): Promise<void> {
   const userId = res.locals.jwtUser?.userId
   if (!userId) {

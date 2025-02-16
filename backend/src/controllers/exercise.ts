@@ -2,12 +2,10 @@ import {
   DB_getExerciseById,
   DB_getAllExercises,
   DB_getRandomExercise,
-  getExercisesWithUserIds
+  DB_getExercisesWithUserIds
 } from "@/repositories/ExerciseRepository";
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import z from "zod";
-import { ExerciseAnswerSchema } from '@/schemas/ExerciseSchema'
 import { AllExercisesResponse } from "@/types/ExerciseTypes";
 
 export async function getExercise(req: Request, res: Response): Promise<void> {
@@ -48,7 +46,7 @@ export async function getRandomExerciseLoggedIn(_: Request, res: Response): Prom
   }
 
   try {
-    const exercise = await getExercisesWithUserIds(userId);
+    const exercise = await DB_getExercisesWithUserIds(userId);
     res.status(StatusCodes.OK);
     res.json(exercise);
   } catch (e) {
@@ -102,28 +100,3 @@ export async function getExercises(_: Request, res: Response): Promise<void> {
   }
 }
 
-export async function confirmAnswer(req: Request, res: Response): Promise<void> {
-  try {
-    const { id, answer } = ExerciseAnswerSchema.parse(req.body)
-
-    try {
-      const exercise = await DB_getExerciseById(Number(id));
-      res.status(StatusCodes.OK);
-
-      res.status(StatusCodes.OK);
-      res.json({ correct: exercise?.answer === answer });
-    } catch {
-      res.status(StatusCodes.BAD_REQUEST);
-      res.json({ message: "Exercise with given id does not exist" });
-    }
-
-  } catch (e) {
-    if (e instanceof z.ZodError) {
-      console.log(e.issues);
-      res.status(StatusCodes.BAD_REQUEST)
-      res.json({ message: "Payload has missing properties" })
-      return
-    }
-    res.json({ message: "Something went wrong" })
-  }
-}

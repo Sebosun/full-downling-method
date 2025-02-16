@@ -21,7 +21,7 @@ export async function DB_getRandomExercise() {
     .executeTakeFirst()
 }
 
-export async function getExercisesWithUserIds(user_id: number) {
+export async function DB_getExercisesWithUserIds(user_id: number) {
   const randomId = await db.selectFrom('selected_exercises')
     .where('user_id', '=', user_id)
     .where('selected', '=', true)
