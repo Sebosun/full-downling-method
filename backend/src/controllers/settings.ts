@@ -7,7 +7,7 @@ import z from "zod";
 import { getSelectedExercises } from "@/repositories/SelectedExercisesRepository";
 
 // TOOD: rename to mention its updating exercises selection, not settings 
-export async function updateUserSettings(req: Request, res: Response): Promise<void> {
+export async function updateUserExercises(req: Request, res: Response): Promise<void> {
   const userId = res.locals.jwtUser?.userId
   if (!userId) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong" })
@@ -43,7 +43,7 @@ export async function updateUserSettings(req: Request, res: Response): Promise<v
   }
 }
 
-export async function getUserSettings(_: Request, res: Response): Promise<void> {
+export async function getUserExercises(_: Request, res: Response): Promise<void> {
   const userId = res.locals.jwtUser?.userId
   if (!userId) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong" })

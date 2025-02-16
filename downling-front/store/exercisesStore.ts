@@ -70,7 +70,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
 
   const saveSelectedExercises = async (body: SaveExercises): Promise<void> => {
     try {
-      await $api<NounExercises>(API_LINK + '/user/settings', {
+      await $api<NounExercises>(API_LINK + '/user/exercises', {
         method: 'PATCH',
         body: body,
       })

@@ -1,6 +1,6 @@
 import { login } from "@/controllers/auth";
 import { create, getAllUsers, getCurrentUser } from "@/controllers/user";
-import { getUserSettings, updateUserSettings } from "@/controllers/settings";
+import { getUserExercises, updateUserExercises } from "@/controllers/settings";
 import { getExercise, getExercises, getRandomExercise, getRandomExerciseLoggedIn } from "@/controllers/exercise";
 import { confirmAnswer } from "@/controllers/exercises/confirmAnswer";
 import { isAuthenticatedMiddleware, mayBeAuthenticatedMiddleware } from "@/middleware/isAuthenticated";
@@ -14,8 +14,10 @@ router.get('/', (_, res) => {
 
 router.post('/login', login)
 router.post('/register', create)
-router.get('/user/settings', isAuthenticatedMiddleware, getUserSettings)
-router.patch('/user/settings', isAuthenticatedMiddleware, updateUserSettings)
+
+router.get('/user/exercises', isAuthenticatedMiddleware, getUserExercises)
+router.patch('/user/exercises', isAuthenticatedMiddleware, updateUserExercises)
+
 router.get('/exercise/random/user', isAuthenticatedMiddleware, getRandomExerciseLoggedIn)
 router.post('/exercise/answer', mayBeAuthenticatedMiddleware ,confirmAnswer)
 router.get('/exercise/random', getRandomExercise)

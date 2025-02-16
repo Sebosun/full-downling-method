@@ -18,7 +18,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   const fetchSettings = async () => {
     try {
-      const response = await $api<Settings>(API_LINK + '/user/settings', {
+      const response = await $api<Settings>(API_LINK + '/user/exercises', {
         method: 'GET',
       })
       selectedExs.value = response.selected
