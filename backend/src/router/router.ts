@@ -1,5 +1,5 @@
-import { login } from "@/controllers/auth";
-import { create, getAllUsers, getCurrentUser } from "@/controllers/user";
+import { create, login } from "@/controllers/auth";
+import { getAllUsers, getCurrentUser } from "@/controllers/user";
 import { getUserExercises, updateUserExercises } from "@/controllers/settings";
 import { getExercise, getExercises, getRandomExercise, getRandomExerciseLoggedIn } from "@/controllers/exercise";
 import { confirmAnswer } from "@/controllers/exercises/confirmAnswer";
