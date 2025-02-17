@@ -30,6 +30,7 @@ export async function updateUserExercises(req: Request, res: Response): Promise<
     const response = {
         selected: upsertedExercises.map(({ exercise_id }) => exercise_id)
     }
+
     res.status(StatusCodes.OK)
     res.json(response)
   } catch (e) {

@@ -5,6 +5,8 @@ import {
     Kysely,
     PostgresDialect,
 } from 'kysely'
+import { createUser } from '@/repositories/UserRepository'
+import { encryptPassword } from '@/helpers/encryptPassword'
 // Keep imports there relative
 
 const DB_PASSWORD = process.env.DB_PASSWORD
@@ -31,6 +33,7 @@ const db = new Kysely<Database>({
 
 export async function seedExercises(db: Kysely<Database>): Promise<void> {
     const nouns = parseNouns()
+    const users = [{ username: 'admin', password: 'admin' }]
 
     for (const key of nouns) {
         try {
@@ -42,6 +45,21 @@ export async function seedExercises(db: Kysely<Database>): Promise<void> {
             console.error(e)
             throw new Error("Seed failed")
         }
+    }
+
+    try {
+        for (const user of users) {
+            const hashedPasswd = await encryptPassword(user.password)
+            await db.insertInto('user')
+                .values({
+                    username: user.username,
+                    password: hashedPasswd,
+                })
+                .execute()
+        }
+    } catch (e) {
+        console.error(e)
+        throw new Error("Seed failed")
     }
     console.log("All seeds completed")
 }
