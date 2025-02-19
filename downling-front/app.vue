@@ -5,7 +5,7 @@ const { hasLoadedSettings } = storeToRefs(store)
 onBeforeMount(() => {
   store.getLocalStorageToken()
   if (!hasLoadedSettings.value && store.isLoggedIn) {
-    store.fetchSettings()
+    store.fetchExercisesSettings()
   }
 })
 </script>

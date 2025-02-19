@@ -3,7 +3,16 @@ import { computed, ref } from 'vue'
 import { decodeJWT } from '@/helpers/decodeJWT'
 
 export interface Settings {
-  selected: number[]
+  exercises: number[]
+  settings: {
+    easyMode: boolean
+  }
+  user: {
+    id: number
+    username: string
+    created_at: string
+    updated_at: string
+  }
 }
 
 export const useUserStore = defineStore('userStore', () => {
@@ -12,16 +21,17 @@ export const useUserStore = defineStore('userStore', () => {
 
   const exerciseStore = useExerciseStore()
   const { selectedExs } = storeToRefs(exerciseStore)
+
   const token = ref<string>('')
   const isLoggedIn = computed(() => !!token.value)
   const settings = ref<Settings | null>(null)
 
-  const fetchSettings = async () => {
+  const fetchExercisesSettings = async () => {
     try {
-      const response = await $api<Settings>(API_LINK + '/user/exercises', {
+      const response = await $api<Settings>(API_LINK + '/user', {
         method: 'GET',
       })
-      selectedExs.value = response.selected
+      selectedExs.value = response.exercises
       settings.value = response
     }
     catch (e) {
@@ -64,7 +74,7 @@ export const useUserStore = defineStore('userStore', () => {
     token,
     isLoggedIn,
     getLocalStorageToken,
-    fetchSettings,
+    fetchExercisesSettings,
     hasLoadedSettings,
     saveToken,
     logout,
