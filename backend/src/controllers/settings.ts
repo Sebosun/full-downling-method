@@ -56,7 +56,6 @@ export async function getUserExercises(_: Request, res: Response): Promise<void>
     const settings = {
         selected: exerciseIdNumbers.map(({ exercise_id }) => exercise_id)
     }
-
     res.status(StatusCodes.OK)
     res.json(settings)
   } catch {

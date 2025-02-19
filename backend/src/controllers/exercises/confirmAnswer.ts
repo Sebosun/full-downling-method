@@ -5,7 +5,7 @@ import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import z from "zod";
 import { ExerciseAnswerSchema } from '@/schemas/ExerciseSchema'
-import { getUserSettings } from "@/repositories/SettingsRepository";
+import { SettingsRepository } from "@/repositories/SettingsRepository";
 import { replaceLatinCharacters } from "@/helpers/replaceLatinCharacters"
 
 // TODO: Cache user setings
@@ -23,7 +23,7 @@ export async function confirmAnswer(req: Request, res: Response): Promise<void> 
         let isEasyMode = false
 
         if (res.locals.jwtUser) {
-            const userSettings = await getUserSettings(res.locals.jwtUser.userId)
+            const userSettings = await SettingsRepository.getUserSettings(res.locals.jwtUser.userId)
             if (userSettings) isEasyMode = userSettings?.easy_mode
         }
 

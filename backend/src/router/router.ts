@@ -15,15 +15,15 @@ router.get('/', (_, res) => {
 router.post('/login', login)
 router.post('/register', create)
 
-router.get('/user/exercises', isAuthenticatedMiddleware, getUserExercises)
-router.patch('/user/exercises', isAuthenticatedMiddleware, updateUserExercises)
-
-router.get('/exercise/random/user', isAuthenticatedMiddleware, getRandomExerciseLoggedIn)
 router.post('/exercise/answer', mayBeAuthenticatedMiddleware ,confirmAnswer)
 router.get('/exercise/random', getRandomExercise)
+router.get('/exercise/random/user', isAuthenticatedMiddleware, getRandomExerciseLoggedIn)
 router.get('/exercise/all', getExercises)
 router.get('/exercise/:id', getExercise)
+
 router.get('/user', isAuthenticatedMiddleware, getCurrentUser)
 router.get('/user/all', isAuthenticatedMiddleware, getAllUsers)
+router.get('/user/exercises', isAuthenticatedMiddleware, getUserExercises)
+router.patch('/user/exercises', isAuthenticatedMiddleware, updateUserExercises)
 
 export { router }

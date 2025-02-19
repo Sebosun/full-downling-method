@@ -5,7 +5,6 @@ import {
     Kysely,
     PostgresDialect,
 } from 'kysely'
-import { createUser } from '@/repositories/UserRepository'
 import { encryptPassword } from '@/helpers/encryptPassword'
 // Keep imports there relative
 
@@ -48,6 +47,9 @@ export async function seedExercises(db: Kysely<Database>): Promise<void> {
     }
 
     try {
+        // Silly way to seed users
+        // But works for now
+        let idx = 1;
         for (const user of users) {
             const hashedPasswd = await encryptPassword(user.password)
             await db.insertInto('user')
@@ -56,6 +58,14 @@ export async function seedExercises(db: Kysely<Database>): Promise<void> {
                     password: hashedPasswd,
                 })
                 .execute()
+
+            await db.insertInto('user_settings')
+                .values({
+                    user_id: idx,
+                    easy_mode: false,
+                })
+                .execute()
+            idx++;
         }
     } catch (e) {
         console.error(e)
