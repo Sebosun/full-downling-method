@@ -35,6 +35,7 @@ export async function confirmAnswer(req: Request, res: Response): Promise<void> 
                 res.json({ message: "Exercise with given id does not exist" });
                 return
             }
+
             if (isEasyMode) {
                 const real_answer = replaceLatinCharacters(exercise?.answer)
                 const user_answer = replaceLatinCharacters(answer)
