@@ -1,6 +1,6 @@
 import { create, login } from "@/controllers/auth";
 import { getAllUsers, getCurrentUser } from "@/controllers/user";
-import { getUserExercises, updateUserExercises } from "@/controllers/settings";
+import { getUserExercises, updateUserExercises, updateUserSettings } from "@/controllers/settings";
 import { getExercise, getExercises, getRandomExercise, getRandomExerciseLoggedIn } from "@/controllers/exercise";
 import { confirmAnswer } from "@/controllers/exercises/confirmAnswer";
 import { isAuthenticatedMiddleware, mayBeAuthenticatedMiddleware } from "@/middleware/isAuthenticated";
@@ -25,5 +25,6 @@ router.get('/user', isAuthenticatedMiddleware, getCurrentUser)
 router.get('/user/all', isAuthenticatedMiddleware, getAllUsers)
 router.get('/user/exercises', isAuthenticatedMiddleware, getUserExercises)
 router.patch('/user/exercises', isAuthenticatedMiddleware, updateUserExercises)
+router.patch('/user/settings', isAuthenticatedMiddleware, updateUserSettings)
 
 export { router }
