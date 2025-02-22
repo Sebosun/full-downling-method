@@ -20,16 +20,17 @@ const { isLoggedIn } = storeToRefs(store)
     <header>
       <div class="my-4 p-4 mx-auto max-w-8xl flex items-center justify-between gap-3 h-[4rem]">
         <ul class="flex gap-8 ml-auto items-center">
-          <BaseButton
-            v-if="isLoggedIn"
-            @click="store.logout"
-          >
-            logout
-          </BaseButton>
           <BaseSwitch
             v-model="isDark"
             @update:model-value="changeColorMode"
           />
+          <BaseButton
+            v-if="isLoggedIn"
+            class="mr-4"
+            @click="store.logout"
+          >
+            logout
+          </BaseButton>
         </ul>
       </div>
     </header>
