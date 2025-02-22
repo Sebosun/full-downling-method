@@ -29,7 +29,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
 
   const getRandomExercise = async (): Promise<void> => {
     try {
-      currentExercise.value = await $api<ExerciseQuestion>(API_LINK + '/exercise/random/user', {
+      currentExercise.value = await $api<ExerciseQuestion>('/exercise/random/user', {
         method: 'GET',
       })
     }
@@ -46,7 +46,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     if (!currentExercise?.value) return
 
     try {
-      const response = await $api<Exercise>(API_LINK + `/exercise/${currentExercise.value?.id}`, {
+      const response = await $api<Exercise>(`/exercise/${currentExercise.value?.id}`, {
         method: 'GET',
       })
       showAnswer.value = true
@@ -59,7 +59,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
 
   const getExercises = async (): Promise<void> => {
     try {
-      allExercises.value = await $api<NounExercises>(API_LINK + '/exercise/all', {
+      allExercises.value = await $api<NounExercises>('/exercise/all', {
         method: 'GET',
       })
     }
@@ -70,7 +70,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
 
   const saveSelectedExercises = async (body: SaveExercises): Promise<void> => {
     try {
-      await $api<NounExercises>(API_LINK + '/user/exercises', {
+      await $api<NounExercises>('/user/exercises', {
         method: 'PATCH',
         body: body,
       })

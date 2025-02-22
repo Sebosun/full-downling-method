@@ -14,7 +14,7 @@ const { isLoggedIn } = storeToRefs(store)
 </script>
 
 <template>
-  <div class="min-h-screen dark:bg-slate-950 dark:text-zinc-200 pb-20">
+  <div class="min-h-screen dark:bg-slate-950 dark:text-zinc-200 pb-20 transition-colors duration-1000">
     <!-- very scuffed worakaround but hey it works -->
     <div class="p-[1px]" />
     <header>

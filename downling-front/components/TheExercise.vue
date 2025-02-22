@@ -14,7 +14,6 @@ const correctAnimation = ref<boolean>(false)
 const specialLatinLetters = ['ā', 'ō', 'ī', 'ē', 'ū'] as const
 const previousKeys = ref<string[]>([])
 
-const API_LINK = 'http://localhost:3000'
 const resetState = () => {
   questionAnswer.value = ''
   showAnswer.value = false
@@ -41,7 +40,7 @@ async function submit(): Promise<void> {
     playWarningAnim()
   }
 
-  const response = await $api<AnswerResponse>(API_LINK + '/exercise/answer', {
+  const response = await $api<AnswerResponse>('/exercise/answer', {
     method: 'POST',
     body: {
       id: currentExercise.value.id,

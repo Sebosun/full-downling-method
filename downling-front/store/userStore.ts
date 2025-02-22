@@ -2,12 +2,16 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { decodeJWT } from '@/helpers/decodeJWT'
 
-export interface Settings {
+// User settings should work with users that are not logged in
+export interface BaseSettings {
   exercises: number[]
   settings: {
     easyMode: boolean
   }
-  user: {
+}
+
+export interface LoggedInSettings extends BaseSettings {
+  user?: {
     id: number
     username: string
     created_at: string
@@ -15,24 +19,28 @@ export interface Settings {
   }
 }
 
-export const useUserStore = defineStore('userStore', () => {
-  const runtimeConfig = useRuntimeConfig()
-  const API_LINK = runtimeConfig.public.apiBase
+type Settings = BaseSettings | LoggedInSettings
 
+export const useUserStore = defineStore('userStore', () => {
   const exerciseStore = useExerciseStore()
   const { selectedExs } = storeToRefs(exerciseStore)
 
   const token = ref<string>('')
   const isLoggedIn = computed(() => !!token.value)
-  const settings = ref<Settings | null>(null)
+  const user = ref<Settings>({
+    exercises: [],
+    settings: {
+      easyMode: false,
+    },
+  })
 
   const fetchExercisesSettings = async () => {
     try {
-      const response = await $api<Settings>(API_LINK + '/user', {
+      const response = await $api<Settings>('/user', {
         method: 'GET',
       })
       selectedExs.value = response.exercises
-      settings.value = response
+      user.value = response
     }
     catch (e) {
       console.error(e)
@@ -40,7 +48,7 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   const hasLoadedSettings = computed(() => {
-    return settings.value !== null
+    return user.value !== null
   })
 
   const getLocalStorageToken = () => {
@@ -72,6 +80,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   return {
     token,
+    user,
     isLoggedIn,
     getLocalStorageToken,
     fetchExercisesSettings,

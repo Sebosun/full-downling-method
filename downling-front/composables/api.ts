@@ -11,9 +11,12 @@ export const $api = async <
   options?: O,
 ) => {
   const userStore = useUserStore()
+  const runtimeConfig = useRuntimeConfig()
+  const baseURL = runtimeConfig.public.apiBase
 
   return $fetch<T>(url, {
     ...options,
+    baseURL: baseURL,
     headers: {
       Authorization: userStore.token ? `Bearer ${userStore.token}` : '',
       ...options?.headers,
