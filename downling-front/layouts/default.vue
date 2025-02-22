@@ -27,8 +27,8 @@ const { isLoggedIn } = storeToRefs(store)
             logout
           </BaseButton>
           <BaseSwitch
-            v-model:checked="isDark"
-            @update:checked="changeColorMode"
+            v-model="isDark"
+            @update:model-value="changeColorMode"
           />
         </ul>
       </div>

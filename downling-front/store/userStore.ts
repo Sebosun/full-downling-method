@@ -6,7 +6,7 @@ import { decodeJWT } from '@/helpers/decodeJWT'
 export interface BaseSettings {
   exercises: number[]
   settings: {
-    easyMode: boolean
+    easy_mode: boolean
   }
 }
 
@@ -30,7 +30,7 @@ export const useUserStore = defineStore('userStore', () => {
   const user = ref<Settings>({
     exercises: [],
     settings: {
-      easyMode: false,
+      easy_mode: false,
     },
   })
 

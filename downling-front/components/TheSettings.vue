@@ -1,11 +1,26 @@
 <script setup lang="ts">
+import { $api } from '~/composables/api'
+
 const store = useUserStore()
 const { user } = storeToRefs(store)
-const { $api } = useNuxtApp()
 
 const onEasyModeUpdate = () => {
-  console.log('Easy mode update')
+  user.value.settings.easy_mode = !user.value.settings.easy_mode
+  try {
+    $api('/user/settings', {
+      method: "PATCH",
+      body: {
+        easyMode: Boolean(user.value.settings.easy_mode)
+      }
+    })
+  } catch (e) {
+    console.error(e)
+  }
 }
+
+const modelValue = computed(() => {
+  return user.value.settings.easy_mode
+})
 </script>
 
 <template>
@@ -13,10 +28,7 @@ const onEasyModeUpdate = () => {
     <BaseCard class="p-20">
       <div class="flex justify-between mb-8">
         <span> Enable easy mode </span>
-        <BaseSwitch
-          v-model="user.settings.easyMode"
-          @update:checked="onEasyModeUpdate"
-        />
+        <BaseSwitch :model-value="modelValue" @update:checked="onEasyModeUpdate" />
       </div>
       <ViewsSettingsExercises />
     </BaseCard>
