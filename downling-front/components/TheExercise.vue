@@ -167,6 +167,7 @@ const keyup = async (event: KeyboardEvent) => {
         </div>
         <BaseInput
           ref="inputRef"
+          name="answer"
           class="mx-auto max-w-[450px]"
           :input="input"
           placeholder="enter text here"
@@ -199,31 +200,11 @@ const keyup = async (event: KeyboardEvent) => {
       </div>
     </div>
     <BaseCard class="mx-auto max-h-44 absolute -right-80 top-0">
-      <div class="grid grid-cols-2">
-        <div>Correct</div>
-        <BaseKey
-          type="gumroadish"
-          class="ml-auto"
-          :letter="String(correct)"
-        />
-      </div>
-
-      <div class="grid grid-cols-2">
-        Wrong
-        <BaseKey
-          type="gumroadish"
-          class="ml-auto"
-          :letter="String(wrong)"
-        />
-      </div>
-      <div class="grid grid-cols-2">
-        Perfect
-        <BaseKey
-          type="gumroadish"
-          class="ml-auto"
-          :letter="String(perfect)"
-        />
-      </div>
+      <ViewsExerciseStats
+        :correct="correct"
+        :wrong="wrong"
+        :perfect="perfect"
+      />
     </BaseCard>
   </BaseCard>
 </template>
