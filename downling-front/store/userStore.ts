@@ -34,6 +34,10 @@ export const useUserStore = defineStore('userStore', () => {
     },
   })
 
+  const hasEasyModeEnabled = computed(() => {
+    return user.value.settings.easy_mode
+  })
+
   const fetchExercisesSettings = async () => {
     try {
       const response = await $api<Settings>('/user', {
@@ -84,6 +88,7 @@ export const useUserStore = defineStore('userStore', () => {
     isLoggedIn,
     getLocalStorageToken,
     fetchExercisesSettings,
+    hasEasyModeEnabled,
     hasLoadedSettings,
     saveToken,
     logout,

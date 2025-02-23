@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CheckIcon } from '@heroicons/vue/24/solid'
 import type { AnswerResponse } from '@/types/ExerciseTypes'
 import { $api } from '~/composables/api'
 import { useExerciseStore } from '~/store/exercisesStore'
@@ -6,7 +7,9 @@ import { useExerciseStore } from '~/store/exercisesStore'
 const inputRef = ref<HTMLInputElement>()
 const input = ref<string>('')
 
+const userStore = useUserStore()
 const store = useExerciseStore()
+const { hasEasyModeEnabled } = storeToRefs(userStore)
 const { currentExercise, correct, wrong, perfect, questionAnswer } = storeToRefs(store)
 const showAnswer = ref<boolean>(false)
 const warningAnimation = ref<boolean>(false)
@@ -153,7 +156,10 @@ const keyup = async (event: KeyboardEvent) => {
         class="grid gap-4 mb-4"
         @submit.prevent="submit"
       >
-        <div class="flex mx-auto gap-4">
+        <div
+          v-show="!hasEasyModeEnabled"
+          class="flex mx-auto gap-4"
+        >
           <BaseButton
             v-for="letter in specialLatinLetters"
             :key="letter"
@@ -183,7 +189,10 @@ const keyup = async (event: KeyboardEvent) => {
         </BaseButton>
       </form>
       <div>
-        <div class="text-lg mb-4">
+        <div
+          v-show="!hasEasyModeEnabled"
+          class="text-lg mb-4"
+        >
           Use
           <BaseKey letter="," /> +
           <BaseKey letter="a" />
@@ -199,13 +208,26 @@ const keyup = async (event: KeyboardEvent) => {
         </p>
       </div>
     </div>
-    <BaseCard class="mx-auto max-h-44 absolute -right-80 top-0">
-      <ViewsExerciseStats
-        :correct="correct"
-        :wrong="wrong"
-        :perfect="perfect"
-      />
-    </BaseCard>
+    <div class="mx-auto absolute -right-80 top-0 max-w-[300px]">
+      <BaseCard>
+        <ViewsExerciseStats
+          :correct="correct"
+          :wrong="wrong"
+          :perfect="perfect"
+        />
+      </BaseCard>
+      <div
+        v-show="hasEasyModeEnabled"
+        class="mt-4 flex justify-between items-center"
+      >
+        <span class="line-clamp-8">
+          Easy mode
+        </span>
+        <CheckIcon
+          class="w-[24px] h-[24px] text-black font-bold bg-brand dark:bg-brand rounded-sm"
+        />
+      </div>
+    </div>
   </BaseCard>
 </template>
 
