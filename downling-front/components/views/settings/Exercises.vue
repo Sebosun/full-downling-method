@@ -74,6 +74,28 @@ const toggleCheckbox = (id: number) => {
   debounceSave()
 }
 
+const countGroupSelected = (exercise: NounExerciseByGroup): number => {
+  let count = 0
+
+  exercise.plural.forEach((ex) => {
+    if (hasItem(ex.id)) {
+      count++
+    }
+  })
+
+  exercise.singular.forEach((ex) => {
+    if (hasItem(ex.id)) {
+      count++
+    }
+  })
+
+  return count
+}
+
+const groupTitle = (exercise: NounExerciseByGroup): string => {
+  return `${exercise.name} (${countGroupSelected(exercise)}/${exercise.singular.length + exercise.plural.length})`
+}
+
 const toggleGroupSelection = (exercise: NounExerciseByGroup): void => {
   if (isGroupSelected(exercise)) {
     exercise.plural.forEach((item) => {
@@ -109,58 +131,57 @@ const toggleGroupSelection = (exercise: NounExerciseByGroup): void => {
     <h1 class="mb-4 capitalize">
       {{ key }}
     </h1>
+
     <div
       v-for="exercise in value"
       :key="exercise.name"
     >
       <BaseCollapse
-        :title="exercise.name"
+        :title="groupTitle(exercise)"
         class="mb-4 min-w-[600px]"
       >
-        <div class="">
-          <div class="col-span-2 flex gap-4 items-center">
-            <BaseCheckbox
-              :checked="isGroupSelected(exercise)"
-              @update:checked="toggleGroupSelection(exercise)"
-            >
-              <div> Check all </div>
-            </BaseCheckbox>
-          </div>
+        <div class="col-span-2 flex gap-4 items-center">
+          <BaseCheckbox
+            :checked="isGroupSelected(exercise)"
+            @update:checked="toggleGroupSelection(exercise)"
+          >
+            <div> Check all </div>
+          </BaseCheckbox>
+        </div>
 
-          <div class="grid grid-cols-2">
-            <div>
-              Sing.
-              <div
-                v-for="ex in exercise.singular"
-                :key="ex.id"
-                class=""
+        <div class="grid grid-cols-2">
+          <div>
+            Sing.
+            <div
+              v-for="ex in exercise.singular"
+              :key="ex.id"
+              class=""
+            >
+              <BaseCheckbox
+                :checked="hasItem(ex.id)"
+                @update:checked="toggleCheckbox(ex.id)"
               >
-                <BaseCheckbox
-                  :checked="hasItem(ex.id)"
-                  @update:checked="toggleCheckbox(ex.id)"
-                >
-                  <div>
-                    {{ ex.answer }}
-                  </div>
-                </BaseCheckbox>
-              </div>
+                <div>
+                  {{ ex.answer }}
+                </div>
+              </BaseCheckbox>
             </div>
-            <div>
-              Pl.
-              <div
-                v-for="ex in exercise.plural"
-                :key="ex.id"
-                class=""
+          </div>
+          <div>
+            Pl.
+            <div
+              v-for="ex in exercise.plural"
+              :key="ex.id"
+              class=""
+            >
+              <BaseCheckbox
+                :checked="hasItem(ex.id)"
+                @update:checked="toggleCheckbox(ex.id)"
               >
-                <BaseCheckbox
-                  :checked="hasItem(ex.id)"
-                  @update:checked="toggleCheckbox(ex.id)"
-                >
-                  <div>
-                    {{ ex.answer }}
-                  </div>
-                </BaseCheckbox>
-              </div>
+                <div>
+                  {{ ex.answer }}
+                </div>
+              </BaseCheckbox>
             </div>
           </div>
         </div>

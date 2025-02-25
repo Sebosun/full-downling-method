@@ -151,7 +151,7 @@ const questionAnswerParsed = computed(() => {
 
 <template>
   <BaseCard
-    class="p-20 relative min-w-full max-w-8xl"
+    class="p-20 relative min-w-full max-w-2xl"
     :class="{ 'shake': warningAnimation, 'pb-28': showAnswer }"
     @keyup="keyup"
   >

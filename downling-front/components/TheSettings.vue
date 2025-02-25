@@ -8,12 +8,13 @@ const onEasyModeUpdate = () => {
   user.value.settings.easy_mode = !user.value.settings.easy_mode
   try {
     $api('/user/settings', {
-      method: "PATCH",
+      method: 'PATCH',
       body: {
-        easyMode: Boolean(user.value.settings.easy_mode)
-      }
+        easyMode: Boolean(user.value.settings.easy_mode),
+      },
     })
-  } catch (e) {
+  }
+  catch (e) {
     console.error(e)
   }
 }
@@ -24,11 +25,14 @@ const modelValue = computed(() => {
 </script>
 
 <template>
-  <div class="game flex gap-10 justify-center">
+  <div class="game flex gap-10 justify-center max-w-2xl">
     <BaseCard class="p-20">
       <div class="flex justify-between mb-8">
         <span> Enable easy mode </span>
-        <BaseSwitch :model-value="modelValue" @update:checked="onEasyModeUpdate" />
+        <BaseSwitch
+          :model-value="modelValue"
+          @update:checked="onEasyModeUpdate"
+        />
       </div>
       <ViewsSettingsExercises />
     </BaseCard>

@@ -24,33 +24,40 @@ const toggle = () => {
         -
       </div>
     </div>
-    <Transition name="slide-fade">
-      <div
-        v-show="isVisible"
-        class="max-w-full py-3 px-6"
-      >
+    <div
+      class="max-w-full  collapsible"
+      :class="{ expanded: isVisible }"
+    >
+      <div class="p-4 my-3">
         <slot />
       </div>
-    </Transition>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .slide-fade-enter-active {
-  transition: all 0.3s ease-out;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
 .slide-fade-leave-active {
-  transition: all 0.4s ease-out;
+  transition: all 0.4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 
 .slide-fade-enter-from {
-  transform: translateY(-20px);
-  opacity: 0;
+  transform: translateY(20px);
 }
 
 .slide-fade-leave-to {
-  transform: translateY(20px);
-  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.collapsible {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  max-height: 0;
+}
+.collapsible.expanded {
+  max-height: 1000px;
 }
 </style>
