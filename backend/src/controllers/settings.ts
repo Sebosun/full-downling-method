@@ -94,7 +94,8 @@ export async function updateUserSettings(req: Request, res: Response): Promise<v
   }
 
   try {
-    if (schema.data.easyMode) {
+    if (schema.data.easyMode !== undefined) {
+      console.log("Updating user settings", schema.data.easyMode)
       // TODO: result here returns abig int that throws when we try to send response
       // gotta think of a way to udpate and get an actual returned object, for later ig
       await SettingsRepository.updateUserSettings(userId, schema.data.easyMode)

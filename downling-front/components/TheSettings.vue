@@ -31,7 +31,7 @@ const modelValue = computed(() => {
         <span> Enable easy mode </span>
         <BaseSwitch
           :model-value="modelValue"
-          @update:checked="onEasyModeUpdate"
+          @update:model-value="onEasyModeUpdate"
         />
       </div>
       <ViewsSettingsExercises />
