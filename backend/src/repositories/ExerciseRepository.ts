@@ -8,6 +8,13 @@ export async function DB_getExerciseById(id: number) {
     .executeTakeFirst()
 }
 
+export async function DB_getExerciseAsQuestion(id: number) {
+  return await db.selectFrom('exercises')
+    .where('id', '=', id)
+    .select(['id', 'question'])
+    .executeTakeFirst()
+}
+
 export async function DB_getAllExercises() {
   return await db.selectFrom('exercises')
     .selectAll()

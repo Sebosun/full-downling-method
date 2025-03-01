@@ -2,11 +2,13 @@ import {
   DB_getExerciseById,
   DB_getAllExercises,
   DB_getRandomExercise,
-  DB_getExercisesWithUserIds
+  DB_getExercisesWithUserIds,
+DB_getExerciseAsQuestion
 } from "@/repositories/ExerciseRepository";
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { AllExercisesResponse } from "@/types/ExerciseTypes";
+
 
 export async function getExercise(req: Request, res: Response): Promise<void> {
   const id = req.params?.id;
@@ -25,6 +27,25 @@ export async function getExercise(req: Request, res: Response): Promise<void> {
     res.json({ message: "Exercise with given id does not exist" });
   }
 }
+
+export async function getExerciseAsQuestion(req: Request, res: Response): Promise<void> {
+  const id = req.params?.id;
+
+  if (!id || !Number(id)) {
+    res.status(StatusCodes.BAD_REQUEST).json({ message: "Missing id" });
+    return;
+  }
+
+  try {
+    const exercise = await DB_getExerciseAsQuestion(Number(id));
+    res.status(StatusCodes.OK);
+    res.json(exercise);
+  } catch {
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({ message: "Exercise with given id does not exist" });
+  }
+}
+
 
 export async function getRandomExercise(_: Request, res: Response): Promise<void> {
   try {

@@ -8,12 +8,11 @@ import { ExerciseAnswerSchema } from '@/schemas/ExerciseSchema'
 import { SettingsRepository } from "@/repositories/SettingsRepository";
 import { replaceLatinCharacters } from "@/helpers/replaceLatinCharacters"
 import { CompletedExercisesRepository } from "@/repositories/CompletedRepository";
-// TODO: Cache user setings
 
+// TODO: Cache user setings
 
 export async function confirmAnswer(req: Request, res: Response): Promise<void> {
     try {
-        // TODO: option for non-logged in user to use easy-mode?
         const { id, answer, easyMode } = ExerciseAnswerSchema.parse(req.body)
         let isEasyMode = false
 
