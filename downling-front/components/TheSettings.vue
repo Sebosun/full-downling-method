@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { $api } from '~/composables/api'
+import { LocalStorageKeys } from '~/types/LocalStorageKeys'
 
 const store = useUserStore()
 const { user } = storeToRefs(store)
 
+// TODO: move this into user store
 const onEasyModeUpdate = () => {
   user.value.settings.easy_mode = !user.value.settings.easy_mode
+  localStorage.setItem(LocalStorageKeys.SETTINGS, JSON.stringify(user.value.settings))
   try {
     $api('/user/settings', {
       method: 'PATCH',

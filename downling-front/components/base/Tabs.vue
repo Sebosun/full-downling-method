@@ -31,15 +31,15 @@ watch(active, async (newVal) => {
   }
 })
 
-const checkRoute = () => {
-  const { query } = route
-  const queryString = getQueryStringValue(query.tab)
-
-  const isInTabs = props.tabs.find(item => item.key === queryString)
-  if (queryString && queryString != props.tabs[0].key && isInTabs) {
-    active.value = queryString
-  }
-}
+/* const checkRoute = () => { */
+/*   const { query } = route */
+/*   const queryString = getQueryStringValue(query.tab) */
+/**/
+/*   const isInTabs = props.tabs.find(item => item.key === queryString) */
+/*   if (queryString && queryString != props.tabs[0].key && isInTabs) { */
+/*     active.value = queryString */
+/*   } */
+/* } */
 
 const getQueryStringValue = (queryValue: LocationQueryValue | LocationQueryValue[]): string | undefined => {
   if (Array.isArray(queryValue)) return queryValue[0] || undefined

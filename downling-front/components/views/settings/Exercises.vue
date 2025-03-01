@@ -2,11 +2,14 @@
 import { useExerciseStore } from '~/store/exercisesStore'
 import { debounce } from '~/helpers/debounce'
 import type { NounExerciseByGroup } from '~/types/ExerciseTypes'
+import { LocalStorageKeys } from '~/types/LocalStorageKeys'
 
 const store = useExerciseStore()
 const { allExercises, selectedExs } = storeToRefs(store)
 
 const saveExericses = async () => {
+  localStorage.setItem(LocalStorageKeys.CHOSEN_EXERCISES, JSON.stringify(selectedExs.value))
+
   const allExIds = [] as number[]
 
   for (const item in allExercises.value) {
@@ -26,12 +29,7 @@ const saveExericses = async () => {
   store.saveSelectedExercises({ exercises: body })
 }
 
-const saveToLocalStorage = () => {
-  localStorage.setItem('chosenExercises', JSON.stringify(selectedExs.value))
-  saveExericses()
-}
-
-const debounceSave = debounce(saveToLocalStorage)
+const debounceSave = debounce(saveExericses)
 
 const hasItem = (id: number): boolean => {
   return Boolean(findByIndex(id) >= 0)

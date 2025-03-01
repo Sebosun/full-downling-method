@@ -9,6 +9,7 @@ const inputRef = ref<HTMLInputElement>()
 const input = ref<string>('')
 
 const userStore = useUserStore()
+const { isLoggedIn } = storeToRefs(userStore)
 const store = useExerciseStore()
 const { hasEasyModeEnabled } = storeToRefs(userStore)
 const { currentExercise, correct, wrong, perfect, questionAnswer } = storeToRefs(store)
@@ -38,12 +39,25 @@ const playCorrectAnimation = () => {
   }, 900)
 }
 
-async function submit(): Promise<void> {
-  if (!currentExercise.value) return
-  if (!input.value) {
+const handleAfterAnswer = async (wasCorrect: boolean) => {
+  if (!wasCorrect) {
     playWarningAnim()
+    wrong.value++
+    return
   }
 
+  // TODO: this isn't correct
+  // we need to check attempts for given answer
+  if (!showAnswer.value) perfect.value++
+  showAnswer.value = false
+  correct.value++
+  resetState()
+  playCorrectAnimation()
+  await store.getRandomExercise()
+}
+
+const getAnswerLoggedIn = async () => {
+  if (!currentExercise.value) return
   const response = await $api<AnswerResponse>('/exercise/answer', {
     method: 'POST',
     body: {
@@ -51,29 +65,36 @@ async function submit(): Promise<void> {
       answer: input.value,
     },
   })
-
-  if (response.correct) {
-    // TODO: this isn't correct
-    // we need to check attempts for given answer
-    if (!showAnswer.value) perfect.value++
-    showAnswer.value = false
-    correct.value++
-    resetState()
-    playCorrectAnimation()
-    await store.getRandomExercise()
-  }
-
-  else {
-    playWarningAnim()
-    wrong.value++
-  }
+  handleAfterAnswer(response.correct)
 }
 
-onMounted(async () => {
-  if (store.currentExercise) return
-  store.getRandomExercise()
-  store.getExercises()
-})
+const getAnswerUnauthorized = async () => {
+  if (!currentExercise.value) return
+  const response = await $api<AnswerResponse>('/exercise/answer', {
+    method: 'POST',
+    body: {
+      id: currentExercise.value.id,
+      answer: input.value,
+      easyMode: hasEasyModeEnabled.value,
+    },
+  })
+
+  handleAfterAnswer(response.correct)
+}
+
+async function submit(): Promise<void> {
+  if (!input.value) {
+    playWarningAnim()
+    return
+  }
+
+  if (isLoggedIn.value) {
+    await getAnswerLoggedIn()
+    return
+  }
+
+  await getAnswerUnauthorized()
+}
 
 const onInput = (newInput: string) => {
   input.value = newInput.trimEnd()

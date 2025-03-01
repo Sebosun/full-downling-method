@@ -3,9 +3,7 @@ const store = useUserStore()
 
 onBeforeMount(() => {
   store.getLocalStorageToken()
-  if (store.isLoggedIn) {
-    store.fetchExercisesSettings()
-  }
+  store.initUserSettings()
 })
 </script>
 

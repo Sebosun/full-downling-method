@@ -2,6 +2,8 @@
 import TheExercise from '~/components/TheExercise.vue'
 import TheSettings from '~/components/TheSettings.vue'
 
+const exerciseStore = useExerciseStore()
+
 const tabs = [
   {
     key: 'default',
@@ -14,6 +16,12 @@ const tabs = [
     component: TheSettings,
   },
 ]
+
+onMounted(async () => {
+  if (exerciseStore.currentExercise) return
+  exerciseStore.getRandomExercise()
+  exerciseStore.getExercises()
+})
 </script>
 
 <template>

@@ -75,9 +75,10 @@ bun run preview
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
 TODOs:
+- [X] Usable without an account
+- [X] Remove defaulting to registration view when not logged in
+- [ ] Toasters
 - [ ] Mentioning that user has no selected exercises // making some exercises default?
 - [ ] Loader when changes are being saved but the timeout hasnt ran yet
-- [ ] Toasters
-- [ ] Remove defaulting to registration view when not logged in
 - [ ] Add a way to view the user's profile
 - [ ] Password input

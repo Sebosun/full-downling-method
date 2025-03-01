@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { decodeJWT } from '@/helpers/decodeJWT'
+import { LocalStorageKeys } from '~/types/LocalStorageKeys'
 
 // User settings should work with users that are not logged in
 export interface BaseSettings {
@@ -26,7 +27,9 @@ export const useUserStore = defineStore('userStore', () => {
   const { selectedExs } = storeToRefs(exerciseStore)
 
   const token = ref<string>('')
-  const isLoggedIn = computed(() => !!token.value)
+
+  const isLoggedIn = computed(() => Boolean(token.value))
+
   const user = ref<Settings>({
     exercises: [],
     settings: {
@@ -38,7 +41,23 @@ export const useUserStore = defineStore('userStore', () => {
     return user.value.settings.easy_mode
   })
 
-  const fetchExercisesSettings = async () => {
+  const unauthSettingsInit = async () => {
+    const exercises = localStorage.getItem(LocalStorageKeys.CHOSEN_EXERCISES)
+    const settings = localStorage.getItem(LocalStorageKeys.SETTINGS)
+    if (exercises) {
+      selectedExs.value = JSON.parse(exercises)
+    }
+    if (settings) {
+      user.value.settings = JSON.parse(settings)
+    }
+  }
+
+  const initUserSettings = async () => {
+    if (!isLoggedIn.value) {
+      unauthSettingsInit()
+      return
+    }
+
     try {
       const response = await $api<Settings>('/user', {
         method: 'GET',
@@ -56,7 +75,7 @@ export const useUserStore = defineStore('userStore', () => {
   })
 
   const getLocalStorageToken = () => {
-    const localStorageToken = localStorage.getItem('token')
+    const localStorageToken = localStorage.getItem(LocalStorageKeys.TOKEN)
     if (!localStorageToken) return
 
     const decoded = decodeJWT(localStorageToken)
@@ -72,13 +91,13 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem(LocalStorageKeys.TOKEN)
     token.value = ''
     navigateTo('/')
   }
 
   const saveToken = (tkn: string) => {
-    localStorage.setItem('token', tkn)
+    localStorage.setItem(LocalStorageKeys.TOKEN, tkn)
     token.value = tkn
   }
 
@@ -87,7 +106,7 @@ export const useUserStore = defineStore('userStore', () => {
     user,
     isLoggedIn,
     getLocalStorageToken,
-    fetchExercisesSettings,
+    initUserSettings,
     hasEasyModeEnabled,
     hasLoadedSettings,
     saveToken,
