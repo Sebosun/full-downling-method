@@ -1,4 +1,4 @@
-import { Database } from '@/types'
+import { Database } from '@/db_types'
 import { parseNouns } from './parseNouns'
 import { Pool } from 'pg'
 import {

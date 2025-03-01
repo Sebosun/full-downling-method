@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import { SelectedExercisesSchema } from '@/schemas/UserSettingsSchema'
 import { SettingsSchema } from '@/schemas/SettingsSchema'
-import { SelectedExercises } from "@/types";
+import { SelectedExercises } from "@/db_types";
 import { upsertSelectedExercises } from "@/repositories/SelectedExercisesRepository";
 import type { Request, Response } from 'express';
 import z from "zod";

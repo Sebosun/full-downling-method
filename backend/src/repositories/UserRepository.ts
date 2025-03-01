@@ -1,5 +1,5 @@
 import { db } from '@/database'
-import { User, UserUpdate, UserNew } from '@/types'
+import { User, UserUpdate, UserNew } from '@/db_types'
 
 export async function findUserById(id: number) {
   return await db.selectFrom('user')

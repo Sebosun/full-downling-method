@@ -32,8 +32,8 @@ export async function getRandomExercise(_: Request, res: Response): Promise<void
     res.status(StatusCodes.OK);
     res.json(exercise);
   } catch (e) {
+    console.error(e)
     res.status(StatusCodes.BAD_REQUEST);
-    console.log(e)
     res.json({ message: "Couldn't generate random exercise" });
   }
 }
@@ -50,6 +50,7 @@ export async function getRandomExerciseLoggedIn(_: Request, res: Response): Prom
     res.status(StatusCodes.OK);
     res.json(exercise);
   } catch (e) {
+    console.error(e)
     if (e instanceof Error) {
       if (e.message === 'Missing exercise id') {
         res.status(StatusCodes.BAD_REQUEST);
@@ -57,6 +58,7 @@ export async function getRandomExerciseLoggedIn(_: Request, res: Response): Prom
         return
       }
     }
+
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     res.json({ message: "Couldn't generate random exercise" });
   }

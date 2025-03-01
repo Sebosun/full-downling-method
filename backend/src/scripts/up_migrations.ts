@@ -9,7 +9,7 @@ import {
 } from 'kysely'
 
 // Keep imports there relative
-import { Database } from '../types'
+import { Database } from '../db_types'
 
 const DB_PASSWORD = process.env.DB_PASSWORD
 const DB_PORT = process.env.DB_PORT
@@ -19,13 +19,6 @@ const DB_USER = process.env.DB_USER
 if (!(DB_PASSWORD || DB_PORT || DB_DATABASE || DB_USER)) {
     throw new Error('Database .envs are not set')
 }
-
-console.log(`
-    DB_PASSWORD: ${DB_PASSWORD}
-    DB_PORT: ${DB_PORT}
-    DB_DATABASE: ${DB_DATABASE}
-    DB_USER: ${DB_USER}
-            `)
 
 async function migrateToLatest() {
     const db = new Kysely<Database>({

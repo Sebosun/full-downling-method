@@ -8,7 +8,7 @@ import {
     FileMigrationProvider,
 } from 'kysely'
 // Keep imports there relative
-import { Database } from '../types'
+import { Database } from '../db_types'
 
 const DB_PASSWORD = process.env.DB_PASSWORD
 const DB_PORT = process.env.DB_PORT
