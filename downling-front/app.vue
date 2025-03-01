@@ -1,9 +1,13 @@
 <script setup lang="ts">
 const store = useUserStore()
+const exerciseStore = useExerciseStore()
 
-onBeforeMount(() => {
+onMounted(async () => {
   store.getLocalStorageToken()
-  store.initUserSettings()
+  await store.initUserSettings()
+
+  exerciseStore.getRandomExercise()
+  exerciseStore.getExercises()
 })
 </script>
 
