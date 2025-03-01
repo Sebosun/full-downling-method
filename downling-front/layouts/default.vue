@@ -29,7 +29,15 @@ const { isLoggedIn } = storeToRefs(store)
             class="mr-4"
             @click="store.logout"
           >
-            logout
+            Logout
+          </BaseButton>
+          <BaseButton
+            v-else
+            class="mr-4"
+          >
+            <RouterLink to="/login">
+              Login
+            </RouterLink>
           </BaseButton>
         </ul>
       </div>

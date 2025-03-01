@@ -1,6 +1,7 @@
 import { useUserStore } from '~/store/userStore'
 
-const nonAuthRoutes = ['/', '/register']
+// There has to be a better way of doing this
+const noAuthRoutes = [] as string[]
 export default defineNuxtRouteMiddleware((to) => {
   const store = useUserStore()
   const { isLoggedIn } = storeToRefs(useUserStore())
@@ -9,11 +10,7 @@ export default defineNuxtRouteMiddleware((to) => {
     store.getLocalStorageToken()
   }
 
-  if (!isLoggedIn.value && !nonAuthRoutes.includes(to.path)) {
+  if (!isLoggedIn.value && noAuthRoutes.includes(to.path)) {
     return navigateTo('/')
-  }
-
-  if (to.path === '/' && isLoggedIn.value) {
-    return '/exercises'
   }
 })

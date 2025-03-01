@@ -3,6 +3,7 @@ import { CheckIcon } from '@heroicons/vue/24/solid'
 import type { AnswerResponse } from '@/types/ExerciseTypes'
 import { $api } from '~/composables/api'
 import { useExerciseStore } from '~/store/exercisesStore'
+import { sanitizeLatin } from '~/helpers/sanitizeLatin'
 
 const inputRef = ref<HTMLInputElement>()
 const input = ref<string>('')
@@ -52,15 +53,16 @@ async function submit(): Promise<void> {
   })
 
   if (response.correct) {
-    if (!showAnswer.value) {
-      perfect.value++
-    }
+    // TODO: this isn't correct
+    // we need to check attempts for given answer
+    if (!showAnswer.value) perfect.value++
     showAnswer.value = false
     correct.value++
     resetState()
     playCorrectAnimation()
     await store.getRandomExercise()
   }
+
   else {
     playWarningAnim()
     wrong.value++
@@ -133,18 +135,9 @@ const keyup = async (event: KeyboardEvent) => {
   }
 }
 
-const sanitizeAnswerWithLatin = (answer: string): string => {
-  return answer
-    .replace(/ā/g, 'a')
-    .replace(/ō/g, 'o')
-    .replace(/ī/g, 'i')
-    .replace(/ē/g, 'e')
-    .replace(/ū/g, 'u')
-}
-
 const questionAnswerParsed = computed(() => {
   return hasEasyModeEnabled.value
-    ? sanitizeAnswerWithLatin(questionAnswer.value ?? '')
+    ? sanitizeLatin(questionAnswer.value ?? '')
     : questionAnswer.value
 })
 </script>
@@ -249,7 +242,7 @@ const questionAnswerParsed = computed(() => {
         <span class="line-clamp-8">
           Easy mode
         </span>
-        <CheckIcon class="w-[24px] h-[24px] text-black font-bold bg-brand dark:bg-brand rounded-sm" />
+        <CheckIcon class="w-[24px] h-[24px] text-black font-bold dark:text-brand" />
       </div>
     </div>
   </BaseCard>

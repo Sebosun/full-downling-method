@@ -16,7 +16,7 @@ const submit = async () => {
     const result = await login(form.value)
     if (!result) return
     store.saveToken(result.token)
-    navigateTo('/exercises')
+    navigateTo('/')
   }
   catch {
     error.value = true
