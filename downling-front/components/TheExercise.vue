@@ -165,6 +165,7 @@ const questionAnswerParsed = computed(() => {
 
 <template>
   <BaseCard
+    color="black"
     class="p-20 relative min-w-full max-w-2xl"
     :class="{ 'shake': warningAnimation, 'pb-28': showAnswer }"
     @keyup="keyup"
@@ -202,7 +203,6 @@ const questionAnswerParsed = computed(() => {
             <BaseButton
               v-for="letter in specialLatinLetters"
               :key="letter"
-              perma-shadow
               class="min-w-20"
               type="button"
               @click="input += letter"
@@ -249,7 +249,7 @@ const questionAnswerParsed = computed(() => {
       </div>
     </div>
     <div class="mx-auto absolute -right-80 top-0 max-w-[300px]">
-      <BaseCard>
+      <BaseCard color="black">
         <ViewsExerciseStats
           :correct="correct"
           :wrong="wrong"

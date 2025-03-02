@@ -28,16 +28,22 @@ const modelValue = computed(() => {
 </script>
 
 <template>
-  <div class="game flex gap-10 justify-center max-w-2xl">
-    <BaseCard class="p-20">
-      <div class="flex justify-between mb-8">
+  <div class="game flex gap-10 justify-center w-full">
+    <BaseCard
+      color="black"
+      class="xl:p-20 p-4 align-center flex flex-col gap-10 max-w-screen-sm xl:max-w-full"
+    >
+      <BaseHeatmap />
+      <div class="flex justify-between mb-8 w-full">
         <span> Enable easy mode </span>
         <BaseSwitch
           :model-value="modelValue"
           @update:model-value="onEasyModeUpdate"
         />
       </div>
-      <ViewsSettingsExercises />
+      <div class="grid xl:grid-cols-2 gap-4">
+        <ViewsSettingsExercises />
+      </div>
     </BaseCard>
   </div>
 </template>

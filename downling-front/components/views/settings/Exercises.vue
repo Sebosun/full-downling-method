@@ -136,7 +136,7 @@ const toggleGroupSelection = (exercise: NounExerciseByGroup): void => {
     >
       <BaseCollapse
         :title="groupTitle(exercise)"
-        class="mb-4 min-w-[600px]"
+        class="mb-4 min-w-full"
       >
         <div class="col-span-2 flex gap-4 items-center">
           <BaseCheckbox
