@@ -3,7 +3,7 @@ const step = ref<'register' | 'post-register'>('register')
 </script>
 
 <template>
-  <BaseCard>
+  <BaseCard color="black">
     <div class="grid gap-4 justify-center p-10 max-w-2xl">
       <ViewsRegisterForm
         v-if="step === 'register'"

@@ -4,7 +4,6 @@ console.log('dupa')
 
 <template>
   <div class="mt-10">
-    <BaseModal :open="true" />
     <TheSettings />
   </div>
 </template>

@@ -11,7 +11,10 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <BaseCard class="p-10">
+  <BaseCard
+    color="black"
+    class="p-10"
+  >
     <h1 class="text-center my-4">
       Login
     </h1>

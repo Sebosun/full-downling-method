@@ -6,7 +6,7 @@
     <!-- very scuffed worakaround but hey it works -->
     <div class="p-[1px]" />
     <TheHeader />
-    <main class="full-remaining-height mx-auto max-w-8xl text-4xl flex">
+    <main class="full-remaining-height mx-auto max-w-8xl text-2xl xl:text-4xl flex">
       <div class="mx-auto">
         <slot />
       </div>
