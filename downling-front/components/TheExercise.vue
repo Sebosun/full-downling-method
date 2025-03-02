@@ -164,109 +164,122 @@ const questionAnswerParsed = computed(() => {
 </script>
 
 <template>
-  <BaseCard
-    color="black"
-    class="p-20 relative min-w-full max-w-2xl"
-    :class="{ 'shake': warningAnimation, 'pb-28': showAnswer }"
-    @keyup="keyup"
-  >
-    <div class="text-center relative">
+  <div class="grid gap-4 ml-2 mr-2 xl:max-w-2xl">
+    <BaseCard
+      color="black"
+      class="p-4 xl:p-20 min-w-full"
+      :class="{ 'shake': warningAnimation, 'pb-28': showAnswer }"
+      @keyup="keyup"
+    >
       <div
-        class="mb-4 max-w-xl mx-auto text-center rounded-md"
+        class="mb-4 mx-auto text-center rounded-md flex justify-center relative"
         :class="{ 'correct-glow': correctAnimation }"
       >
-        {{ currentExercise?.question }}
+        <span>
+          {{ currentExercise?.question }}
+        </span>
+
+        <Transition
+          name="answer"
+          mode="out-in"
+        >
+          <span
+            v-if="showAnswer"
+            class="absolute top-10 xl:top-12 border-b-brand border-b-2 "
+          >
+            {{ questionAnswerParsed }}
+          </span>
+        </Transition>
       </div>
-      <Transition
-        name="answer"
-        mode="out-in"
-      >
-        <p
-          v-if="showAnswer"
-          class="absolute flex justify-center w-full"
+
+      <div class="flex flex-col items-center mx-4 text-center relative">
+        <div
+          class="neighbor"
+          :class="{ animate: showAnswer }"
         >
-          {{ questionAnswerParsed }}
-        </p>
-      </Transition>
-      <div
-        class="neighbor"
-        :class="{ animate: showAnswer }"
-      >
-        <form
-          class=" grid gap-4 mb-4 transition-all duration-300"
-          @submit.prevent="submit"
-        >
-          <div
-            v-show="!hasEasyModeEnabled"
-            class="flex mx-auto gap-4"
+          <form
+            class="justify-center grid gap-4 mb-4 transition-all duration-300"
+            @submit.prevent="submit"
           >
-            <BaseButton
-              v-for="letter in specialLatinLetters"
-              :key="letter"
-              class="min-w-20"
-              type="button"
-              @click="input += letter"
+            <div
+              v-show="!hasEasyModeEnabled"
+              class="flex mx-auto gap-2 xl:gap-4 w-full justify-center"
             >
-              {{ letter }}
-            </BaseButton>
+              <BaseButton
+                v-for="letter in specialLatinLetters"
+                :key="letter"
+                class="xl:min-w-20"
+                type="button"
+                @click="input += letter"
+              >
+                {{ letter }}
+              </BaseButton>
+            </div>
+            <div class="flex flex-col items-center px-2 gap-4">
+              <BaseInput
+                ref="inputRef"
+                name="answer"
+                class="w-full xl:mx-auto xl:max-w-[450px]"
+                :input="input"
+                placeholder="enter text here"
+                autofocus
+                @keydown="preventSpace"
+                @update:input="onInput"
+              />
+              <BaseButton
+                :class="{ 'correct-glow': correctAnimation }"
+                class="mx-2 w-full xl:w-[450px]"
+              >
+                Check
+              </BaseButton>
+            </div>
+          </form>
+          <div class="text-sm md:text-lg hidden md:block">
+            <div
+              v-show="!hasEasyModeEnabled"
+              class=" mb-4"
+            >
+              <span>
+                Use
+              </span>
+              <BaseKey letter="," /> +
+              <BaseKey letter="a" />
+              <BaseKey letter="i" />
+              <BaseKey letter="o" />
+              <BaseKey letter="u" />
+              <span>
+                to automatically enter a character
+              </span>
+            </div>
+            <p>
+              Press
+              <BaseKey letter="space" /> twice to show the
+              answer
+            </p>
           </div>
-          <BaseInput
-            ref="inputRef"
-            name="answer"
-            class=" mx-auto max-w-[450px]"
-            :input="input"
-            placeholder="enter text here"
-            autofocus
-            @keydown="preventSpace"
-            @update:input="onInput"
-          />
-          <BaseButton
-            :class="{ 'correct-glow': correctAnimation }"
-            class="mx-auto w-[450px]"
-          >
-            Check
-          </BaseButton>
-        </form>
-        <div>
-          <div
-            v-show="!hasEasyModeEnabled"
-            class="text-lg mb-4"
-          >
-            Use
-            <BaseKey letter="," /> +
-            <BaseKey letter="a" />
-            <BaseKey letter="i" />
-            <BaseKey letter="o" />
-            <BaseKey letter="u" />
-            to automatically enter a character
-          </div>
-          <p class="text-lg">
-            Press
-            <BaseKey letter="space" /> twice to show the
-            answer
-          </p>
         </div>
       </div>
+    </BaseCard>
+    <BaseCard
+      class="min-w-full w-full"
+      color="black"
+    >
+      <ViewsExerciseStats
+        :correct="correct"
+        :wrong="wrong"
+        :perfect="perfect"
+      />
+    </BaseCard>
+    <div
+      v-show="hasEasyModeEnabled"
+      class="mt-4 flex justify-between items-center"
+    >
+      <span class="line-clamp-8">
+        Easy mode
+      </span>
+      <CheckIcon class="w-[24px] h-[24px] text-black font-bold dark:text-brand" />
     </div>
-    <div class="mx-auto absolute -right-80 top-0 max-w-[300px]">
-      <BaseCard color="black">
-        <ViewsExerciseStats
-          :correct="correct"
-          :wrong="wrong"
-          :perfect="perfect"
-        />
-      </BaseCard>
-      <div
-        v-show="hasEasyModeEnabled"
-        class="mt-4 flex justify-between items-center"
-      >
-        <span class="line-clamp-8">
-          Easy mode
-        </span>
-        <CheckIcon class="w-[24px] h-[24px] text-black font-bold dark:text-brand" />
-      </div>
-    </div>
-  </BaseCard>
+  </div>
 </template>
 
 <style scoped>

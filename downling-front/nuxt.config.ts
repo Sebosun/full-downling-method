@@ -8,6 +8,9 @@ export default defineNuxtConfig({
   ],
   ssr: false,
   devtools: { enabled: true },
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
   runtimeConfig: {
     public: {
       apiBase: import.meta.env.NUXT_PUBLIC_API_BASE,

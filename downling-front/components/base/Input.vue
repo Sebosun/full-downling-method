@@ -2,7 +2,7 @@
 const input = defineModel<string>('input')
 withDefaults(defineProps<{
   placeholder: string
-  name: string
+  name?: string
   type?: string
   label?: string
 }>(), {
@@ -13,7 +13,10 @@ withDefaults(defineProps<{
 
 <template>
   <div class="flex flex-col gap-2">
-    <label :for="name">
+    <label
+      v-if="name"
+      :for="name"
+    >
       {{ label }}
     </label>
 
