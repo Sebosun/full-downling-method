@@ -3,17 +3,17 @@ import { $api } from '~/composables/api'
 import { LocalStorageKeys } from '~/types/LocalStorageKeys'
 
 const store = useUserStore()
-const { user } = storeToRefs(store)
+const { user, settings, isLoggedIn } = storeToRefs(store)
 
-// TODO: move this into user store
-const onEasyModeUpdate = () => {
-  user.value.settings.easy_mode = !user.value.settings.easy_mode
-  localStorage.setItem(LocalStorageKeys.SETTINGS, JSON.stringify(user.value.settings))
+const updateSettings = () => {
+  if (!isLoggedIn.value) return
+
   try {
     $api('/user/settings', {
       method: 'PATCH',
       body: {
-        easyMode: Boolean(user.value.settings.easy_mode),
+        easyMode: Boolean(settings.value.easy_mode),
+        altExerciseLabel: Boolean(settings.value.alt_exercise_label),
       },
     })
   }
@@ -22,9 +22,25 @@ const onEasyModeUpdate = () => {
   }
 }
 
-const modelValue = computed(() => {
-  return user.value.settings.easy_mode
-})
+const updateLocalStorage = () => {
+  localStorage.setItem(LocalStorageKeys.SETTINGS, JSON.stringify(settings.value))
+}
+
+// TODO: move this into user store
+const onEasyModeUpdate = () => {
+  user.value.settings.easy_mode = !user.value.settings.easy_mode
+  updateLocalStorage()
+  updateSettings()
+}
+
+const onLabelUpdate = () => {
+  user.value.settings.alt_exercise_label = !user.value.settings.alt_exercise_label
+  updateLocalStorage()
+  updateSettings()
+}
+
+const easyModeValue = computed(() => settings.value.easy_mode)
+const altExerciseLabel = computed(() => settings.value.alt_exercise_label)
 </script>
 
 <template>
@@ -37,7 +53,7 @@ const modelValue = computed(() => {
       <div class="flex justify-between mb-8 w-full">
         <span> Enable easy mode </span>
         <BaseSwitch
-          :model-value="modelValue"
+          :model-value="easyModeValue"
           @update:model-value="onEasyModeUpdate"
         />
       </div>
@@ -46,8 +62,8 @@ const modelValue = computed(() => {
         <div class="flex justify-between w-full">
           <span> TODO: Alternative exercise label display </span>
           <BaseSwitch
-            :model-value="modelValue"
-            @update:model-value="onEasyModeUpdate"
+            :model-value="altExerciseLabel"
+            @update:model-value="onLabelUpdate"
           />
         </div>
       </div>

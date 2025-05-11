@@ -35,7 +35,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
       if (e instanceof FetchError) {
         // likely could use some keys instead of string comps
         if (e.data?.message === 'User has no settings set') {
-          router.push('/exercises?tab=settings')
+          router.push('/settings')
         }
         return
       }

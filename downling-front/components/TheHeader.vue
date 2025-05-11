@@ -26,27 +26,31 @@ const { isLoggedIn } = storeToRefs(store)
 
         <BaseButton
           route="/"
+          title="Exercises"
           @click.prevent
         >
           <BookOpenIcon class="w-6 h-6" />
         </BaseButton>
 
         <BaseButton
+          :route="'/settings'"
+          title="Settings"
+        >
+          <Cog8ToothIcon class="w-6 h-6" />
+        </BaseButton>
+
+        <BaseButton
           v-if="!isLoggedIn"
           :route="'/login'"
+          title="Login"
         >
           <ArrowRightCircleIcon class="w-6 h-6" />
         </BaseButton>
 
         <template v-if="isLoggedIn">
           <BaseButton
-            :route="'/settings'"
-          >
-            <Cog8ToothIcon class="w-6 h-6" />
-          </BaseButton>
-
-          <BaseButton
             v-if="isLoggedIn"
+            title="Logout"
             @click="store.logout"
           >
             <ArrowLeftStartOnRectangleIcon class="w-6 h-6" />

@@ -11,7 +11,7 @@ const input = ref<string>('')
 const userStore = useUserStore()
 const { isLoggedIn } = storeToRefs(userStore)
 const store = useExerciseStore()
-const { hasEasyModeEnabled } = storeToRefs(userStore)
+const { settings, hasEasyModeEnabled } = storeToRefs(userStore)
 const { currentExercise, correct, wrong, perfect, questionAnswer } = storeToRefs(store)
 const showAnswer = ref<boolean>(false)
 const warningAnimation = ref<boolean>(false)
@@ -175,11 +175,11 @@ const questionAnswerParsed = computed(() => {
         class="mb-8 mx-auto text-center rounded-md flex justify-center relative"
         :class="{ 'correct-glow': correctAnimation }"
       >
-        <!-- <span> -->
-        <!--   {{ currentExercise?.question }} -->
-        <!-- </span> -->
+        <span v-if="settings.alt_exercise_label">
+          {{ currentExercise?.question }}
+        </span>
 
-        <div>
+        <div v-else>
           <div>
             {{ currentExercise?.base_word }}
             <div>
@@ -195,7 +195,11 @@ const questionAnswerParsed = computed(() => {
         >
           <span
             v-if="showAnswer"
-            class="absolute top-10 xl:top-[5.5rem] border-b-brand border-b-2 "
+            class="absolute border-b-brand border-b-2"
+            :class="{
+              'top-10 xl:top-[5.5rem]': !settings.alt_exercise_label,
+              'top-14 xl:top-14': settings.alt_exercise_label,
+            }"
           >
             {{ questionAnswerParsed }}
           </span>

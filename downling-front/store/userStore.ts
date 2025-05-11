@@ -8,6 +8,7 @@ export interface BaseSettings {
   exercises: number[]
   settings: {
     easy_mode: boolean
+    alt_exercise_label: boolean
   }
 }
 
@@ -34,8 +35,11 @@ export const useUserStore = defineStore('userStore', () => {
     exercises: [],
     settings: {
       easy_mode: false,
+      alt_exercise_label: false,
     },
   })
+
+  const settings = computed(() => user.value.settings)
 
   const hasEasyModeEnabled = computed(() => {
     return user.value.settings.easy_mode
@@ -104,6 +108,7 @@ export const useUserStore = defineStore('userStore', () => {
   return {
     token,
     user,
+    settings,
     isLoggedIn,
     getLocalStorageToken,
     initUserSettings,
