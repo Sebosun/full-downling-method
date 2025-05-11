@@ -136,25 +136,30 @@ const toggleGroupSelection = (exercise: NounExerciseByGroup): void => {
     >
       <BaseCollapse
         :title="groupTitle(exercise)"
-        class="mb-4 min-w-full"
+        class="mb-4 min-w-full text-[1.5rem]"
       >
         <div class="col-span-2 flex gap-4 items-center">
           <BaseCheckbox
             :checked="isGroupSelected(exercise)"
             @update:checked="toggleGroupSelection(exercise)"
           >
-            <div> Check all </div>
+            <div> All </div>
           </BaseCheckbox>
         </div>
 
-        <div class="grid grid-cols-2">
+        <div class="grid grid-cols-2 ">
           <div>
-            Sing.
+            <div class="mb-2">
+              Sing.
+            </div>
             <div
               v-for="ex in exercise.singular"
               :key="ex.id"
-              class=""
+              class="flex gap-2"
             >
+              <div class="capitalize font-mono">
+                {{ ex.case.slice(0, 3) }}<span class="font-sans">.</span>
+              </div>
               <BaseCheckbox
                 :checked="hasItem(ex.id)"
                 @update:checked="toggleCheckbox(ex.id)"
@@ -166,12 +171,18 @@ const toggleGroupSelection = (exercise: NounExerciseByGroup): void => {
             </div>
           </div>
           <div>
-            Pl.
+            <div class="mb-2">
+              Pl.
+            </div>
+
             <div
               v-for="ex in exercise.plural"
               :key="ex.id"
-              class=""
+              class=" flex gap-2"
             >
+              <div class="capitalize font-mono">
+                {{ ex.case.slice(0, 3) }}<span class="font-sans">.</span>
+              </div>
               <BaseCheckbox
                 :checked="hasItem(ex.id)"
                 @update:checked="toggleCheckbox(ex.id)"

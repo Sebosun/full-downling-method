@@ -2,6 +2,7 @@ export interface Exercise {
   id: number
   question: string
   answer: string
+  case: string
   created_at: string
   updated_at: string
   base_word: string
