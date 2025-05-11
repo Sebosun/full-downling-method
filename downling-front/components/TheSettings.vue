@@ -31,7 +31,7 @@ const modelValue = computed(() => {
   <div class="game flex gap-10 justify-center w-full">
     <BaseCard
       color="black"
-      class="xl:p-20 p-4 align-center flex flex-col gap-10 max-w-screen-sm xl:max-w-full"
+      class="xl:p-20 p-4 align-center flex flex-col gap-4 max-w-screen-sm xl:max-w-full"
     >
       <BaseHeatmap />
       <div class="flex justify-between mb-8 w-full">
@@ -41,7 +41,18 @@ const modelValue = computed(() => {
           @update:model-value="onEasyModeUpdate"
         />
       </div>
-      <div class="grid xl:grid-cols-2 gap-4">
+
+      <div>
+        <div class="flex justify-between w-full">
+          <span> TODO: Alternative exercise label display </span>
+          <BaseSwitch
+            :model-value="modelValue"
+            @update:model-value="onEasyModeUpdate"
+          />
+        </div>
+      </div>
+
+      <div class="grid xl:grid-cols-2 gap-4 mt-28">
         <ViewsSettingsExercises />
       </div>
     </BaseCard>

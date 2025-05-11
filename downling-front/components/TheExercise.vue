@@ -172,12 +172,22 @@ const questionAnswerParsed = computed(() => {
       @keyup="keyup"
     >
       <div
-        class="mb-4 mx-auto text-center rounded-md flex justify-center relative"
+        class="mb-8 mx-auto text-center rounded-md flex justify-center relative"
         :class="{ 'correct-glow': correctAnimation }"
       >
-        <span>
-          {{ currentExercise?.question }}
-        </span>
+        <!-- <span> -->
+        <!--   {{ currentExercise?.question }} -->
+        <!-- </span> -->
+
+        <div>
+          <div>
+            {{ currentExercise?.base_word }}
+            <div>
+              {{ currentExercise?.number }}
+              {{ currentExercise?.case }}
+            </div>
+          </div>
+        </div>
 
         <Transition
           name="answer"
@@ -185,7 +195,7 @@ const questionAnswerParsed = computed(() => {
         >
           <span
             v-if="showAnswer"
-            class="absolute top-10 xl:top-12 border-b-brand border-b-2 "
+            class="absolute top-10 xl:top-[5.5rem] border-b-brand border-b-2 "
           >
             {{ questionAnswerParsed }}
           </span>
@@ -253,8 +263,7 @@ const questionAnswerParsed = computed(() => {
             </div>
             <p>
               Press
-              <BaseKey letter="space" /> twice to show the
-              answer
+              <BaseKey letter="space" /> twice to show the answer
             </p>
           </div>
         </div>

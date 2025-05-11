@@ -47,7 +47,7 @@ const days = (year: number) => {
 <template>
   <div class="flex overflow-x-auto xl:overflow-visible">
     <div
-      v-for="(j, idx) in days(2024)"
+      v-for="(j, idx) in days(2025)"
       :key="idx"
       class="mr-1"
     >

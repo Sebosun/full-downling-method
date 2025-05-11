@@ -17,6 +17,9 @@ export interface AnswerResponse {
 export interface ExerciseQuestion {
   id: number
   question: string
+  case: string
+  number: string
+  base_word: string
 }
 
 export interface NounExercises {
