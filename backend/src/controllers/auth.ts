@@ -71,7 +71,10 @@ export async function create(req: Request, res: Response): Promise<void> {
 
         // Create default settings
         try {
-            await SettingsRepository.upsertUserSettings(usr.id, false)
+            await SettingsRepository.upsertUserSettings(usr.id, {
+                easy_mode: false,
+                alt_exercise_label: false
+            })
         } catch (e) {
             console.error("Error while creating user settings", e)
             res.status(StatusCodes.INTERNAL_SERVER_ERROR)

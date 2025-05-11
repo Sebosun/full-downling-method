@@ -65,6 +65,7 @@ export type SelectedExercisesUpdate = Updateable<SelectedExercisesTable>
 export interface SettingsTable {
     user_id: number
     easy_mode: boolean
+    alt_exercise_label: boolean
 }
 
 export type Settings = Selectable<SettingsTable>

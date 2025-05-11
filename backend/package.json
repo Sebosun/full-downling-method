@@ -13,7 +13,7 @@
         "migrate-drop": "tsx --env-file .env src/scripts/drop_migrations.ts && tsx --env-file .env src/scripts/down_migrations.ts",
         "migrate-fresh": "pnpm run migrate-drop && pnpm run migrate-up",
         "prep": "pnpm run migrate-fresh && pnpm run seed",
-        "lint": "eslint --ext .ts src",
+        "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ext=.ts src",
         "seed": "tsx --env-file .env src/seed/seed.ts",
         "test": "vitest"
     },

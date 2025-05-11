@@ -1,10 +1,11 @@
 import { z } from "zod";
 
 export const SettingsSchema = z.object({
-  easyMode: z.boolean().optional()
+    easyMode: z.boolean().optional(),
+    altExerciseLabel: z.boolean().optional()
 }).refine(data => {
-  const hasAnyVals = Object.values(data).some(value => value != undefined)
-  return hasAnyVals
+    const hasAnyVals = Object.values(data).some(value => value != undefined)
+    return hasAnyVals
 }, {
-  message: " At least one field must be provided"
+    message: " At least one field must be provided"
 })

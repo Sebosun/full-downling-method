@@ -63,6 +63,7 @@ export async function seedExercises(db: Kysely<Database>): Promise<void> {
                 .values({
                     user_id: idx,
                     easy_mode: false,
+                    alt_exercise_label: false,
                 })
                 .execute()
             idx++;

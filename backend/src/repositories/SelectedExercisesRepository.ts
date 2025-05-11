@@ -1,6 +1,5 @@
 import { db } from '@/database'
-import { SelectedExercises } from '@/types'
-
+import { SelectedExercises } from '@/db_types'
 
 export async function upsertSelectedExercises(values: SelectedExercises[]) {
     return await db.insertInto('selected_exercises')
