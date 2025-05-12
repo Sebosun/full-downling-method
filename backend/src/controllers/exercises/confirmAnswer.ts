@@ -9,7 +9,6 @@ import { SettingsRepository } from "@/repositories/SettingsRepository";
 import { replaceLatinCharacters } from "@/helpers/replaceLatinCharacters"
 import { CompletedExercisesRepository } from "@/repositories/CompletedRepository";
 
-// TODO: Cache user setings
 
 export async function confirmAnswer(req: Request, res: Response): Promise<void> {
     try {
@@ -33,6 +32,8 @@ export async function confirmAnswer(req: Request, res: Response): Promise<void> 
             }
 
             let isCorrect = exercise?.answer === answer
+
+            console.log('Easy mode is correct', isEasyMode)
 
             if (isEasyMode) {
                 const real_answer = replaceLatinCharacters(exercise?.answer)

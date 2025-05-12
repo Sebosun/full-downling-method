@@ -95,24 +95,18 @@ export async function updateUserSettings(req: Request, res: Response): Promise<v
     }
 
     try {
-        if (schema.data.easyMode) {
-            // TODO: result here returns abig int that throws when we try to send response
-            // gotta think of a way to udpate and get an actual returned object, for later ig
-            const payload: Omit<SettingsUpdate, 'user_id'> = {
-                easy_mode: schema.data.easyMode,
-                alt_exercise_label: schema.data.altExerciseLabel
-            }
-            await SettingsRepository.updateUserSettings(userId, payload)
-            res.status(StatusCodes.OK)
-            res.json()
-            return
+        const payload: Omit<SettingsUpdate, 'user_id'> = {
+            easy_mode: schema.data.easyMode,
+            alt_exercise_label: schema.data.altExerciseLabel
         }
-
+        // result here returns abig int that throws when we try to send response
+        // gotta think of a way to udpate and get an actual returned object, for later ig
+        await SettingsRepository.updateUserSettings(userId, payload)
         res.status(StatusCodes.OK)
-        res.json()
+        res.json(payload)
+        return
     } catch (e) {
         console.error("Error inserting into database", e)
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Something went wrong" })
-        return
     }
 }

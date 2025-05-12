@@ -20,7 +20,7 @@ async function updateUserSettings(userId: number, settings: Omit<SettingsUpdate,
     return await db.updateTable('user_settings')
         .set(settings)
         .where('user_id', '=', userId)
-        .execute()
+        .executeTakeFirst()
 }
 
 export const SettingsRepository = {
