@@ -9,7 +9,6 @@ import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { AllExercisesResponse } from "@/types/ExerciseTypes";
 
-
 export async function getExercise(req: Request, res: Response): Promise<void> {
   const id = req.params?.id;
 
@@ -45,7 +44,6 @@ export async function getExerciseAsQuestion(req: Request, res: Response): Promis
     res.json({ message: "Exercise with given id does not exist" });
   }
 }
-
 
 export async function getRandomExercise(_: Request, res: Response): Promise<void> {
   try {

@@ -41,8 +41,14 @@ export async function isAuthenticatedMiddleware(req: Request, res: Response, nex
  */
 export async function mayBeAuthenticatedMiddleware(req: Request, res: Response, next: NextFunction): Promise<void> {
     const jwtUser = parseAuthorizationHeader(req.headers.authorization)
-    if (jwtUser) {
-        res.locals.jwtUser = jwtUser
+    try {
+        if (jwtUser) {
+            res.locals.jwtUser = jwtUser
+        }
+        console.log('Is auth', jwtUser)
+    } catch {
+        res.status(StatusCodes.UNAUTHORIZED).send('Token is invalid or expired');
+        return
     }
     next()
 }

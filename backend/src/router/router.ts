@@ -5,6 +5,7 @@ import { getExercise, getExerciseAsQuestion, getExercises, getRandomExercise, ge
 import { confirmAnswer } from "@/controllers/exercises/confirmAnswer";
 import { isAuthenticatedMiddleware, mayBeAuthenticatedMiddleware } from "@/middleware/isAuthenticated";
 import { Router } from "express";
+import { getUserStats } from "@/controllers/stats";
 
 const router = Router();
 
@@ -27,5 +28,7 @@ router.get('/user/all', isAuthenticatedMiddleware, getAllUsers)
 router.get('/user/exercises', isAuthenticatedMiddleware, getUserExercises)
 router.patch('/user/exercises', isAuthenticatedMiddleware, updateUserExercises)
 router.patch('/user/settings', isAuthenticatedMiddleware, updateUserSettings)
+
+router.get('/user/stats', isAuthenticatedMiddleware, getUserStats)
 
 export { router }

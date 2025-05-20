@@ -11,9 +11,9 @@
         "migrate-up": "tsx --env-file .env src/scripts/up_migrations.ts",
         "migrate-down": "tsx --env-file .env src/scripts/down_migrations.ts",
         "migrate-drop": "tsx --env-file .env src/scripts/drop_migrations.ts && tsx --env-file .env src/scripts/down_migrations.ts",
-        "migrate-fresh": "pnpm run migrate-drop && pnpm run migrate-up",
-        "prep": "pnpm run migrate-fresh && pnpm run seed",
-        "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ext=.ts src",
+        "migrate-fresh": "bun run migrate-drop && bun run migrate-up",
+        "prep": "bun run migrate-fresh && bun run seed",
+        "lint": "eslint --ext=.ts src",
         "seed": "tsx --env-file .env src/seed/seed.ts",
         "test": "vitest"
     },
@@ -21,15 +21,16 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@eslint/js": "^9.10.0",
+        "@eslint/js": "^9.27.0",
+        "@eslint/json": "^0.12.0",
         "@types/cors": "^2.8.17",
         "@types/express": "^4.17.21",
         "@types/jsonwebtoken": "^9.0.7",
-        "eslint": "^9.10.0",
-        "globals": "^15.9.0",
+        "eslint": "^9.27.0",
+        "globals": "^16.1.0",
         "tsx": "^4.19.1",
         "typescript": "^5.6.2",
-        "typescript-eslint": "^8.6.0"
+        "typescript-eslint": "^8.32.1"
     },
     "dependencies": {
         "@types/bcrypt": "^5.0.2",
