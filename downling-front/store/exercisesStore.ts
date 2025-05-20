@@ -18,6 +18,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
   const correct = ref(0)
   const wrong = ref(0)
   const perfect = ref(0)
+  const attempts = ref(0)
   const currentExercise = ref<ExerciseQuestion | null>(null)
   const showAnswer = ref<boolean>(false)
   const questionAnswer = ref('')
@@ -119,6 +120,7 @@ export const useExerciseStore = defineStore('exercisesStore', () => {
     correct,
     wrong,
     perfect,
+    attempts,
     questionAnswer,
     showAnswer,
     fetchCorrectAnswer,

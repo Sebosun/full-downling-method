@@ -6,7 +6,6 @@ defineProps<{
 }>()
 
 const onMouseEnter = () => {
-  console.log('dupa')
   isOpen.value = true
 }
 </script>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { $api } from '~/composables/api'
 import { LocalStorageKeys } from '~/types/LocalStorageKeys'
+import type { HeatmapDataPoint } from '~/components/base/BaseHeatmap.vue'
 
 const store = useUserStore()
 const { user, settings, isLoggedIn } = storeToRefs(store)
+const stats = ref<HeatmapDataPoint[]>()
 
 const updateSettings = () => {
   if (!isLoggedIn.value) return
@@ -26,7 +28,6 @@ const updateLocalStorage = () => {
   localStorage.setItem(LocalStorageKeys.SETTINGS, JSON.stringify(settings.value))
 }
 
-// TODO: move this into user store
 const onEasyModeUpdate = () => {
   user.value.settings.easy_mode = !user.value.settings.easy_mode
   updateLocalStorage()
@@ -41,6 +42,19 @@ const onLabelUpdate = () => {
 
 const easyModeValue = computed(() => settings.value.easy_mode)
 const altExerciseLabel = computed(() => settings.value.alt_exercise_label)
+
+onMounted(async () => {
+  if (!isLoggedIn.value) return
+  try {
+    const result = await $api<HeatmapDataPoint[]>('/user/stats', {
+      method: 'GET',
+    })
+    stats.value = result
+  }
+  catch (e) {
+    console.error(e)
+  }
+})
 </script>
 
 <template>
@@ -49,7 +63,11 @@ const altExerciseLabel = computed(() => settings.value.alt_exercise_label)
       color="black"
       class="xl:p-20 p-4 align-center flex flex-col gap-4 max-w-screen-sm xl:max-w-full"
     >
-      <BaseHeatmap />
+      <BaseHeatmap
+        v-if="stats"
+        :data="stats"
+      />
+
       <div class="flex justify-between mb-8 w-full">
         <span> Enable easy mode </span>
         <BaseSwitch
@@ -60,7 +78,7 @@ const altExerciseLabel = computed(() => settings.value.alt_exercise_label)
 
       <div>
         <div class="flex justify-between w-full">
-          <span> TODO: Alternative exercise label display </span>
+          <span> Alternative exercise label display </span>
           <BaseSwitch
             :model-value="altExerciseLabel"
             @update:model-value="onLabelUpdate"

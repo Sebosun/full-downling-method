@@ -12,7 +12,7 @@ const userStore = useUserStore()
 const { isLoggedIn } = storeToRefs(userStore)
 const store = useExerciseStore()
 const { settings, hasEasyModeEnabled } = storeToRefs(userStore)
-const { currentExercise, correct, wrong, perfect, questionAnswer } = storeToRefs(store)
+const { currentExercise, correct, wrong, perfect, questionAnswer, attempts } = storeToRefs(store)
 const showAnswer = ref<boolean>(false)
 const warningAnimation = ref<boolean>(false)
 const correctAnimation = ref<boolean>(false)
@@ -21,6 +21,7 @@ const previousKeys = ref<string[]>([])
 
 const resetState = () => {
   questionAnswer.value = ''
+  attempts.value = 0
   showAnswer.value = false
   input.value = ''
 }
@@ -41,15 +42,15 @@ const playCorrectAnimation = () => {
 
 const handleAfterAnswer = async (wasCorrect: boolean) => {
   if (!wasCorrect) {
-    playWarningAnim()
+    attempts.value++
     wrong.value++
+    playWarningAnim()
     return
   }
 
   // TODO: this isn't correct
   // we need to check attempts for given answer
-  if (!showAnswer.value) perfect.value++
-  showAnswer.value = false
+  if (attempts.value === 0) perfect.value++
   correct.value++
   resetState()
   playCorrectAnimation()
@@ -68,8 +69,9 @@ const getAnswerLoggedIn = async () => {
   handleAfterAnswer(response.correct)
 }
 
-const getAnswerUnauthorized = async () => {
+const checkAnswer = async () => {
   if (!currentExercise.value) return
+
   const response = await $api<AnswerResponse>('/exercise/answer', {
     method: 'POST',
     body: {
@@ -93,7 +95,7 @@ async function submit(): Promise<void> {
     return
   }
 
-  await getAnswerUnauthorized()
+  await checkAnswer()
 }
 
 const onInput = (newInput: string) => {
@@ -120,6 +122,7 @@ const keyup = async (event: KeyboardEvent) => {
   if (lastLetter === ' ' && lastLetter === event.key) {
     try {
       await store.fetchCorrectAnswer()
+      attempts.value++
       showAnswer.value = true
       previousKeys.value.pop()
     }
@@ -261,6 +264,7 @@ const questionAnswerParsed = computed(() => {
               <BaseKey letter="i" />
               <BaseKey letter="o" />
               <BaseKey letter="u" />
+              <BaseKey letter="e" />
               <span>
                 to automatically enter a character
               </span>
