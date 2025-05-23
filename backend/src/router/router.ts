@@ -1,7 +1,7 @@
 import { create, login } from "@/controllers/auth";
 import { getAllUsers, getCurrentUser } from "@/controllers/user";
 import { getUserExercises, updateUserExercises, updateUserSettings } from "@/controllers/settings";
-import { getExercise, getExerciseAsQuestion, getExercises, getRandomExercise, getRandomExerciseLoggedIn } from "@/controllers/exercise";
+import { getOneExercise, getExerciseAsQuestion, getAllExercises, getRandomExercise, getRandomExerciseLoggedIn } from "@/controllers/exercise";
 import { confirmAnswer } from "@/controllers/exercises/confirmAnswer";
 import { isAuthenticatedMiddleware, mayBeAuthenticatedMiddleware } from "@/middleware/isAuthenticated";
 import { Router } from "express";
@@ -19,8 +19,10 @@ router.post('/register', create)
 router.post('/exercise/answer', mayBeAuthenticatedMiddleware, confirmAnswer)
 router.get('/exercise/random', getRandomExercise)
 router.get('/exercise/random/user', isAuthenticatedMiddleware, getRandomExerciseLoggedIn)
-router.get('/exercise/all', getExercises)
-router.get('/exercise/:id', getExercise)
+router.get('/exercise/all', getAllExercises)
+router.get('/exercise/:id', getOneExercise)
+
+// Depreciated, TODO: remove
 router.get('/exercise/:id/question', getExerciseAsQuestion)
 
 router.get('/user', isAuthenticatedMiddleware, getCurrentUser)

@@ -5,7 +5,7 @@ import {
     Selectable,
     Updateable,
 } from 'kysely'
-import { Cases, DeclensionKeys, NumberKeys } from './types/ExerciseTypes'
+import { Cases, DeclensionKeys, NumberKeys, PartOfSpeechType } from './types/ExerciseTypes'
 
 export interface Database {
     exercises: ExerciseTable,
@@ -13,6 +13,7 @@ export interface Database {
     selected_exercises: SelectedExercisesTable
     user_settings: SettingsTable
     completed_exercises: CompletedExercisesTable
+    noun_metadata: NounMetadataTable
 }
 
 export interface UserTable {
@@ -37,12 +38,8 @@ export type UserUpdate = Updateable<UserTable>
 export interface ExerciseTable {
     id: Generated<number>
     question: string
-    case: Cases
     answer: string
-    base_word: string
-    gender: string
-    declension: DeclensionKeys
-    number: NumberKeys
+    type: PartOfSpeechType
     created_at: ColumnType<Date, string | undefined, never>
     updated_at: ColumnType<Date, string | undefined, never>
 }
@@ -50,6 +47,21 @@ export interface ExerciseTable {
 export type Exercise = Selectable<ExerciseTable>
 export type ExerciseNew = Insertable<ExerciseTable>
 export type ExerciseUpdate = Updateable<ExerciseTable>
+
+export interface NounMetadataTable {
+    id: number
+    exercise_id: number
+    case: Cases
+    base_word: string
+    gender: string
+    declension: DeclensionKeys
+    number: NumberKeys
+}
+
+export type NounMetadata = Selectable<NounMetadataTable>
+export type NounMetadataNew = Insertable<NounMetadataTable>
+export type NounMetadataUpdate = Updateable<NounMetadataTable>
+
 
 export interface SelectedExercisesTable {
     selected: boolean

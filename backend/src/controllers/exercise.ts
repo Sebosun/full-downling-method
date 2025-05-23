@@ -9,7 +9,7 @@ import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { AllExercisesResponse } from "@/types/ExerciseTypes";
 
-export async function getExercise(req: Request, res: Response): Promise<void> {
+export async function getOneExercise(req: Request, res: Response): Promise<void> {
   const id = req.params?.id;
 
   if (!id || !Number(id)) {
@@ -27,6 +27,46 @@ export async function getExercise(req: Request, res: Response): Promise<void> {
   }
 }
 
+export async function getAllExercises(_: Request, res: Response): Promise<void> {
+  try {
+    const exercises = await DB_getAllExercises();
+
+    const acc = {
+      first: [],
+      second: [],
+      third: [],
+      fourth: [],
+      fifth: [],
+    } as AllExercisesResponse
+
+    exercises.forEach(exercise => {
+      const declension = exercise.declension
+      let exIdx = acc[declension].findIndex(el => el.name === exercise.base_word)
+      if (exIdx === -1) {
+        acc[declension].push({
+          name: exercise.base_word,
+          gender: exercise.gender,
+          part_of_speech: 'noun',
+          singular: [],
+          plural: []
+        })
+        // in newly created its always going to be the last item : )
+        exIdx = acc[declension].length - 1
+      }
+      acc[declension][exIdx][exercise.number].push(exercise)
+    })
+
+    res.status(StatusCodes.OK);
+    res.json(acc);
+  } catch (e) {
+    console.error(e)
+    res.status(StatusCodes.BAD_REQUEST);
+    res.json({ message: "Exercise with given id does not exist" });
+  }
+}
+
+
+// Depreciated, TODO: remove
 export async function getExerciseAsQuestion(req: Request, res: Response): Promise<void> {
   const id = req.params?.id;
 
@@ -65,6 +105,7 @@ export async function getRandomExerciseLoggedIn(_: Request, res: Response): Prom
   }
 
   try {
+  // 
     const exercise = await DB_getExercisesWithUserIds(userId);
     res.status(StatusCodes.OK);
     res.json(exercise);
@@ -80,44 +121,6 @@ export async function getRandomExerciseLoggedIn(_: Request, res: Response): Prom
 
     res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     res.json({ message: "Couldn't generate random exercise" });
-  }
-}
-
-export async function getExercises(_: Request, res: Response): Promise<void> {
-  try {
-    const exercises = await DB_getAllExercises();
-
-    const acc = {
-      first: [],
-      second: [],
-      third: [],
-      fourth: [],
-      fifth: [],
-    } as AllExercisesResponse
-
-    exercises.forEach(exercise => {
-      const declension = exercise.declension
-      let exIdx = acc[declension].findIndex(el => el.name === exercise.base_word)
-      if (exIdx === -1) {
-        acc[declension].push({
-          name: exercise.base_word,
-          gender: exercise.gender,
-          part_of_speech: 'noun',
-          singular: [],
-          plural: []
-        })
-        // in newly created its always going to be the last item : )
-        exIdx = acc[declension].length - 1
-      }
-      acc[declension][exIdx][exercise.number].push(exercise)
-    })
-
-    res.status(StatusCodes.OK);
-    res.json(acc);
-  } catch (e) {
-    console.error(e)
-    res.status(StatusCodes.BAD_REQUEST);
-    res.json({ message: "Exercise with given id does not exist" });
   }
 }
 
